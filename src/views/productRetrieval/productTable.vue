@@ -1,35 +1,62 @@
 <template>
-  <BasicTable @register="registerTable" @resizeColumn="handleResizeColumn" :searchInfo="searchInfo">
+  <!-- <div  class="flex h-4/5 min-h-160 enter-y"> -->
+  <BasicTable
+    @register="registerTable"
+    @resizeColumn="handleResizeColumn"
+    @selection-change="rowClick"
+    :searchInfo="searchData"
+  >
+    <template #tableTitle>
+      <div>{{ t('routes.productManagement.productRetrieval') }}</div>
+
+      <input
+        type="checkbox"
+        @change="checkboxClick"
+        v-model="checkedAll"
+        style="width: 15px; height: 15px; margin: 5px"
+      />
+      {{ t('routes.productManagement.checkAll') }}
+    </template>
+
     <template #toolbar>
       <a-button type="primary" @click="selectMaterial">{{
         t('routes.productManagement.selectMaterial')
       }}</a-button>
-      <!-- <a-button type="primary" v-if="hasPermission('YaSha.DataManager.ProductRetrieval.Delete')" danger @click="deleteMaterial">{{ t('routes.productManagement.buttonDel') }}</a-button> -->
-      <a-button type="default" @click="importInventoryInfo">{{
-        t('routes.productManagement.buttonUpdateProject')
-      }}</a-button>
 
-      <!-- <ImpExcel
-        @success="loadProjectInfo"
+      <!-- <a-button
         v-if="hasPermission('YaSha.DataManager.ProductRetrieval.Update')"
-      >
-        <a-button type="default">{{ t('routes.productManagement.buttonUpdateProject') }}</a-button>
-      </ImpExcel> -->
-      <ImpExcel
-        @success="loadDataSuccess"
+        type="default"
+        @click="updateProjectClick"
+        >更新项目</a-button
+      > -->
+      <!-- <ImpExcel
+        @success="loadMaterialInventorySuccess"
+        @change="loadState"
         v-if="hasPermission('YaSha.DataManager.ProductRetrieval.Update')"
       >
         <a-button type="default">{{
           t('routes.productManagement.buttonUpdateInventory')
         }}</a-button>
-      </ImpExcel>
-
-      <a-button type="default" disabled @click="importElements">{{
-        t('routes.productManagement.buttonImport')
-      }}</a-button>
-      <a-button type="default" disabled @click="exportElements">{{
-        t('routes.productManagement.buttonExport')
-      }}</a-button>
+      </ImpExcel> -->
+      <a-button
+        v-if="hasPermission('YaSha.DataManager.ProductRetrieval.Create')"
+        type="default"
+        @click="importElements"
+        >{{ t('routes.productManagement.buttonImport') }}</a-button
+      >
+      <a-button
+        v-if="hasPermission('YaSha.DataManager.ProductRetrieval.Create')"
+        type="default"
+        @click="exportElements"
+        >{{ t('routes.productManagement.buttonExport') }}</a-button
+      >
+      <a-button
+        type="primary"
+        v-if="hasPermission('YaSha.DataManager.ProductRetrieval.Delete')"
+        danger
+        @click="deleteMaterial"
+        >{{ t('routes.productManagement.buttonDel') }}</a-button
+      >
     </template>
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'action'">
@@ -37,7 +64,40 @@
       </template>
     </template>
   </BasicTable>
-  <!-- <productDes @register="registerDes"></productDes> -->
+  <!-- </div> -->
+  <!-- <div class="flex">
+    <div class="w-2/10 w-full !mr-4 enter-y">
+      <a-tabs>
+        <a-tab-pane key="detail" tab="【库存数量】" />
+      </a-tabs>
+      <p>12</p>
+    </div>
+    <div class="lg:w-2/10 w-full !mr-4 enter-y">
+      <a-tabs>
+        <a-tab-pane key="detail" tab="【库存金额】" />
+      </a-tabs>
+      <p>20.25</p>
+    </div>
+    <div class="lg:w-3/10 w-full enter-y">
+      <a-tabs>
+        <a-tab-pane key="detail" tab="【项目信息】" />
+      </a-tabs>
+      <p>砂法发顺丰项目</p>
+    </div>
+  </div> -->
+  <!-- <div>
+    <div class="flex flex-row h-1/10 w-1/3 enter-y bg-gray-500">
+      <a-tabs>
+        <a-tab-pane key="detail" tab="详情及生产信息" />
+      </a-tabs>
+    </div>
+    <div class="flex flex-row h-1/10 w-1/3 enter-y bg-gray-500">
+      <a-tabs>
+        <a-tab-pane key="detail" tab="详情及生产信息" />
+      </a-tabs> </div
+  ></div> -->
+  <!-- <div class="flex flex-col"> -->
+  <!-- <div class="flex h-3/4 enter-y"> </div>-->
   <productDesModal @register="registerDetailModal" />
   <Drawer
     @register="registerDrawer"
@@ -45,37 +105,42 @@
     @ok="getSelectedData(true)"
     @close="getSelectedData(false)"
   />
-  <input type="file" ref="fileInput" style="display: none" @change="handleFileChange" />
+  <input type="file" ref="fileInput" style="display: none" @change="handleProjectFileChange" />
+  <input type="file" ref="fileImport" style="display: none" @change="handleFileImportChange" />
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive, ref } from 'vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
-  import { useMessage } from '/@/hooks/web/useMessage';
-  import { PageWrapper } from '/@/components/Page';
-  import { usePermission } from '/@/hooks/web/usePermission';
-  import { IProductRetrievalSearchDto } from '/@/services/ServiceProxies';
-  import { getProductById, uploadInventory, uploadProjectInfo } from './Index';
-  import { getProductBasicColumns } from './tableData';
-  import { useDrawer } from '/@/components/Drawer';
-  import Drawer from './drawer.vue';
-  import productDes from './productDes.vue';
-  import productDesModal from './productDesModal.vue';
-  import { Description, useDescription } from '/@/components/Description';
-  import { useModal } from '/@/components/Modal';
-  import { useLoading } from '/@/components/Loading';
-  import { WorkBook, read, readFile, utils } from 'xlsx';
-  import { ImpExcel, ExcelData } from '/@/components/Excel';
+  import { defineComponent, reactive, ref, toRaw } from 'vue';
   import {
-    BasicTable,
-    BasicColumn,
-    TableAction,
+    exportToExcel,
+    getAllProductById,
+    getProductById,
+    parsingInventory,
+    uploadImportRetrievalFile,
+    uploadInventory,
+    uploadProjectInfo,
+  } from './Index';
+  import productDesModal from './productDesModal.vue';
+  import { getProductBasicColumns } from './tableData';
+  import { Description } from '/@/components/Description';
+  import { useDrawer } from '/@/components/Drawer';
+  import { ExcelData, ImpExcel } from '/@/components/Excel';
+  import { useLoading } from '/@/components/Loading';
+  import { useModal } from '/@/components/Modal';
+  import { PageWrapper } from '/@/components/Page';
+  import {
     ActionItem,
+    BasicTable,
     EditRecordRow,
     FormSchema,
+    TableAction,
     useTable,
   } from '/@/components/Table';
-
+  import { useI18n } from '/@/hooks/web/useI18n';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  import { IProductRetrievalSearchDto, SearchInfoDto } from '/@/services/ServiceProxies';
+  import Drawer from '/@/views/productRetrieval/Drawer.vue';
   export default defineComponent({
     name: 'ProductRetrievalManagement',
     components: {
@@ -83,20 +148,27 @@
       BasicTable,
       Drawer,
       Description,
-      productDes,
       TableAction,
       productDesModal,
       ImpExcel,
     },
-    setup(_, { emit }) {
+    setup() {
       const { t } = useI18n();
       const { createMessage: msg } = useMessage();
       const { error, success, info } = msg;
       const { hasPermission } = usePermission();
       const selectElements = ref();
-
-      const searchInfo = reactive<Recordable>({});
+      const checkedAll = ref(false);
+      const selectedProducts = ref();
+      const searchData = reactive<Recordable>({});
       const fileInput = ref<HTMLElement | null>(null);
+
+      const fileImport = ref<HTMLElement | null>(null);
+
+      const [startLoading, endLoading] = useLoading({
+        tip: '处理中...',
+      });
+
       const searchFormSchema: FormSchema[] = [
         {
           field: 'searchValue',
@@ -115,28 +187,10 @@
           },
         },
       ];
-      const [openFullLoading, closeFullLoading] = useLoading({
-        tip: '导入中...',
-      });
-      // const tableListRef = ref<
-      //   {
-      //     title: string;
-      //     columns?: any[];
-      //     dataSource?: any[];
-      //   }[]
-      // >([]);
-
       const [
         registerTable,
-        {
-          reload,
-          getSelectRowKeys,
-          clearSelectedRowKeys,
-          deleteSelectRowByKey,
-          deleteTableDataRecord,
-        },
+        { reload, getSelectRowKeys, deleteTableDataRecord, setSelectedRowKeys },
       ] = useTable({
-        title: t('routes.productManagement.productRetrieval'),
         api: getProductById,
         beforeFetch: (data) => {
           const searchDto: IProductRetrievalSearchDto = {
@@ -154,7 +208,8 @@
             }
           }
         },
-        // rowKey: 'id',
+        rowKey: 'id',
+        // isCanResizeParent: true,
         columns: getProductBasicColumns(),
         formConfig: {
           labelWidth: 60,
@@ -168,6 +223,7 @@
         striped: false,
         loading: true,
         rowSelection: {
+          preserveSelectedRowKeys: true,
           type: 'checkbox',
         },
         actionColumn: {
@@ -176,95 +232,157 @@
           dataIndex: 'action',
         },
         handleSearchInfoFn(info) {
-          // console.log('handleSearchInfoFn', info);
           return info;
         },
-        // actionColumn: {
-        //   width: 100,
-        //   title: t('routes.familylibs.detail'),
-        //   dataIndex: 'action',
-        // },
       });
 
-      const [registerDes] = useDescription({});
       const [registerDrawer, { openDrawer: openDrawer }] = useDrawer();
       const [registerDetailModal, { openModal: productInfo }] = useModal();
 
-      function loadProjectInfo(excelDataList: ExcelData[]) {
-        try {
-          let json = JSON.stringify(excelDataList[0].results);
-          uploadProjectInfo(json);
-          if (excelDataList[0].header.length == 0) {
-            error('更新失败：数据解析错误！');
-            return;
-          } else if (excelDataList[0].results.length > 30000) {
-            error('更新失败：数据超过3w行！');
-            return;
+      const handleFileImportChange = async (event: Event) => {
+        const input = event.target as HTMLInputElement;
+        let files = input.files;
+        if (files) {
+          var response = await uploadImportRetrievalFile({
+            data: files[0],
+            fileName: files[0].name,
+          });
+          if (!response.success) {
+            error('导入失败:' + response.error);
+          } else {
+            searchData.searchInfo = response.data;
+            reload();
           }
-          success('项目信息表更新成功！');
-        } catch (e) {
-          error(e + '更新失败！');
+          input.value = '';
         }
+      };
+
+      const handleProjectFileChange = async (event: Event) => {
+        const input = event.target as HTMLInputElement;
+        let files = input.files;
+        if (files) {
+          startLoading();
+          await uploadProjectInfo({
+            data: files[0],
+            fileName: files[0].name,
+          }).then((response) => {
+            endLoading();
+            if (response.success) {
+              success('项目信息表更新成功！');
+            } else {
+              error('项目信息表更新失败！' + response.error);
+            }
+          });
+          input.value = '';
+        }
+      };
+
+      function updateProjectClick() {
+        let oBtn = fileInput.value as HTMLInputElement;
+        oBtn.click();
       }
 
-      function loadDataSuccess(excelDataList: ExcelData[]) {
-        try {
-          let json = JSON.stringify(excelDataList[0].results);
-          uploadInventory(json);
-          success('物料库存表更新成功！');
-        } catch (e) {
-          error(e + '更新失败！');
-        }
+      function loadMaterialInventorySuccess(excelDataList: ExcelData[]) {
+        let json = JSON.stringify(excelDataList[0].results);
+        uploadInventory(json).then((response) => {
+          if (response.success) {
+            success('物料库存表更新成功！');
+          } else {
+            error(response.error + '更新失败！');
+          }
+          endLoading();
+        });
       }
 
-      function handleSelect(key = '') {
-        if (key) {
-          searchInfo.key = key;
-        }
-        reload();
-      }
       function selectMaterial() {
         openDrawer();
-        // openDrawer(true, {
-        //   data: '墙面系统',
-        //   info: '科睿墙面系列·科耐',
-        // });
+        setSelectedRowKeys([] as any[]);
+        selectedProducts.value = [] as any[];
+        checkedAll.value = false;
+      }
+      async function checkboxClick(ev) {
+        startLoading();
+        var checkKeys = [] as any[];
+        if (ev.target.checked) {
+          var searchAllDto: any = {
+            searchInfo: toRaw(searchData).searchInfo,
+          };
+
+          var result = await getAllProductById(searchAllDto);
+          for (let i = 0; i < result.length; i++) {
+            checkKeys.push(result[i].id);
+          }
+          selectedProducts.value = result;
+          info('共选中' + checkKeys.length + '条数据');
+        }
+        setTimeout(function () {
+          setSelectedRowKeys(checkKeys);
+          endLoading();
+        }, 1);
       }
 
-      // function deleteMaterial() {
-      //   deleteTableDataRecord(getSelectRowKeys());
-      // }
+      function deleteMaterial() {
+        var result = getSelectRowKeys();
+        for (let i = 0; i < result.length; i++) {
+          deleteTableDataRecord(result[i]);
+        }
+        setSelectedRowKeys([] as any[]);
+      }
 
       function handleResizeColumn(w, col) {
         col.width = w;
       }
 
-      function importInventoryInfo() {
-        let oBtn = fileInput.value as HTMLInputElement;
+      async function importElements() {
+        let oBtn = fileImport.value as HTMLInputElement;
+        oBtn.accept =
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
         oBtn.click();
       }
 
-      function importElements() {
-        // clearSelectedRowKeys();
-        info(t('routes.productManagement.notYetDevelopedInfo'));
+      async function exportElements() {
+        if (selectedProducts.value == undefined || selectedProducts.value.length == 0) {
+          error('请选择需导出的产品');
+          return;
+        }
+        startLoading();
+        exportToExcel(selectedProducts.value).then(() => {
+          endLoading();
+        });
       }
 
-      function exportElements() {
-        info(t('routes.productManagement.notYetDevelopedInfo'));
+      function rowClick({ keys, rows }) {
+        if (checkedAll.value) {
+          var result = selectedProducts.value.filter((x) => keys.indexOf(x.id) != -1);
+          selectedProducts.value = result;
+        } else {
+          selectedProducts.value = rows;
+        }
       }
 
       function getSelectedData(isConfirm) {
         if (isConfirm) {
           var data = selectElements.value.get().selectedRows._value;
           if (data != null && data.length > 0) {
-            var mapData = data.reduce((arr, m) => {
-              arr[m.code] = m.tag;
-              return arr;
-            }, {});
-            searchInfo.searchInfo = mapData;
+            // var mapData = data.reduce((arr, m) => {
+            //   arr[m.code] = m.tag;
+            //   return arr;
+            // }, {});
+            const infoDtoArray: SearchInfoDto[] = [];
+            var index = 0;
+            for (let item of data) {
+              var infoDto = new SearchInfoDto();
+              infoDto.index = index;
+              infoDto.code = item.code;
+              infoDto.tag = item.tag;
+              infoDtoArray.push(infoDto);
+              index++;
+            }
+
+            searchData.searchInfo = infoDtoArray;
           }
         } else {
-          searchInfo.searchInfo = undefined;
+          searchData.searchInfo = undefined;
         }
         reload();
       }
@@ -277,109 +395,52 @@
       }
 
       function createActions(record: EditRecordRow): ActionItem[] {
+        // var lableColor: any = undefined;
+        // var count = toRaw(record).materialCount;
+        // if (count == undefined || count == '' || count == '0') {
+        //   lableColor = 'error';
+        // }
         return [
           {
             label: '详情',
+            // color: lableColor,
             onClick: productDetail.bind(null, record),
           },
         ];
       }
 
-      const handleFileChange = async (event: Event) => {
-        const input = event.target as HTMLInputElement;
-        let files = input.files;
-        if (files) {
-          if (
-            files[0].name.includes('.xlsx') ||
-            files[0].name.includes('.xls') ||
-            files[0].name.includes('.xlsm')
-          ) {
-            readLargeExcel(files[0]);
-          }
-          input.value = '';
-        }
-      };
-
-      function readExcel(file: File) {
-        openFullLoading();
-        const reader = new FileReader();
-        reader.onload = async (e) => {
-          try {
-            const data = new Uint8Array(e.target.result);
-            const workbook = read(data, { type: 'array' });
-            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = utils.sheet_to_json(worksheet, { header: 1, raw: true });
-
-            // var sheet = new ProductSheet();
-            // sheet.init(jsonData);
-            // await sheet.import();
-            closeFullLoading();
-            success('导入成功');
-          } catch (e) {
-            closeFullLoading();
-            error('导入失败' + e);
-          }
-        };
-        reader.readAsArrayBuffer(file);
-      }
-
-      function readLargeExcel(file: File): Promise<any[]> {
-        const CHUNK_SIZE = 10000; // 每次读取的行数
-
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = (e: ProgressEvent<FileReader>) => {
-            const data = new Uint8Array(e.target?.result as ArrayBuffer);
-            const workbook: WorkBook = read(data, { type: 'array' });
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
-            const jsonData = utils.sheet_to_json(worksheet, { header: 1 });
-            let result: any[] = [];
-            let startRow = 0;
-            let endRow = CHUNK_SIZE;
-
-            while (startRow < jsonData.length) {
-              const chunkData = jsonData.slice(startRow, endRow);
-              result = result.concat(chunkData);
-
-              startRow += CHUNK_SIZE;
-              endRow += CHUNK_SIZE;
-            }
-
-            resolve(result);
-          };
-
-          reader.onerror = (e) => {
-            reject(e);
-          };
-
-          reader.readAsArrayBuffer(file);
-        });
+      function loadState() {
+        startLoading();
       }
 
       return {
+        searchData,
+        selectElements,
+        fileInput,
+        fileImport,
+        checkedAll,
         t,
         registerTable,
-        searchInfo,
-        selectElements,
-        handleSelect,
-        selectMaterial,
         registerDrawer,
-        registerDes,
+        registerDetailModal,
+        rowClick,
+        checkboxClick,
+        updateProjectClick,
+        deleteMaterial,
+        selectMaterial,
         getSelectedData,
-        reload,
         exportElements,
-        importInventoryInfo,
         importElements,
         handleResizeColumn,
         hasPermission,
         createActions,
-        registerDetailModal,
-        handleFileChange,
-        fileInput,
-        loadDataSuccess,
-        loadProjectInfo,
+        handleFileImportChange,
+        handleProjectFileChange,
+        loadMaterialInventorySuccess,
+        loadState,
       };
     },
   });
 </script>
+
+<style scoped></style>

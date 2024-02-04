@@ -74,7 +74,7 @@ export default {
     forgetFormTitle: 'Reset password',
     tenantFormTitle: 'Tenant sign in',
     signInTitle: 'YASHA Industrialization BIM Data Management System',
-    signInDesc: 'Copyright © 2023 亚厦装饰工业化（YaSha）All Rights Reserved.',
+    signInDesc: 'Copyright © 2024 亚厦装饰工业化（YaSha）All Rights Reserved.',
     policy: 'I agree to the xxx Privacy Policy',
     scanSign: `scanning the code to complete the login`,
 

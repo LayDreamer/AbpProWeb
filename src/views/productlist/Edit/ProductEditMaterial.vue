@@ -259,18 +259,18 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, onMounted, ref, computed, watch } from 'vue';
   import { Card, Tooltip } from 'ant-design-vue';
-  import { useModal } from '/@/components/Modal';
+  import { computed, defineComponent, onMounted, ref, watch } from 'vue';
+  import { getErpDataByNameCode, setErpDataToEdit } from '../index';
+  import NameSelect from './ErpNameSelect.vue';
   import UsageSetting from './MaterialUsage.vue';
-  import { getCalcuteValue } from '../Index';
+  import { useModal } from '/@/components/Modal';
+  import { useMessage } from '/@/hooks/web/useMessage';
   import {
     ProductInventoryFullDto,
     ProductInventoryModifyStatus,
   } from '/@/services/ServiceProxies';
-  import { useMessage } from '/@/hooks/web/useMessage';
-  import { setErpDataToEdit, getErpDataByNameCode } from '../Index';
-  import NameSelect from './ErpNameSelect.vue';
+  import { getCalcuteValue } from '/@/views/productlist/index';
   export default defineComponent({
     components: { ACard: Card, ATooltip: Tooltip, UsageSetting, NameSelect },
     props: {
@@ -304,7 +304,9 @@
       totalDataResponse.value = props.totalData;
       const formattedUsage = computed(() => {
         if (response.value.data.materialUsageFormula) {
-          return getFormulaCalcuteValue(response.value.data.materialUsageFormula);
+          const calcuteValue = getFormulaCalcuteValue(response.value.data.materialUsageFormula);
+          response.value.data.usage = calcuteValue;
+          return calcuteValue;
         } else if (response.value.data.usage) {
           return parseFloat(response.value.data.usage).toFixed(3);
         }
@@ -445,7 +447,11 @@
           if (response.value.data.code && response.value.data.code !== '') {
             try {
               const requestBody = {
-                noList: [response.value.data.code],
+                data: [
+                  {
+                    no: response.value.data.code,
+                  },
+                ],
               };
               const erp = await getErpDataByNameCode(JSON.stringify(requestBody));
               if (erp.length == 0) {

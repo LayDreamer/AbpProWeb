@@ -27,12 +27,12 @@
 </template>
 <script lang="ts">
   import { defineComponent, ref } from 'vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
+  import { getErpDataByNameCode } from '../index';
+  import { getErpProductColumns } from '../tableData';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicTable, useTable } from '/@/components/Table';
-  import { getErpProductColumns } from '../tableData';
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { ProductInventoryEditDto } from '/@/services/ServiceProxies';
-  import { getErpDataByNameCode } from '../Index';
   export default defineComponent({
     components: {
       BasicModal,
@@ -89,7 +89,7 @@
           tableLoading.value = true;
           try {
             const requestBody = {
-              nameList: [searchName.value],
+              data: [{ name: searchName.value }],
             };
             tableData.value = await getErpDataByNameCode(JSON.stringify(requestBody));
           } catch {}

@@ -1,16 +1,16 @@
+import { primaryColor } from '../../build/config/themeConfig';
+import { HEADER_PRESET_BG_COLOR_LIST, SIDE_BAR_BG_COLOR_LIST } from './designSetting';
 import type { ProjectConfig } from '/#/config';
-import { MenuTypeEnum, MenuModeEnum, TriggerEnum, MixSidebarTriggerEnum } from '/@/enums/menuEnum';
-import { CacheTypeEnum } from '/@/enums/cacheEnum';
 import {
   ContentEnum,
   PermissionModeEnum,
-  ThemeEnum,
   RouterTransitionEnum,
-  SettingButtonPositionEnum,
   SessionTimeoutProcessingEnum,
+  SettingButtonPositionEnum,
+  ThemeEnum,
 } from '/@/enums/appEnum';
-import { SIDE_BAR_BG_COLOR_LIST, HEADER_PRESET_BG_COLOR_LIST } from './designSetting';
-import { primaryColor } from '../../build/config/themeConfig';
+import { CacheTypeEnum } from '/@/enums/cacheEnum';
+import { MenuModeEnum, MenuTypeEnum, MixSidebarTriggerEnum, TriggerEnum } from '/@/enums/menuEnum';
 
 // ! You need to clear the browser cache after the change
 const setting: ProjectConfig = {
@@ -27,7 +27,7 @@ const setting: ProjectConfig = {
   permissionMode: PermissionModeEnum.ROUTE_MAPPING,
 
   // Permission-related cache is stored in sessionStorage or localStorage
-  permissionCacheType: CacheTypeEnum.SESSION,
+  permissionCacheType: CacheTypeEnum.LOCAL,
 
   // Session timeout processing
   sessionTimeoutProcessing: SessionTimeoutProcessingEnum.ROUTE_JUMP,

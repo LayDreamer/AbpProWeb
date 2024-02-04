@@ -160,7 +160,7 @@ export const groupItems: GroupItem[] = [
 export const devItems: GroupItem[] = [
   {
     title: '族库管理',
-    icon: 'lucide:warehouse',
+    icon: 'heroicons-outline:library',
     color: '',
     desc: 'Revit端上传产品、模块、物料、详图族等文件,线上同步查看产品层级，三维模型等内部详情',
     group: '开源组',
@@ -197,7 +197,18 @@ export const devItems: GroupItem[] = [
     group: 'UI',
     date: '2021-04-01',
     tag: 1,
-    url: '/standardPolicy/gyhStandardPolicyLib',
+    url: '/standardPolicyManagement/standardPolicyLib',
+  },
+  {
+    title: '内加工清单',
+    icon: 'lucide:layout-list',
+    // fluent:text-bullet-list-tree-16-regular
+    color: '#3fb27f',
+    desc: '可在线下载清单',
+    group: '算法组',
+    date: '2021-04-01',
+    tag: 1,
+    url: '/processingList/gyhProcessingList',
   },
   {
     title: '更多功能，敬请期待！',

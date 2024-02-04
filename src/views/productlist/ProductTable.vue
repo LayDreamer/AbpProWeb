@@ -12,17 +12,23 @@
             v-model:value="namevalue"
             :placeholder="t('routes.productlist.productName')"
             allow-clear
-            style="width: 200px"
+            style="width: 150px"
             @search="productSearchName"
           />
           <a-input-search
             v-model:value="codevalue"
             :placeholder="t('routes.productlist.productCode')"
-            style="width: 200px"
+            style="width: 120px"
             allow-clear
             @search="productSearchCode"
           />
-          <div class="w-80 h-full"></div>
+          <!-- <div class="w-80 h-full"></div> -->
+          <a-select
+            style="width: 100px"
+            v-model:value="publishSelect"
+            :options="selectOptions"
+            @change="selectChange"
+          />
           <a-button
             type="primary"
             v-if="hasPermission('YaSha.DataManager.ProductList.Create')"
@@ -50,7 +56,7 @@
           <!-- <a-button type="primary" @click="exportProduct" :disabled="true">{{
             t('routes.productlist.buttonExport')
           }}</a-button> -->
-          <a-dropdown v-if="hasPermission('YaSha.DataManager.ProductList.Create')">
+          <a-dropdown v-if="hasPermission('YaSha.DataManager.ProductList.Update')">
             <template #overlay>
               <a-menu @click="handleMenuClick">
                 <a-menu-item key="上市">上市</a-menu-item>
@@ -90,7 +96,7 @@
         <div class="flex-1">
           <a-textarea v-model:value="seriesRemark" class="custom-textarea" />
         </div>
-        <div class="w-1/15">
+        <div class="w-1/15" v-if="hasPermission('YaSha.DataManager.ProductList.Update')">
           <a-button type="primary" @click="addProductRemark" class="custom-button">{{
             t('routes.productlist.seriesRemarkSubmit')
           }}</a-button>
@@ -100,27 +106,28 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, onMounted, reactive, ref, onBeforeMount, onBeforeUnmount } from 'vue';
+  import type { SelectProps } from 'ant-design-vue';
   import { Dropdown, Menu } from 'ant-design-vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
+  import { defineComponent, onBeforeMount, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
+  import { getProductBasicColumns } from './tableData';
   import {
-    BasicTable,
-    useTable,
-    TableAction,
     ActionItem,
+    BasicTable,
     EditRecordRow,
+    TableAction,
     TableImg,
+    useTable,
   } from '/@/components/Table';
+  import { useContextMenu } from '/@/hooks/web/useContextMenu';
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import EventBus from '/@/utils/EventBus';
+  import { usePermission } from '/@/hooks/web/usePermission';
   import {
     IOrderNotificationSearchDto,
     ProductInventoryPublishStatus,
   } from '/@/services/ServiceProxies';
-  import { getProductBasicColumns } from './tableData';
-  import { getProductArchitetureByTreeAsync, updateSeriesRemark } from './Index';
-  import { useContextMenu } from '/@/hooks/web/useContextMenu';
-  import { usePermission } from '/@/hooks/web/usePermission';
+  import EventBus from '/@/utils/EventBus';
+  import { getProductArchitetureByTreeAsync, updateSeriesRemark } from '/@/views/productlist/index';
   export default defineComponent({
     name: 'productTable',
     components: {
@@ -150,6 +157,13 @@
       const seriesRemark = ref('');
       const seriesVisible = ref(false);
       const treeRef = ref();
+      const publishSelect = ref('上市');
+      const selectOptions = ref<SelectProps['options']>([
+        { label: '上市', value: ProductInventoryPublishStatus.InMark },
+        { label: '下市', value: ProductInventoryPublishStatus.OutMark },
+        { label: '待上市', value: ProductInventoryPublishStatus.DelayInMark },
+        { label: '待下市', value: ProductInventoryPublishStatus.DelayOutMark },
+      ]);
       const [createContextMenu, destroyContextMenu] = useContextMenu();
       const upLoadImage = {
         title: t('routes.productlist.productImg'),
@@ -195,6 +209,7 @@
               key: data.key,
               searchValue: data.searchValue,
               searchCode: data.searchCode,
+              status: data.status,
             };
             return searchDto;
           },
@@ -318,12 +333,19 @@
         }
       }
 
+      function selectChange(value) {
+        searchInfo.status = value;
+        reload();
+      }
+
       return {
         searchInfo,
         namevalue,
         codevalue,
         seriesRemark,
         seriesVisible,
+        publishSelect,
+        selectOptions,
         t,
         registerTable,
         createActions,
@@ -347,9 +369,10 @@
         hasPermission,
         getImageList: (record) => {
           if (record.imagePath == null || record.imagePath == undefined) return [];
-          if (!record.imagePath.includes('http://10.10.12.33:9091')) return [];
+          if (!record.imagePath.includes('https://bds.chinayasha.com/bdsfileservice')) return [];
           return [record.imagePath];
         },
+        selectChange,
       };
     },
   });

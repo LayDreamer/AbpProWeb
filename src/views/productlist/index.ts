@@ -1,10 +1,9 @@
-import { start } from 'nprogress';
 import {
-  ProductInventoryTreeServiceProxy,
-  ProductInventoryProductServiceProxy,
   OrderNotificationSearchDto,
-  ProductInventoryProductCreateDto,
   ProductInventoryEditDto,
+  ProductInventoryProductCreateDto,
+  ProductInventoryProductServiceProxy,
+  ProductInventoryTreeServiceProxy,
 } from '/@/services/ServiceProxies';
 const _treeServic = new ProductInventoryTreeServiceProxy();
 const _productService = new ProductInventoryProductServiceProxy();
@@ -258,9 +257,10 @@ class Product {
     });
 
     const materialrows = productDatas.filter((value) => {
+      let moduleName = value[moh.get('模块名称')];
       return (
         value[moh.get('层级')] !== undefined &&
-        (value[moh.get('模块名称')] === '/' || value[moh.get('模块名称')] === undefined)
+        (moduleName === undefined || moduleName.trim() === '/')
       );
     });
 
@@ -270,7 +270,7 @@ class Product {
 
     const modulerows = productDatas.filter((value) => {
       const name = value[moh.get('模块名称')];
-      return value[moh.get('层级')] !== undefined && name !== undefined && name !== '/';
+      return value[moh.get('层级')] !== undefined && name !== undefined && name.trim() !== '/';
     });
 
     for (let item of modulerows) {

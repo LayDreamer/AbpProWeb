@@ -1,50 +1,63 @@
 <template>
   <PageWrapper>
     <div v-loading="loadingRef" loading-tip="加载中...">
-      <a-list item-layout="horizontal" :pagination="pagination" :data-source="showData">
+      <a-list item-layout="horizontal" :data-source="showData">
+        <!-- :pagination="pagination" -->
         <template #renderItem="{ item }">
           <a-list-item>
             <a-list-item-meta>
               <template #title>
-                <div style="margin-top: 20px">
-                  <a-button
-                    type="link"
-                    @click="goDetail(item.id)"
-                    style="font-size: large; font-weight: bold"
-                    >{{ item.title }}
-                    <Icon icon="ic:round-double-arrow" color="gray" />
-                  </a-button>
+                <div class="flex" style="margin-top: 20px">
+                  <label
+                    style="font-size: large; font-weight: bold; min-width: 190px; max-width: 200px"
+                  >
+                    <Icon
+                      v-if="item.parentName == '标准'"
+                      icon="cil:tag"
+                      color="gray"
+                      class="mr-1"
+                    />
+                    <Icon
+                      v-if="item.parentName == '政策'"
+                      class="iconify"
+                      style="font-size: 20px; color: gray"
+                      data-icon="material-symbols:policy-outline"
+                    />
+                    {{ item.title }}</label
+                  >
                 </div>
               </template>
+
               <template #description>
                 <div :class="`${prefixCls}__content`">
                   <a-list>
-                    <a-row :gutter="16">
+                    <a-row :gutter="10">
                       <template v-for="desItem in item.description">
-                        <!-- :key="desItem.id" -->
-                        <a-col :span="6">
+                        <a-col :span="5">
                           <a-list-item>
+                            <template v-if="desItem.title.length > 10" #title>{{
+                              desItem.title
+                            }}</template>
                             <a-card
                               :loading="loadingCard"
                               :hoverable="true"
                               :class="`${prefixCls}__card`"
-                              @click="goDes(desItem)"
+                              :body-style="bstyle"
+                              @click="goDes(desItem, item.parentName)"
                             >
-                              <!-- @click="standards(desItem.title)" -->
-                              <!-- <template #extra>
-                              </template> -->
-                              <!-- <div :class="`${prefixCls}__card-detail`">
-                              </div> -->
-                              <div :class="`${prefixCls}__card-title`" style="font-weight: bold">
-                                <!-- <Icon
-                                  class="icon"
-                                  v-if="item.icon"
-                                  :icon="item.icon"
-                                  :color="item.color"
-                                /> -->
+                              <div
+                                :class="`${prefixCls}__card-title`"
+                                style="
+                                  font-weight: bold;
+                                  white-space: nowrap;
+                                  word-break: keep-all;
+                                  overflow: hidden;
+                                  text-overflow: ellipsis;
+                                "
+                              >
                                 {{ desItem.title }}
                               </div>
-                              <div>
+                              <div :class="`${prefixCls}__card-detail`">
                                 <label>{{ desItem.description }} </label>
                                 <label>{{ desItem.number }} </label>
                               </div>
@@ -52,6 +65,16 @@
                           </a-list-item>
                         </a-col>
                       </template>
+                      <div class="pl-10 pt-3 flex flex-col justify-center">
+                        <a-button
+                          type="primary"
+                          size="large"
+                          @click="goDetail(item)"
+                          style="font-size: 14px; font-style: italic; margin-left: 20px"
+                          >更多
+                          <Icon icon="ic:round-double-arrow" color="white" />
+                        </a-button>
+                      </div>
                     </a-row>
                   </a-list>
                 </div>
@@ -64,15 +87,14 @@
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, onBeforeMount, onMounted, onBeforeUnmount } from 'vue';
-  import Icon from '/@/components/Icon/src/Icon.vue';
+  import { Card, Col, List, Row } from 'ant-design-vue';
+  import { defineComponent, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue';
   import { cardDataList } from './index';
+  import Icon from '/@/components/Icon/src/Icon.vue';
   import { PageWrapper } from '/@/components/Page';
-  import { Card, Row, Col, List } from 'ant-design-vue';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
   import EventBus from '/@/utils/EventBus';
-  import dayjs from 'dayjs';
   interface DataItem {
     title: string;
     description: [];
@@ -97,12 +119,7 @@
       const selectData = ref<DataItem>();
       const loadingCard = ref(false);
       const loadingRef = ref(false);
-      const pagination = {
-        // onChange: (page: number) => {
-        //   console.log(page);
-        // },
-        pageSize: 3,
-      };
+
       onBeforeMount(() => {
         EventBus.on('TreeReload', load);
       });
@@ -111,30 +128,27 @@
         EventBus.off('TreeReload', load);
       });
 
-      async function load(key) {
+      async function load() {
         loadingCard.value = true;
         loadingRef.value = true;
-        showData.value = await cardDataList(key);
+        showData.value = await cardDataList();
         loadingRef.value = false;
-        setTimeout(() => {
-          loadingCard.value = false;
-        }, 1000);
+        loadingCard.value = false;
       }
 
-      function goDetail(id) {
-        emit('goMore', id);
+      function goDetail(data) {
+        emit('goMore', data);
       }
 
-      function goDes(data) {
-        data.publishingDate = dayjs(data.publishingDate).format('YYYY-MM-DD');
-        data.implementationDate = dayjs(data.implementationDate).format('YYYY-MM-DD');
-        emit('goDes', data);
+      function goDes(data, name) {
+        emit('goDes', { data: data, name: name });
       }
 
       return {
         prefixCls: 'list-card',
+        bstyle: { padding: '5px' },
         //list: desList,
-        pagination,
+        //pagination,
         loadingCard,
         namevalue,
         showData,
@@ -143,6 +157,7 @@
         t,
         goDetail,
         goDes,
+        load,
       };
     },
   });
@@ -165,7 +180,6 @@
     &__card {
       width: 100%;
       margin-bottom: -8px;
-
       .ant-card-body {
         padding: 16px;
       }
@@ -173,8 +187,8 @@
       &-title {
         margin-bottom: 5px;
         color: @text-color;
-        font-size: 16px;
-        font-weight: 500;
+        font-size: 14px;
+        font-weight: bold;
 
         .icon {
           margin-top: -5px;
@@ -185,9 +199,9 @@
 
       &-detail {
         padding-top: 10px;
-        padding-left: 30px;
+        // padding-left: 30px;
         color: @text-color-secondary;
-        font-size: 14px;
+        font-size: 12px;
       }
     }
   }

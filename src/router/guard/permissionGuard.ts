@@ -19,6 +19,14 @@ export function createPermissionGuard(router: Router) {
   const userStore = useUserStoreWithOut();
   const permissionStore = usePermissionStoreWithOut();
   router.beforeEach(async (to, from, next) => {
+    //手动退出系统 重新登录返回 退出系统的那个页面
+    if (to.path == LOGIN_PATH && from.path != ROOT_PATH) {
+      to.fullPath = to.path + '?redirect=' + from.fullPath;
+    }
+    //手动复制链接重定向
+    if (to.path == LOGIN_PATH && to.redirectedFrom && to.redirectedFrom.path != ROOT_PATH) {
+      to.fullPath = to.path + '?redirect=' + to.redirectedFrom.fullPath;
+    }
     if (
       from.path === ROOT_PATH &&
       to.path === PageEnum.BASE_HOME &&
@@ -38,7 +46,6 @@ export function createPermissionGuard(router: Router) {
     const token = userStore.getToken;
 
     // token does not exist
-
     if (to.meta.ignoreAuth) {
       next();
       return;
@@ -46,12 +53,13 @@ export function createPermissionGuard(router: Router) {
 
     if (token) {
       if (userStore.checkUserLoginExpire) {
-        router.replace(PageEnum.BASE_LOGIN);
+        //let path = PageEnum.BASE_LOGIN as string;
+        //router.replace(path);
+        next({ path: PageEnum.BASE_LOGIN });
         return;
       }
     } else {
-      next({path:PageEnum.BASE_LOGIN})
-      //router.replace(PageEnum.BASE_LOGIN);
+      next({ path: PageEnum.BASE_LOGIN });
       return;
     }
 

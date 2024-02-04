@@ -55,8 +55,8 @@
     TableAction,
   } from '/@/components/Table';
   import { IOrderNotificationSearchDto } from '/@/services/ServiceProxies';
-  import FamilyTree from './FamilyTree.vue';
-  import { getProductLibsAsync, uploadFamilyLibImage } from './Index';
+  import FamilyTree from '/@/views/familylibs/FamilyTree.vue';
+  import { getProductLibsAsync, uploadFamilyLibImage } from '/@/views/familylibs/index';
   export default defineComponent({
     name: 'FamilyLibsManagement',
     components: {

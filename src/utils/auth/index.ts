@@ -1,7 +1,6 @@
-import { Persistent, BasicKeys } from '/@/utils/cache/persistent';
-import { CacheTypeEnum } from '/@/enums/cacheEnum';
+import { CacheTypeEnum, TOKEN_KEY } from '/@/enums/cacheEnum';
 import projectSetting from '/@/settings/projectSetting';
-import { TOKEN_KEY } from '/@/enums/cacheEnum';
+import { BasicKeys, Persistent } from '/@/utils/cache/persistent';
 
 const { permissionCacheType } = projectSetting;
 const isLocal = permissionCacheType === CacheTypeEnum.LOCAL;
@@ -16,6 +15,7 @@ export function getAuthCache<T>(key: BasicKeys) {
 }
 
 export function setAuthCache(key: BasicKeys, value) {
+  
   const fn = isLocal ? Persistent.setLocal : Persistent.setSession;
   return fn(key, value, true);
 }

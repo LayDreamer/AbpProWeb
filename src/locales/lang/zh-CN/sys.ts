@@ -60,7 +60,7 @@ export default {
   login: {
     backSignIn: '返回',
     signInFormTitle: '登录',
-    domainUserSignInFormTitle: '域用户登录',
+    domainUserSignInFormTitle: '用户登录',
     accountPasswordSignInFormTitle: '账号密码登录',
     mobileSignInFormTitle: '手机登录',
     qrSignInFormTitle: '二维码登录',
@@ -70,7 +70,7 @@ export default {
     // signInTitle: '开箱即用的中后台管理系统',
     signInTitle: '工业化BIM数据管理系统',
     //signInDesc: '输入您的个人详细信息开始使用！',
-    signInDesc: 'Copyright © 2023 亚厦装饰工业化（YaSha）All Rights Reserved.',
+    signInDesc: 'Copyright © 2024 亚厦装饰工业化（YaSha）All Rights Reserved.',
     policy: '我同意xxx隐私政策',
     scanSign: `扫码后点击"确认"，即可完成登录`,
 

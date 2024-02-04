@@ -77,25 +77,25 @@
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, onBeforeMount, onMounted, nextTick, ref, computed } from 'vue';
-  import { v4 as guid } from 'uuid';
   import { cloneDeep } from 'lodash-es';
-  import { useI18n } from '/@/hooks/web/useI18n';
+  import { v4 as guid } from 'uuid';
+  import { computed, defineComponent, nextTick, onBeforeMount, onMounted, ref } from 'vue';
+  import { addProducts, getProductEdit, updateProductArchiteture } from '../index';
+  import { getEditProductColumns } from '../tableData';
+  import EditMaterials from './ProductEditMaterial.vue';
+  import EditModules from './ProductEditModule.vue';
+  import EditProduct from './ProductEditProduct.vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicTable, useTable } from '/@/components/Table';
   import { useContextMenu } from '/@/hooks/web/useContextMenu';
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
   import {
-    ProductInventoryFullDto,
     ProductInventoryEditDto,
+    ProductInventoryFullDto,
     ProductInventoryModifyStatus,
     ProductInventroyTag,
   } from '/@/services/ServiceProxies';
-  import { getEditProductColumns } from '../tableData';
-  import { getProductEdit, updateProductArchiteture, addProducts } from '../Index';
-  import EditProduct from './ProductEditProduct.vue';
-  import EditModules from './ProductEditModule.vue';
-  import EditMaterials from './ProductEditMaterial.vue';
   export default defineComponent({
     components: {
       BasicTable,

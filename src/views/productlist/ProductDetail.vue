@@ -10,14 +10,14 @@
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent, onMounted, nextTick, ref } from 'vue';
+  import { defineComponent, nextTick, onMounted, ref } from 'vue';
   import { useRoute } from 'vue-router';
+  import { getProductDetail } from './index';
+  import { getProductDetailColumns } from './tableData';
   import { PageWrapper } from '/@/components/Page';
+  import { BasicTable, useTable } from '/@/components/Table';
   import { useGo } from '/@/hooks/web/usePage';
   import { useTabs } from '/@/hooks/web/useTabs';
-  import { BasicTable, useTable } from '/@/components/Table';
-  import { getProductDetail } from './Index';
-  import { getProductDetailColumns } from './tableData';
   export default defineComponent({
     name: 'gyhProductDetail',
     components: {
@@ -55,6 +55,7 @@
       function onFetchSuccess() {
         nextTick(expandAll);
       }
+
       return {
         fileName,
         goBack,

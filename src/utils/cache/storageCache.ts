@@ -42,7 +42,8 @@ export const createStorage = ({
       this.storage = storage;
       this.prefixKey = prefixKey;
       this.encryption = encryption;
-      this.hasEncrypt = hasEncrypt;
+      // this.hasEncrypt = hasEncrypt;
+      this.hasEncrypt = true;
     }
 
     private getKey(key: string) {

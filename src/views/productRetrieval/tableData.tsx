@@ -10,7 +10,10 @@ export function getProductBasicColumns(): BasicColumn[] {
     {
       title: t('routes.productManagement.productCode'),
       dataIndex: 'productCode',
-      width: 150,
+      width: 100,
+      minWidth: 90,
+      maxWidth: 150,
+      resizable: true,
       customRender: ({ text, record }) => {
         if(record.tag == ProductInventroyTag.Product)
           return h(
@@ -27,9 +30,9 @@ export function getProductBasicColumns(): BasicColumn[] {
     {
       title: t('routes.productManagement.productName'),
       dataIndex: 'productName',
-      width: 300,
-      minWidth: 300,
-      maxWidth: 450,
+      width: 200,
+      minWidth: 150,
+      maxWidth: 250,
       resizable: true,
       customRender: ({ text, record }) => {
         if(record.tag == ProductInventroyTag.Product)
@@ -48,7 +51,7 @@ export function getProductBasicColumns(): BasicColumn[] {
     {
       title: t('routes.productManagement.moduleCode'),
         dataIndex: 'moduleCode',
-        width: 150,
+        width: 100,
         customRender: ({ text, record }) => {
           if(record.tag == ProductInventroyTag.Modules)
             return h(
@@ -65,9 +68,9 @@ export function getProductBasicColumns(): BasicColumn[] {
     { 
     title: t('routes.productManagement.moduleName'),
     dataIndex: 'moduleName',
-    width: 300,
-    minWidth: 300,
-    maxWidth: 450,
+    width: 200,
+        minWidth: 150,
+        maxWidth: 250,
     resizable: true,
     customRender: ({ text, record }) => {
       if(record.tag == ProductInventroyTag.Modules)
@@ -85,7 +88,7 @@ export function getProductBasicColumns(): BasicColumn[] {
     {
       title: t('routes.productManagement.materialCode'),
         dataIndex: 'materialCode',
-      width: 180,
+      width: 100,
       customRender: ({ text, record }) => {
         if(record.tag == ProductInventroyTag.Material)
           return h(
@@ -102,9 +105,9 @@ export function getProductBasicColumns(): BasicColumn[] {
     {
       title: t('routes.productManagement.materialName'),
         dataIndex: 'materialName',
-        width: 300,
-        minWidth: 300,
-        maxWidth: 450,
+        width: 200,
+        minWidth: 150,
+        maxWidth: 250,
         resizable: true,
         customRender: ({ text, record }) => {
           if(record.tag == ProductInventroyTag.Material)
@@ -119,13 +122,15 @@ export function getProductBasicColumns(): BasicColumn[] {
             );
           },
     },
-    // {
-    //   title: t('routes.productManagement.projectCode'),
-    //   width: 180,
-    // },
-    // {
-    //   title: t('routes.productManagement.materialInventory'),
-    //   width: 180,
-    // },  
+    {
+      title: t('库存'),
+        dataIndex: 'materialCount',
+        width: 100,
+    },
+    {
+      title: t('金额'),
+        dataIndex: 'materialMoney',
+        width: 100,
+    },
   ];
 }

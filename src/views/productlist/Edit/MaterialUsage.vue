@@ -51,12 +51,12 @@
   </BasicModal>
 </template>
 <script lang="ts">
+  import { v4 as guid } from 'uuid';
   import { defineComponent, ref } from 'vue';
+  import { getCalcuteValue } from '../index';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { v4 as guid } from 'uuid';
-  import { getCalcuteValue } from '../Index';
   interface option {
     id: string;
     name: string;

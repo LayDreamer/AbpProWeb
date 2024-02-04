@@ -1,28 +1,27 @@
-import type { UserInfo } from '/#/store';
-import type { ErrorMessageMode } from '/#/axios';
+import jwt_decode from 'jwt-decode';
 import { defineStore } from 'pinia';
-import { store } from '/@/store';
-import { RoleEnum } from '/@/enums/roleEnum';
-import { PageEnum } from '/@/enums/pageEnum';
+import type { ErrorMessageMode } from '/#/axios';
+import type { UserInfo } from '/#/store';
+import { LoginParams } from '/@/api/sys/model/userModel';
+import { domainLogin, getAbpApplicationConfiguration, login } from '/@/api/sys/user';
 import {
+  ABP_LOCALE_KEY,
+  ABP_TETANT_KEY,
   ROLES_KEY,
   TOKEN_KEY,
   USER_INFO_KEY,
-  ABP_LOCALE_KEY,
-  ABP_TETANT_KEY,
 } from '/@/enums/cacheEnum';
-import { getAuthCache, setAuthCache } from '/@/utils/auth';
-import { LoginParams } from '/@/api/sys/model/userModel';
-import { login, domainLogin, getAbpApplicationConfiguration, id4, github } from '/@/api/sys/user';
+import { PageEnum } from '/@/enums/pageEnum';
+import { RoleEnum } from '/@/enums/roleEnum';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
-import { router } from '/@/router';
-import { usePermissionStore } from '/@/store/modules/permission';
-import { LoginInput } from '/@/services/ServiceProxies';
-import jwt_decode from 'jwt-decode';
 import { useSignalR } from '/@/hooks/web/useSignalR';
+import { router } from '/@/router';
+import { LoginInput } from '/@/services/ServiceProxies';
+import { store } from '/@/store';
+import { usePermissionStore } from '/@/store/modules/permission';
+import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { useOidcLogout } from '/@/views/sys/login/useLogin';
-import { Console } from 'console';
 interface UserState {
   userInfo: Nullable<UserInfo>;
   token?: string;
@@ -140,12 +139,17 @@ export const useUserStore = defineStore({
           username: data.userName as string,
           realName: data.name as string,
           roles: data.roles as [],
-          avatar: '',
+          avatar: 'https://bds.chinayasha.com/bdsfileservice/SystemAssets/1681978944526.png',
           isSts: false,
           idToken: '',
         });
         await this.getAbpApplicationConfigurationAsync();
-        goHome && (await router.replace(PageEnum.BASE_HOME));
+        let path = PageEnum.BASE_HOME as string;
+        if (window.location.search) {
+          window.location.search;
+          path = '/redirect' + window.location.search.substring(10, window.location.search.length);
+        }
+        goHome && (await router.replace(path));
         return data;
       } catch (error) {
         router.replace(PageEnum.BASE_LOGIN);
@@ -171,12 +175,18 @@ export const useUserStore = defineStore({
           username: data.userName as string,
           realName: data.name as string,
           roles: data.roles as [],
-          avatar: '',
+          avatar: 'https://bds.chinayasha.com/bdsfileservice/SystemAssets/1681978944526.png',
           isSts: false,
           idToken: '',
         });
+
         await this.getAbpApplicationConfigurationAsync();
-        goHome && (await router.replace(PageEnum.BASE_HOME));
+        let path = PageEnum.BASE_HOME as string;
+        if (window.location.search) {
+          window.location.search;
+          path = '/redirect' + window.location.search.substring(10, window.location.search.length);
+        }
+        goHome && (await router.replace(path));
         return data;
       } catch (error) {
         router.replace(PageEnum.BASE_LOGIN);

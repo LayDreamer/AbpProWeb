@@ -5,8 +5,9 @@ export default {
   buttonAdd: '新增',
   buttonChange: '修改',
   buttonDel: '删除',
-  buttonUpdateInventory: '更新库存表',
-  buttonUpdateProject: '更新项目信息',
+  buttonUpdateInventory: '更新库存',
+  buttonCoverProject: '覆盖项目',
+  buttonAddProject: '新增项目',
   buttonImport: '导入',
   buttonExport: '导出',
   productName: '产品名称',
@@ -29,4 +30,5 @@ export default {
   selectMaterialName: '材料名称',
   selectMaterialCode: '材料编码',
   notYetDevelopedInfo: '功能暂未开发',
+  checkAll: '全选',
 };

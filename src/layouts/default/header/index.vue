@@ -33,23 +33,23 @@
 
     <!-- action  -->
     <div :class="`${prefixCls}-action`">
-      <ErrorAction v-if="getUseErrorHandle" :class="`${prefixCls}-action__item error-action`" />
+      <!-- <ErrorAction v-if="getUseErrorHandle" :class="`${prefixCls}-action__item error-action`" />
 
       <Notify
         :class="`${prefixCls}-action__item notify-item`"
         :textMessage="textMessage"
         :broadCastMessage="broadCastMessage"
         @click="clickNotify"
-      />
+      /> -->
 
       <FullScreen v-if="getShowFullScreen" :class="`${prefixCls}-action__item fullscreen-item`" />
 
-      <AppLocalePicker
+      <!-- <AppLocalePicker
         v-if="getShowLocalePicker"
         :reload="true"
         :showText="false"
         :class="`${prefixCls}-action__item`"
-      />
+      /> -->
 
       <UserDropDown :theme="getHeaderTheme" />
 
@@ -58,37 +58,29 @@
   </Header>
 </template>
 <script lang="ts">
-  import { defineComponent, unref, computed, onMounted, reactive, toRefs } from 'vue';
-
-  import { propTypes } from '/@/utils/propTypes';
-
   import { Layout } from 'ant-design-vue';
-  import { AppLogo } from '/@/components/Application';
+  import { computed, defineComponent, onMounted, reactive, toRefs, unref } from 'vue';
   import LayoutMenu from '../menu/index.vue';
   import LayoutTrigger from '../trigger/index.vue';
-
-  import { AppSearch } from '/@/components/Application';
-
+  import { ErrorAction, FullScreen, LayoutBreadcrumb, Notify, UserDropDown } from './components';
+  import { AppLocalePicker, AppLogo, AppSearch } from '/@/components/Application';
+  import { SettingButtonPositionEnum } from '/@/enums/appEnum';
+  import { MenuModeEnum, MenuSplitTyeEnum } from '/@/enums/menuEnum';
   import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting';
   import { useMenuSetting } from '/@/hooks/setting/useMenuSetting';
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
-
-  import { MenuModeEnum, MenuSplitTyeEnum } from '/@/enums/menuEnum';
-  import { SettingButtonPositionEnum } from '/@/enums/appEnum';
-  import { AppLocalePicker } from '/@/components/Application';
-
-  import { UserDropDown, LayoutBreadcrumb, FullScreen, Notify, ErrorAction } from './components';
   import { useAppInject } from '/@/hooks/web/useAppInject';
   import { useDesign } from '/@/hooks/web/useDesign';
-
-  import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
-  import { useLocale } from '/@/locales/useLocale';
   import { useSignalR } from '/@/hooks/web/useSignalR';
-  import { PagingNotificationListOutput } from '/@/services/ServiceProxies';
   import {
-    getTextAsync,
     getBroadCastAsync,
+    getTextAsync,
   } from '/@/layouts/default/header/components/notify/data';
+  import { useLocale } from '/@/locales/useLocale';
+  import { PagingNotificationListOutput } from '/@/services/ServiceProxies';
+  import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
+  import { propTypes } from '/@/utils/propTypes';
+
   export default defineComponent({
     name: 'LayoutHeader',
     components: {

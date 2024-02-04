@@ -1,16 +1,19 @@
 <template>
   <div class="p-4">
     <div class="flex flex-row">
-      <HomeTree ref="homeTree" class="flex-1" v-if="!goDetail" />
-      <div class="min-w-4/5 flex flex-col">
-        <HomeBar
-          :class="barClass"
-          v-bind="detailData()"
-          @addNew="addNew"
-          @homeSearch="homeSearch"
-        ></HomeBar>
-        <HomeList v-if="!goDetail" @goMore="more" @goDes="handleViewDes"></HomeList>
-        <DetailTable v-bind="tableSearch" v-if="goDetail" @backHome="backHome"></DetailTable>
+      <HomeTree v-if="!goDetail" class="treeContent" @slide="slide" />
+      <div class="flex flex-col flex-1 w-full">
+        <DetailTable
+          class="detailTableContent"
+          ref="tableRef"
+          @detail="detail"
+          @backHome="backHome"
+          @add="add"
+          @edit="edit"
+        ></DetailTable>
+        <div class="mt-4 w-full" v-if="!goDetail">
+          <HomeList ref="homeList" @goMore="more" @goDes="handleViewDes"></HomeList>
+        </div>
       </div>
     </div>
     <AddModal @register="registerModal" @submit="addSubmit"></AddModal>
@@ -18,117 +21,166 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, computed } from 'vue';
-  import HomeTree from '/@/views/standardPolicy/treeList.vue';
-  import HomeBar from '/@/views/standardPolicy/toolBar.vue';
-  import HomeList from '/@/views/standardPolicy/cardList.vue';
-  import DetailTable from '/@/views/standardPolicy/DetailTable.vue';
+  import dayjs from 'dayjs';
+  import { defineComponent, nextTick, ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { getStandardAndPolicyTreesAsync } from './index';
   import { useModal } from '/@/components/Modal';
   import { useGo } from '/@/hooks/web/usePage';
   import AddModal from '/@/views/standardPolicy/AddStandardAndPolicy.vue';
-  import { useRouter } from 'vue-router';
+  import HomeList from '/@/views/standardPolicy/cardList.vue';
+  import DetailTable from '/@/views/standardPolicy/DetailTable.vue';
+  import HomeTree from '/@/views/standardPolicy/treeList.vue';
   export default defineComponent({
     name: 'standardPolicyLib',
     components: {
       HomeTree,
-      HomeBar,
       HomeList,
       DetailTable,
       AddModal,
     },
     setup() {
       const goDetail = ref(false);
-      const homeTree = ref();
-      const tableSearch = ref({
-        id: '',
-        code: '',
-        name: '',
-      });
+      const tableRef = ref();
+      const homeList = ref();
       const [registerModal, { openModal: openAdd, closeModal: closeAdd }] = useModal();
       const go = useGo();
       const router = useRouter();
-      function addNew() {
+      function slide(n) {
+        var e = document.getElementsByClassName('ant-list-item-meta-title');
+        nextTick(() => {
+          if (e[n]) {
+            document.body.scrollTo({
+              top: e[n].offsetTop + 40,
+              behavior: 'smooth',
+            });
+          }
+        });
+      }
+      async function getOptions(name) {
+        let selectOptions: any = [];
+        await getStandardAndPolicyTreesAsync().then((response) => {
+          var dtos = response.filter((x) => x.name == name);
+          for (let item of dtos) {
+            if (item.children) {
+              for (let child of item.children) {
+                selectOptions.push({
+                  label: child.name,
+                  value: child.id,
+                });
+              }
+            }
+          }
+        });
+        return selectOptions;
+      }
+      async function add(response) {
         openAdd(true, {
-          treeData: homeTree.value.getTreeData(),
+          id: null,
+          title: response.type + '新增',
+          treeData: await getOptions(response.type),
+          data: {
+            number: '',
+            name: '',
+            industry: '',
+            publishingUnit: '',
+            publishingDate: dayjs(new Date().toLocaleDateString()),
+            implementationDate: dayjs(new Date().toLocaleDateString()),
+            theme: [],
+            imagePath: '',
+            pdfPath: '',
+            linkPath: '',
+            type: response.type,
+            status: undefined,
+            dispatchFont: '',
+            loseDate: dayjs(new Date(2049, 0, 1).toLocaleDateString()),
+            standardCategory: undefined,
+          },
         });
       }
 
-      const barClass = computed(() => {
-        if (!goDetail.value) {
-          return 'ml-4';
-        } else return 'mb-4';
-      });
-
-      //首页搜索
-      function homeSearch(data) {
-        goDetail.value = true;
-        tableSearch.value.id = '';
-        tableSearch.value.code = data.code ? data.code : '';
-        tableSearch.value.name = data.name ? data.name : '';
+      async function edit(response) {
+        let selectData = await getOptions(response.table.type);
+        openAdd(true, {
+          id: response.table.id,
+          title: response.table.type + '修改',
+          treeData: selectData,
+          data: {
+            number: response.table.number,
+            name: response.table.name,
+            industry: '',
+            publishingUnit: response.table.publishingUnit,
+            publishingDate: dayjs(response.table.publishingDate),
+            implementationDate: dayjs(response.table.implementationDate),
+            theme: response.table.theme.map((x) => {
+              var find = selectData.filter((y) => y.label == x);
+              if (find.length > 0) return find[0].value;
+            }),
+            imagePath: response.table.imagePath,
+            pdfPath: response.table.pdfPath,
+            linkPath: response.table.linkPath,
+            type: response.table.type,
+            status: response.table.status,
+            dispatchFont: response.table.dispatchFont,
+            loseDate: dayjs(response.table.loseDate),
+            standardCategory: response.table.standardCategory,
+          },
+        });
       }
-      function more(id) {
-        setTimeout(() => {
-          goDetail.value = true;
-          tableSearch.value.id = id;
-        }, 100);
+
+      function detail() {
+        goDetail.value = true;
       }
       function backHome() {
         goDetail.value = false;
       }
-      function addSubmit() {
-        closeAdd();
+
+      function more(data) {
+        goDetail.value = true;
+        tableRef.value.moreSearch(data);
       }
 
-      // function handleViewDes(data) {
-      //   go('/standardPolicy/standardDetail/' + data + '?msg=' + data.title);
-      // }
-
+      function addSubmit(value) {
+        closeAdd();
+        if (value) homeList.value.load();
+        else tableRef.value.setTableSearch();
+      }
       function handleViewDes(data) {
         router.push({
-          path: '/standardPolicy/standardDetail',
-          query: data,
+          path: '/standardPolicyManagement/standardDetail',
+          query: { id: data.data.id, parentName: data.name },
         });
       }
-
-      // function handleViewDes(data) {
-      //   router.push({
-      //     path: '/standardPolicy/standardDetail',
-      //     query: {
-      //       name: 'ming',
-      //       age: 18,
-      //     },
-      //   });
-      // }
-
-      function detailData() {
-        if (homeTree.value) {
-          return {
-            detail: goDetail.value,
-            select: homeTree.value.getTreeData(),
-          };
-        }
-        return {
-          detail: goDetail.value,
-          select: [],
-        };
-      }
-
       return {
-        homeTree,
+        tableRef,
+        homeList,
         goDetail,
-        tableSearch,
-        barClass,
+        scrollTo,
+        slide,
+        detail,
         go,
         registerModal,
-        addNew,
-        homeSearch,
+        add,
+        edit,
         more,
         backHome,
         handleViewDes,
         addSubmit,
-        detailData,
       };
     },
   });
 </script>
-<style lang="less" scoped></style>
+<style scoped>
+  .treeContent {
+    width: 250px;
+    height: 800px;
+    position: sticky;
+    top: 80px;
+  }
+
+  .detailTableContent {
+    position: sticky;
+    top: 80px;
+    z-index: 400;
+  }
+</style>

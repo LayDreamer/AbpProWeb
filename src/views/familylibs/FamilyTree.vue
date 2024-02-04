@@ -18,11 +18,11 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, onMounted, ref,unref } from 'vue';
+  import { defineComponent, onMounted, ref, unref } from 'vue';
   import { useI18n } from '/@/hooks/web/useI18n';
-  import { BasicTree,TreeActionType } from '/@/components/Tree';
+  import { BasicTree, TreeActionType } from '/@/components/Tree';
   import { FamilyTreeDto } from '/@/services/ServiceProxies';
-  import { getProductTreesAsync } from '/@/views/familylibs/Index';
+  import { getProductTreesAsync } from '/@/views/familylibs/index';
   export default defineComponent({
     name: 'FamilyTree',
     components: {

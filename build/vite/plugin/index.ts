@@ -15,7 +15,7 @@ import { configVisualizerConfig } from './visualizer';
 import { configThemePlugin } from './theme';
 import { configImageminPlugin } from './imagemin';
 import { configSvgIconsPlugin } from './svgSprite';
-import { optimizeDeps } from './optimizeDeps'
+import { optimizeDeps } from './optimizeDeps';
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const {

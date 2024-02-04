@@ -31,6 +31,8 @@ export const ABP_TETANT_KEY = 'ABP_TETANT__';
 
 export const AUTH_KEY = 'AUTH__KEY__';
 
+export const MATERIALMANAGE_KEY = 'MATERIALMANAGE__KEY__';
+
 export enum CacheTypeEnum {
   SESSION,
   LOCAL,

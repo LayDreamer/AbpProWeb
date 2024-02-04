@@ -30,12 +30,36 @@ const familylibs: AppRouteModule = {
       meta: {
         hideMenu: true,
         title: t('routes.familylibs.detail'),
-        // ignoreKeepAlive: true,
         showMenu: false,
         currentActiveMenu: '/familylibs/gyhFamilyLibs',
       },
       component: () => import('/@/views/familylibs/FamilyDetail.vue'),
     },
+    {
+      path: 'gyhNewFamilyLibs',
+      name: 'NewFamilyLibsManagement',
+      meta: {
+        icon: 'heroicons-outline:library',
+        title: t('routes.newFamilyLibrary.gyhNewFamilyLibs'),
+        policy: 'YaSha.DataManager.NewFamilyLib',
+      },
+      component: () => import('/@/views/NewFamilyLibrary/Index.vue'),
+    },
+    {
+      path: 'gyhNewFamilyDetail/:data',
+      name: 'gyhNewFamilyDetail',
+      meta: {
+        hideMenu: true,
+        title: t('routes.newFamilyLibrary.gyhNewFamilyDetail'),
+        showMenu: false,
+        currentActiveMenu: '/familylibs/gyhNewFamilyLibs',
+      },
+      component: () => import('/@/views/NewFamilyLibrary/NewFamilyDetail.vue'),
+    },
+
+
+
+
   ],
 };
 

@@ -14,21 +14,18 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, computed, unref } from 'vue';
   import { Layout } from 'ant-design-vue';
-  import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
-
-  import LayoutHeader from './header/index.vue';
+  import { computed, defineComponent, unref } from 'vue';
   import LayoutContent from './content/index.vue';
-  import LayoutSideBar from './sider/index.vue';
+  import LayoutHeader from './header/index.vue';
   import LayoutMultipleHeader from './header/MultipleHeader.vue';
-
+  import LayoutSideBar from './sider/index.vue';
   import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting';
   import { useMenuSetting } from '/@/hooks/setting/useMenuSetting';
+  import { useAppInject } from '/@/hooks/web/useAppInject';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useLockPage } from '/@/hooks/web/useLockPage';
-
-  import { useAppInject } from '/@/hooks/web/useAppInject';
+  import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
   export default defineComponent({
     name: 'DefaultLayout',

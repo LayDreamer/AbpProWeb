@@ -11,45 +11,6 @@ export function getProductBasicColumns(): BasicColumn[] {
       title: t('routes.productlist.productStatus'),
       dataIndex: 'status',
       width: 100,
-      filters: [
-        {
-          text: '上市',
-          value: '上市',
-        },
-        {
-          text: '待上市',
-          value: '待上市',
-        },
-        {
-          text: '下市',
-          value: '下市',
-        },
-        {
-          text: '待下市',
-          value: '待下市',
-        },
-      ],
-      filterMode: 'menu',
-      filterSearch: true,
-      onFilter: (value, record) => {
-        let text = '';
-        switch (record.status) {
-          case ProductInventoryPublishStatus.InMark:
-            text = '上市';
-            break;
-          case ProductInventoryPublishStatus.DelayInMark:
-            text = '待上市';
-            break;
-          case ProductInventoryPublishStatus.OutMark:
-            text = '下市';
-            break;
-          case ProductInventoryPublishStatus.DelayOutMark:
-            text = '待下市';
-            break;
-        }
-        return text == value;
-      },
-      defaultFilteredValue: ['上市'],
       customRender: ({ record }) => {
         let text = '';
         switch (record.status) {
@@ -318,7 +279,7 @@ export function getProductDetailColumns(): BasicColumn[] {
       width: 80,
       customRender: ({ text }) => {
         if (text === null) return h('div', '');
-        const formattedText = parseFloat(text).toFixed(3);
+        const formattedText = parseFloat(text).toFixed(5);
         return h('div', formattedText);
       },
     },

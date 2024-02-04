@@ -17,12 +17,12 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, onMounted, ref, unref, onBeforeMount, onBeforeUnmount } from 'vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
+  import { defineComponent, onBeforeMount, onBeforeUnmount, onMounted, ref, unref } from 'vue';
   import { BasicTree, TreeActionType } from '/@/components/Tree';
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { ProductInventoryTreeDto } from '/@/services/ServiceProxies';
-  import { getPrductArchitectureListTreesAsync } from '/@/views/productlist/Index';
   import EventBus from '/@/utils/EventBus';
+  import { getPrductArchitectureListTreesAsync } from '/@/views/productlist/index';
   export default defineComponent({
     name: 'productTree',
     components: {

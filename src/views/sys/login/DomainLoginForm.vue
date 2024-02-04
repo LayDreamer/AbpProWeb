@@ -25,7 +25,7 @@
       </FormItem>
       <ARow class="enter-x">
         <ACol :md="8" :xs="24">
-          <Button block @click="setLoginState(LoginStateEnum.LOGIN)">
+          <Button v-if="accessNetState" block @click="setLoginState(LoginStateEnum.LOGIN)">
             {{ t('sys.login.accountPasswordSignInFormTitle') }}
           </Button>
         </ACol>
@@ -34,32 +34,50 @@
   </template>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref, computed, unref, toRaw } from 'vue';
-  import { Form, Input, Button, Row, Col } from 'ant-design-vue';
+  import { Button, Col, Form, Input, Row } from 'ant-design-vue';
+  import axios from 'axios';
+  import { computed, onMounted, reactive, ref, toRaw, unref } from 'vue';
   import LoginFormTitle from './LoginFormTitle.vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
+  import { LoginStateEnum, useFormRules, useFormValid, useLoginState } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { useLoginState, useFormRules, useFormValid, LoginStateEnum } from './useLogin';
+  import { useI18n } from '/@/hooks/web/useI18n';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useUserStore } from '/@/store/modules/user';
   import { getErpToken } from '/@/views/productlist/index';
+
   const InputPassword = Input.Password;
   const FormItem = Form.Item;
   const ACol = Col;
   const ARow = Row;
-  import { useMessage } from '/@/hooks/web/useMessage';
   const { t } = useI18n();
   const { setLoginState, getLoginState } = useLoginState();
   const { getFormRules } = useFormRules();
   const { prefixCls } = useDesign('login');
   const formRef = ref();
   const loading = ref(false);
-  import { useUserStore } from '/@/store/modules/user';
+  const accessNetState = ref(false);
+
+  onMounted(async () => {
+    axios
+      .post('https://apps.chinayasha.com/yasha-portal-web/auth/publicapi/accessType', {
+        foo: 'bar',
+      })
+      .then((response) => {
+        if (response) {
+          console.log(response);
+          accessNetState.value = response.data.data.inner == 'Y';
+        }
+      });
+  });
+
   const formData = reactive({
     domainaccount: '',
     domainpassword: '',
   });
 
   const { validForm } = useFormValid(formRef);
-  const { notification, createErrorModal } = useMessage();
+  const { notification, createErrorModal, createMessage: msg } = useMessage();
+  const { error, success } = msg;
   const getShow = computed(() => unref(getLoginState) === LoginStateEnum.DOMAIN);
   const userStore = useUserStore();
   async function domainLogin() {

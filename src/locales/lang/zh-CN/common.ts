@@ -43,4 +43,5 @@ export default {
   value: '值',
   parameterValidationFailure: '参数验证失败',
   permissionDenied: '权限不足',
+  askHide: '确认隐藏吗',
 };

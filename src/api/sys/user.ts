@@ -1,8 +1,5 @@
 import { defHttp } from '/@/utils/http/axios';
-import {
-  LoginParams,
-  LoginResultModel,
-} from './model/userModel';
+import { LoginParams, LoginResultModel } from './model/userModel';
 
 import { ErrorMessageMode } from '/#/axios';
 import {
@@ -58,7 +55,7 @@ export function domainLogin(input: LoginInput): Promise<LoginOutput> {
 
 //   const _accountServiceProxy = new AccountServiceProxy();
 //   return _accountServiceProxy.github(code);
- 
+
 // }
 
 /**
@@ -69,8 +66,6 @@ export function getAbpApplicationConfiguration() {
   const _abpApplicationConfigurationServiceProxy = new AbpApplicationConfigurationServiceProxy();
   return _abpApplicationConfigurationServiceProxy.applicationConfiguration();
 }
-
-
 
 /**
  * @description: user login api
@@ -83,7 +78,7 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
     },
     {
       errorMessageMode: mode,
-    }
+    },
   );
 }
 

@@ -11,17 +11,17 @@
   </div>
 </template>
 <script lang="ts">
-  import type { CSSProperties } from 'vue';
-  import { defineComponent, onMounted, ref, unref, computed, onUnmounted } from 'vue';
+  import { useDebounceFn } from '@vueuse/shared';
   import Cropper from 'cropperjs';
   import 'cropperjs/dist/cropper.css';
+  import type { CSSProperties } from 'vue';
+  import { computed, defineComponent, onMounted, onUnmounted, ref, unref } from 'vue';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { useDebounceFn } from '@vueuse/shared';
 
   type Options = Cropper.Options;
 
   const defaultOptions: Options = {
-    aspectRatio: 1,
+    aspectRatio: 'Free',
     zoomable: true,
     zoomOnTouch: true,
     zoomOnWheel: true,

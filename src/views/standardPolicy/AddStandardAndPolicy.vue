@@ -2,7 +2,7 @@
   <div>
     <BasicModal
       v-bind="$attrs"
-      title="新增"
+      :title="title"
       :canFullscreen="false"
       :maskClosable="false"
       destroyOnClose
@@ -17,22 +17,21 @@
           :label-col="{ span: 4 }"
           :wrapper-col="{ span: 18 }"
         >
-          <a-form-item label="编号" name="number">
+          <a-form-item label="编号" name="number" v-if="standard">
             <a-input v-model:value="formdata.number" allow-clear />
           </a-form-item>
           <a-form-item label="名称" name="name">
             <a-input v-model:value="formdata.name" allow-clear />
           </a-form-item>
-          <a-form-item label="行业" name="industry">
+          <!-- <a-form-item label="行业" name="industry">
             <a-input v-model:value="formdata.industry" allow-clear />
-          </a-form-item>
+          </a-form-item> -->
           <a-form-item label="发布单位" name="publishingUnit">
             <a-input v-model:value="formdata.publishingUnit" allow-clear />
           </a-form-item>
           <a-form-item label="发布日期" name="publishingDate">
             <a-date-picker
               v-model:value="formdata.publishingDate"
-              show-time
               type="date"
               placeholder="选择一个日期"
               style="width: 100%"
@@ -41,11 +40,24 @@
           <a-form-item label="实施日期" name="implementationDate">
             <a-date-picker
               v-model:value="formdata.implementationDate"
-              show-time
               type="date"
               placeholder="选择一个日期"
               style="width: 100%"
             />
+          </a-form-item>
+          <a-form-item label="失效日期" name="loseDate">
+            <a-date-picker
+              v-model:value="formdata.loseDate"
+              type="date"
+              placeholder="选择一个日期"
+              style="width: 100%"
+            />
+          </a-form-item>
+          <a-form-item label="状态" name="status">
+            <a-tag color="blue">{{ status }}</a-tag>
+          </a-form-item>
+          <a-form-item label="发文字号" name="dispatchFont" v-if="!standard">
+            <a-input v-model:value="formdata.dispatchFont" allow-clear />
           </a-form-item>
           <a-form-item label="主题" name="theme">
             <a-select
@@ -61,7 +73,15 @@
               </template>
             </a-select>
           </a-form-item>
-          <a-form-item label="图片地址" name="imagePath">
+          <a-form-item label="标准分类" name="standardCategory" v-if="standard">
+            <a-select
+              v-model:value="formdata.standardCategory"
+              placeholder="请选择标准分类"
+              :options="categoryOptions"
+            >
+            </a-select>
+          </a-form-item>
+          <a-form-item label="图片地址" name="imagePath" v-if="standard">
             <div class="flex flex-row">
               <a-input v-model:value="formdata.imagePath" />
               <a-tooltip title="上传图片">
@@ -87,7 +107,7 @@
               </a-tooltip>
             </div>
           </a-form-item>
-          <a-form-item label="原文链接" name="linkPath">
+          <a-form-item label="原文链接" name="linkPath" v-if="!standard">
             <a-input v-model:value="formdata.linkPath" />
           </a-form-item>
         </a-form>
@@ -97,9 +117,8 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, computed, nextTick } from 'vue';
   import type { SelectProps } from 'ant-design-vue';
-  import type { Rule } from 'ant-design-vue/es/form';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { uploadStandardAndPolicyFile, addStandardAndPolicy } from '/@/views/standardPolicy/index';
@@ -111,22 +130,21 @@
     setup(_, { emit }) {
       const { createMessage: msg } = useMessage();
       const { error, success } = msg;
+      const title = ref('');
+      const standard = ref(true);
+      let id = undefined;
       const [registerModal] = useModalInner((response) => {
-        formdata.value = {
-          number: '',
-          name: '',
-          industry: '',
-          publishingUnit: '',
-          publishingDate: dayjs(new Date()),
-          implementationDate: dayjs(new Date()),
-          theme: [],
-          imagePath: '',
-          serverimagePath: '',
-          pdfPath: '',
-          serverpdfPath: '',
-          linkPath: '',
-        };
-        getOptions(response.treeData);
+        id = response.id;
+        title.value = response.title;
+        if (response.title.includes('政策')) {
+          standard.value = false;
+          rules.value.pdfPath[0].required = false;
+        } else {
+          standard.value = true;
+          rules.value.pdfPath[0].required = true;
+        }
+        formdata.value = response.data;
+        selectOptions.value = response.treeData;
       });
       let isImage = true;
       const formRef = ref();
@@ -140,37 +158,66 @@
         implementationDate: dayjs(new Date()),
         theme: [],
         imagePath: '',
-        serverimagePath: '',
         pdfPath: '',
-        serverpdfPath: '',
         linkPath: '',
+        type: '',
+        status: undefined,
+        dispatchFont: '',
+        loseDate: dayjs(new Date()),
+        standardCategory: undefined,
+      });
+      const status = computed(() => {
+        var now = dayjs(new Date());
+        if (now.isAfter(formdata.value.loseDate)) {
+          return '失效';
+        } else if (now.isAfter(formdata.value.implementationDate)) {
+          return '现行';
+        } else if (now.isAfter(formdata.value.publishingDate)) {
+          return '即将实施';
+        }
+        return '计算失败';
       });
       const selectOptions = ref<SelectProps['options']>([]);
       const selectValue = ref([]);
-      const rules: Record<string, Rule[]> = {
-        // number: [{ required: true, message: '请输入编号', trigger: 'change' }],
+      const categoryOptions = ref<SelectProps['options']>([
+        {
+          label: '国家标准',
+          value: 1,
+        },
+        {
+          label: '地方标准',
+          value: 2,
+        },
+        {
+          label: '行业标准',
+          value: 4,
+        },
+        {
+          label: '团体标准',
+          value: 8,
+        },
+        {
+          label: '企业标准',
+          value: 16,
+        },
+      ]);
+      const rules = ref({
+        number: [{ required: true, message: '请输入编号', trigger: 'change' }],
         name: [{ required: true, message: '请输入名称', trigger: 'change' }],
-        industry: [{ required: true, message: '请输入行业', trigger: 'change' }],
+        //industry: [{ required: true, message: '请输入行业', trigger: 'change' }],
         publishingUnit: [{ required: true, message: '请输入发布单位', trigger: 'change' }],
         publishingDate: [{ required: true, message: '请选择发布日期', trigger: 'change' }],
         implementationDate: [{ required: true, message: '请选择实施日期', trigger: 'change' }],
-        theme: [{ required: true, message: '请输入主题', trigger: 'blur', type: 'array' }],
-        imagePath: [{ required: true, message: '请选择图片', trigger: 'change' }],
-        pdfPath: [{ required: true, message: '请选择PDF', trigger: 'change' }],
-        //linkPath: [{ required: true, message: '请输入原文链接', trigger: 'change' }],
-      };
-      function getOptions(data) {
-        for (let item of data) {
-          if (item.children)
-            for (let children of item.children) {
-              if (selectOptions.value)
-                selectOptions.value.push({
-                  label: children.name,
-                  value: children.id,
-                });
-            }
-        }
-      }
+        loseDate: [{ required: true, message: '请选择实施日期', trigger: 'change' }],
+        theme: [{ required: true, message: '请选择主题', trigger: 'blur', type: 'array' }],
+        standardCategory: [
+          { required: true, message: '请选择标准分类', trigger: 'blur', type: 'number' },
+        ],
+        imagePath: [{ required: true, message: '请上传图片', trigger: 'change' }],
+        pdfPath: [{ required: true, message: '请上传PDF文件', trigger: 'change' }],
+        linkPath: [{ required: true, message: '请输入原文链接', trigger: 'change' }],
+        dispatchFont: [{ required: true, message: '请输入发文字号', trigger: 'change' }],
+      });
       const handleFileChange = async (event: Event) => {
         const input = event.target as HTMLInputElement;
         let files = input.files;
@@ -181,12 +228,11 @@
           });
           if (response.success) {
             if (isImage) {
-              formdata.value.imagePath = files[0].name.trim();
-              formdata.value.serverimagePath = response.data;
+              formdata.value.imagePath = response.data;
             } else {
-              formdata.value.pdfPath = files[0].name.trim();
-              formdata.value.serverpdfPath = response.data;
+              formdata.value.pdfPath = response.data;
             }
+            formRef.value.validate();
             success('上传成功');
           } else {
             error('上传失败' + response.error);
@@ -209,28 +255,35 @@
       }
 
       function ok() {
+        const successMsg = id == undefined ? '提交成功' : '修改成功';
+        const faildMsg = id == undefined ? '提交失败' : '修改失败';
         formRef.value
           .validate()
           .then(async () => {
             try {
-              await addStandardAndPolicy({
+              await addStandardAndPolicy(id, {
                 themes: formdata.value.theme,
                 data: {
                   number: formdata.value.number,
-                  name: formdata.value.number,
+                  name: formdata.value.name,
                   industry: formdata.value.industry,
                   publishingUnit: formdata.value.publishingUnit,
                   publishingDate: formdata.value.publishingDate.format(),
                   implementationDate: formdata.value.implementationDate.format(),
-                  imagePath: formdata.value.serverimagePath,
-                  pdfPath: formdata.value.serverpdfPath,
+                  loseDate: formdata.value.loseDate.format(),
+                  imagePath: formdata.value.imagePath,
+                  pdfPath: formdata.value.pdfPath,
                   linkPath: formdata.value.linkPath,
+                  type: formdata.value.type,
+                  status: -1,
+                  dispatchFont: formdata.value.dispatchFont,
+                  standardCategory: formdata.value.standardCategory,
                 },
               });
-              success('提交成功');
-              emit('submit', '');
+              success(successMsg);
+              emit('submit', id == undefined ? true : false);
             } catch (e) {
-              error('提交失败' + e);
+              error(faildMsg + e);
             }
           })
           .catch((e) => {
@@ -238,12 +291,16 @@
           });
       }
       return {
+        standard,
+        title,
         fileInput,
         selectOptions,
         selectValue,
+        categoryOptions,
         formRef,
         formdata,
         rules,
+        status,
         registerModal,
         ok,
         handleFileChange,

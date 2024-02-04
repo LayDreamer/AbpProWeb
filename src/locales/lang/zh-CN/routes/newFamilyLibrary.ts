@@ -1,0 +1,26 @@
+export default {
+    gyhNewFamilyLibs: '新族库列表',
+    gyhNewFamilyDetail: '详情',
+    illustration: '图示',
+    name: '名称',
+    type: '型号',
+    processType: '加工方式',
+    length: '长(mm)',
+    width: '宽(mm)',
+    height: '高(mm)',
+    notes: '备注',
+    path: '路径',
+    creator: '创建人',
+    createTime: '创建时间',
+    updater: '更新人',
+    updateTime: '更新时间',
+
+    attribute: '属性',
+    typeOrCode: '型号/编码',
+    usage: '用量',
+    unit: '单位',
+    version: '版本',
+
+    moduleDetail: '模块详情',
+    moduleShow: '模块展示',
+};

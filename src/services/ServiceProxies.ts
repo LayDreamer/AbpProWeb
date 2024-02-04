@@ -566,6 +566,2048 @@ export class AccountServiceProxy extends ServiceProxyBase {
     }
 }
 
+export class ArchitectureListServiceProxy extends ServiceProxyBase {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        super();
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getTree(  cancelToken?: CancelToken | undefined): Promise<ArchitectureListTreeDto[]> {
+        let url_ = this.baseUrl + "/ArchitectureList/GetTree";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetTree(_response));
+        });
+    }
+
+    protected processGetTree(response: AxiosResponse): Promise<ArchitectureListTreeDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ArchitectureListTreeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<ArchitectureListTreeDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ArchitectureListTreeDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateTreeNode(body: ArchitectureListTreeDto | undefined , cancelToken?: CancelToken | undefined): Promise<ArchitectureListTreeDto> {
+        let url_ = this.baseUrl + "/ArchitectureList/UpdateTreeNode";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpdateTreeNode(_response));
+        });
+    }
+
+    protected processUpdateTreeNode(response: AxiosResponse): Promise<ArchitectureListTreeDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ArchitectureListTreeDto.fromJS(resultData200);
+            return Promise.resolve<ArchitectureListTreeDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ArchitectureListTreeDto>(null as any);
+    }
+
+    /**
+     * @param treeId (optional) 
+     * @param status (optional) 
+     * @return Success
+     */
+    getFileList(treeId: string | undefined, status: ArchitectureListFileStatus | undefined , cancelToken?: CancelToken | undefined): Promise<ArchitectureListFileDto[]> {
+        let url_ = this.baseUrl + "/ArchitectureList/GetFileList?";
+        if (treeId === null)
+            throw new Error("The parameter 'treeId' cannot be null.");
+        else if (treeId !== undefined)
+            url_ += "treeId=" + encodeURIComponent("" + treeId) + "&";
+        if (status === null)
+            throw new Error("The parameter 'status' cannot be null.");
+        else if (status !== undefined)
+            url_ += "status=" + encodeURIComponent("" + status) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetFileList(_response));
+        });
+    }
+
+    protected processGetFileList(response: AxiosResponse): Promise<ArchitectureListFileDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ArchitectureListFileDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<ArchitectureListFileDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ArchitectureListFileDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateStatus(body: ArchitectureUpdateStatus | undefined , cancelToken?: CancelToken | undefined): Promise<ArchitectureListModuleDto[]> {
+        let url_ = this.baseUrl + "/ArchitectureList/UpdateStatus";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpdateStatus(_response));
+        });
+    }
+
+    protected processUpdateStatus(response: AxiosResponse): Promise<ArchitectureListModuleDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ArchitectureListModuleDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<ArchitectureListModuleDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ArchitectureListModuleDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    insertModule(body: ArchitectureListModuleDto | undefined , cancelToken?: CancelToken | undefined): Promise<ArchitectureListModuleDto> {
+        let url_ = this.baseUrl + "/ArchitectureList/InsertModule";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processInsertModule(_response));
+        });
+    }
+
+    protected processInsertModule(response: AxiosResponse): Promise<ArchitectureListModuleDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ArchitectureListModuleDto.fromJS(resultData200);
+            return Promise.resolve<ArchitectureListModuleDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ArchitectureListModuleDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    copyModules(body: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<ArchitectureListModuleDto[]> {
+        let url_ = this.baseUrl + "/ArchitectureList/CopyModules";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCopyModules(_response));
+        });
+    }
+
+    protected processCopyModules(response: AxiosResponse): Promise<ArchitectureListModuleDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ArchitectureListModuleDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<ArchitectureListModuleDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ArchitectureListModuleDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    update(body: ArchitectureListModuleDto | undefined , cancelToken?: CancelToken | undefined): Promise<ArchitectureListModuleDto> {
+        let url_ = this.baseUrl + "/ArchitectureList/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpdate(_response));
+        });
+    }
+
+    protected processUpdate(response: AxiosResponse): Promise<ArchitectureListModuleDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ArchitectureListModuleDto.fromJS(resultData200);
+            return Promise.resolve<ArchitectureListModuleDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ArchitectureListModuleDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/ArchitectureList/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            id && id.forEach(item => { url_ += "id=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDelete(_response));
+        });
+    }
+
+    protected processDelete(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    deleteFile(id: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/ArchitectureList/DeleteFile?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            id && id.forEach(item => { url_ += "id=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDeleteFile(_response));
+        });
+    }
+
+    protected processDeleteFile(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param system (optional) 
+     * @param isProcess (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    importFromExcel(system: string | undefined, isProcess: boolean | undefined, body: ArchitectureListModuleCreateDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<ArchitectureListModuleDto[]> {
+        let url_ = this.baseUrl + "/ArchitectureList/ImportFromExcel?";
+        if (system === null)
+            throw new Error("The parameter 'system' cannot be null.");
+        else if (system !== undefined)
+            url_ += "system=" + encodeURIComponent("" + system) + "&";
+        if (isProcess === null)
+            throw new Error("The parameter 'isProcess' cannot be null.");
+        else if (isProcess !== undefined)
+            url_ += "isProcess=" + encodeURIComponent("" + isProcess) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processImportFromExcel(_response));
+        });
+    }
+
+    protected processImportFromExcel(response: AxiosResponse): Promise<ArchitectureListModuleDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ArchitectureListModuleDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<ArchitectureListModuleDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ArchitectureListModuleDto[]>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @param status (optional) 
+     * @param file (optional) 
+     * @return Success
+     */
+    insertFile(id: string | undefined, status: ArchitectureListFileStatus | undefined, file: FileParameter[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/ArchitectureList/InsertFile?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        if (status === null)
+            throw new Error("The parameter 'status' cannot be null.");
+        else if (status !== undefined)
+            url_ += "status=" + encodeURIComponent("" + status) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            file.forEach(item_ => content_.append("file", item_.data, item_.fileName ? item_.fileName : "file") );
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processInsertFile(_response));
+        });
+    }
+
+    protected processInsertFile(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param moduleId (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    insertModuleFiles(moduleId: string | undefined, body: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/ArchitectureList/InsertModuleFiles?";
+        if (moduleId === null)
+            throw new Error("The parameter 'moduleId' cannot be null.");
+        else if (moduleId !== undefined)
+            url_ += "moduleId=" + encodeURIComponent("" + moduleId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processInsertModuleFiles(_response));
+        });
+    }
+
+    protected processInsertModuleFiles(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    page(body: ArchitectureSearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<ArchitectureListModuleDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/ArchitectureList/Page";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processPage(_response));
+        });
+    }
+
+    protected processPage(response: AxiosResponse): Promise<ArchitectureListModuleDtoPagedResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ArchitectureListModuleDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<ArchitectureListModuleDtoPagedResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ArchitectureListModuleDtoPagedResultDto>(null as any);
+    }
+
+    revitSearch(body: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/ArchitectureList/RevitSearch";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processRevitSearch(_response));
+        });
+    }
+
+    protected processRevitSearch(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    cadSearch(body: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/ArchitectureList/CadSearch";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCadSearch(_response));
+        });
+    }
+
+    protected processCadSearch(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getToken(  cancelToken?: CancelToken | undefined): Promise<AccessToken> {
+        let url_ = this.baseUrl + "/ArchitectureList/GetToken";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetToken(_response));
+        });
+    }
+
+    protected processGetToken(response: AxiosResponse): Promise<AccessToken> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = AccessToken.fromJS(resultData200);
+            return Promise.resolve<AccessToken>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<AccessToken>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getModelList(  cancelToken?: CancelToken | undefined): Promise<BucketObject[]> {
+        let url_ = this.baseUrl + "/ArchitectureList/GetModelList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetModelList(_response));
+        });
+    }
+
+    protected processGetModelList(response: AxiosResponse): Promise<BucketObject[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(BucketObject.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<BucketObject[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<BucketObject[]>(null as any);
+    }
+
+    /**
+     * @param urn (optional) 
+     * @return Success
+     */
+    getStatus(urn: string | undefined , cancelToken?: CancelToken | undefined): Promise<TranslationStatus> {
+        let url_ = this.baseUrl + "/ArchitectureList/GetStatus?";
+        if (urn === null)
+            throw new Error("The parameter 'urn' cannot be null.");
+        else if (urn !== undefined)
+            url_ += "urn=" + encodeURIComponent("" + urn) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetStatus(_response));
+        });
+    }
+
+    protected processGetStatus(response: AxiosResponse): Promise<TranslationStatus> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = TranslationStatus.fromJS(resultData200);
+            return Promise.resolve<TranslationStatus>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<TranslationStatus>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    removeUploadList(  cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/ArchitectureList/RemoveUploadList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processRemoveUploadList(_response));
+        });
+    }
+
+    protected processRemoveUploadList(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @param file (optional) 
+     * @return Success
+     */
+    upLoadModel(file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<BucketObject> {
+        let url_ = this.baseUrl + "/ArchitectureList/UpLoadModel";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpLoadModel(_response));
+        });
+    }
+
+    protected processUpLoadModel(response: AxiosResponse): Promise<BucketObject> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = BucketObject.fromJS(resultData200);
+            return Promise.resolve<BucketObject>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<BucketObject>(null as any);
+    }
+}
+
 export class AuditLogsServiceProxy extends ServiceProxyBase {
     private instance: AxiosInstance;
     private baseUrl: string;
@@ -1587,7 +3629,7 @@ export class FamilyLibsServiceProxy extends ServiceProxyBase {
      * @param body (optional) 
      * @return Success
      */
-    creat(body: FamilyLibDto | undefined , cancelToken?: CancelToken | undefined): Promise<FamilyLibDto> {
+    creat(body: FamilyLibCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<FamilyLibDto> {
         let url_ = this.baseUrl + "/FamilyLibs/Creat";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1984,7 +4026,7 @@ export class FamilyLibsServiceProxy extends ServiceProxyBase {
      * @param body (optional) 
      * @return Success
      */
-    update(id: string | undefined, body: FamilyLibDto | undefined , cancelToken?: CancelToken | undefined): Promise<FamilyLibDto> {
+    update(id: string | undefined, body: FamilyLibCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<FamilyLibDto> {
         let url_ = this.baseUrl + "/FamilyLibs/Update?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -2398,6 +4440,300 @@ export class FamilyLibsServiceProxy extends ServiceProxyBase {
         }
         return Promise.resolve<ImageResponseDto>(null as any);
     }
+
+    /**
+     * @return Success
+     */
+    get(  cancelToken?: CancelToken | undefined): Promise<FamilyLibDto[]> {
+        let url_ = this.baseUrl + "/FamilyLibs/Get";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGet(_response));
+        });
+    }
+
+    protected processGet(response: AxiosResponse): Promise<FamilyLibDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(FamilyLibDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<FamilyLibDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<FamilyLibDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createList(body: FamilyLibCreateDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/FamilyLibs/CreateList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreateList(_response));
+        });
+    }
+
+    protected processCreateList(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    deleteList(body: FamilyLibDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/FamilyLibs/DeleteList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDeleteList(_response));
+        });
+    }
+
+    protected processDeleteList(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
 }
 
 export class FamilyTreeServiceProxy extends ServiceProxyBase {
@@ -2415,8 +4751,8 @@ export class FamilyTreeServiceProxy extends ServiceProxyBase {
      * @param body (optional) 
      * @return Success
      */
-    creat(body: FamilyTreeDto | undefined , cancelToken?: CancelToken | undefined): Promise<FamilyTreeDto> {
-        let url_ = this.baseUrl + "/FamilyTree/Creat";
+    create(body: FamilyTreeCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<FamilyTreeDto> {
+        let url_ = this.baseUrl + "/FamilyTree/Create";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -2441,11 +4777,11 @@ export class FamilyTreeServiceProxy extends ServiceProxyBase {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreat(_response));
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreate(_response));
         });
     }
 
-    protected processCreat(response: AxiosResponse): Promise<FamilyTreeDto> {
+    protected processCreate(response: AxiosResponse): Promise<FamilyTreeDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -2812,7 +5148,7 @@ export class FamilyTreeServiceProxy extends ServiceProxyBase {
      * @param body (optional) 
      * @return Success
      */
-    update(id: string | undefined, body: FamilyTreeDto | undefined , cancelToken?: CancelToken | undefined): Promise<FamilyTreeDto> {
+    update(id: string | undefined, body: FamilyTreeCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<FamilyTreeDto> {
         let url_ = this.baseUrl + "/FamilyTree/Update?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -2915,7 +5251,7 @@ export class FamilyTreeServiceProxy extends ServiceProxyBase {
     /**
      * @return Success
      */
-    get(  cancelToken?: CancelToken | undefined): Promise<FamilyTreeDtoPagedResultDto> {
+    get(  cancelToken?: CancelToken | undefined): Promise<FamilyTreeDto[]> {
         let url_ = this.baseUrl + "/FamilyTree/Get";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2941,7 +5277,7 @@ export class FamilyTreeServiceProxy extends ServiceProxyBase {
         });
     }
 
-    protected processGet(response: AxiosResponse): Promise<FamilyTreeDtoPagedResultDto> {
+    protected processGet(response: AxiosResponse): Promise<FamilyTreeDto[]> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -2955,8 +5291,15 @@ export class FamilyTreeServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = FamilyTreeDtoPagedResultDto.fromJS(resultData200);
-            return Promise.resolve<FamilyTreeDtoPagedResultDto>(result200);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(FamilyTreeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<FamilyTreeDto[]>(result200);
 
         } else if (status === 403) {
             const _responseText = response.data;
@@ -3004,7 +5347,317 @@ export class FamilyTreeServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<FamilyTreeDtoPagedResultDto>(null as any);
+        return Promise.resolve<FamilyTreeDto[]>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getChildrenById(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<string[]> {
+        let url_ = this.baseUrl + "/FamilyTree/GetChildrenById?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetChildrenById(_response));
+        });
+    }
+
+    protected processGetChildrenById(response: AxiosResponse): Promise<string[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(item);
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<string[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createList(body: FamilyTreeCreateDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<FamilyTreeDto[]> {
+        let url_ = this.baseUrl + "/FamilyTree/CreateList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreateList(_response));
+        });
+    }
+
+    protected processCreateList(response: AxiosResponse): Promise<FamilyTreeDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(FamilyTreeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<FamilyTreeDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<FamilyTreeDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    deleteList(body: FamilyTreeDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/FamilyTree/DeleteList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDeleteList(_response));
+        });
+    }
+
+    protected processDeleteList(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
     }
 }
 
@@ -4022,7 +6675,7 @@ export class LanguageTextsServiceProxy extends ServiceProxyBase {
     }
 }
 
-export class MaterialInventoryServiceProxy extends ServiceProxyBase {
+export class ListProcessingServiceProxy extends ServiceProxyBase {
     private instance: AxiosInstance;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -4037,8 +6690,8 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
      * @param body (optional) 
      * @return Success
      */
-    create(body: MaterialInventoryUpdateDto | undefined , cancelToken?: CancelToken | undefined): Promise<MaterialInventoryDto> {
-        let url_ = this.baseUrl + "/MaterialInventory/Create";
+    page(body: ListProcessingSearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<ListProcessingDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/ListProcessing/Page";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -4063,11 +6716,11 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreate(_response));
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processPage(_response));
         });
     }
 
-    protected processCreate(response: AxiosResponse): Promise<MaterialInventoryDto> {
+    protected processPage(response: AxiosResponse): Promise<ListProcessingDtoPagedResultDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -4081,8 +6734,8 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = MaterialInventoryDto.fromJS(resultData200);
-            return Promise.resolve<MaterialInventoryDto>(result200);
+            result200 = ListProcessingDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<ListProcessingDtoPagedResultDto>(result200);
 
         } else if (status === 403) {
             const _responseText = response.data;
@@ -4130,7 +6783,1789 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<MaterialInventoryDto>(null as any);
+        return Promise.resolve<ListProcessingDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param type (optional) 
+     * @return Success
+     */
+    getSelect(type: ListProcessingSelectEnum | undefined , cancelToken?: CancelToken | undefined): Promise<string[]> {
+        let url_ = this.baseUrl + "/ListProcessing/GetSelect?";
+        if (type === null)
+            throw new Error("The parameter 'type' cannot be null.");
+        else if (type !== undefined)
+            url_ += "type=" + encodeURIComponent("" + type) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetSelect(_response));
+        });
+    }
+
+    protected processGetSelect(response: AxiosResponse): Promise<string[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(item);
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<string[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string[]>(null as any);
+    }
+
+    /**
+     * @param type (optional) 
+     * @param file (optional) 
+     * @return Success
+     */
+    upload(type: ListProcessingSelectEnum | undefined, file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/ListProcessing/Upload?";
+        if (type === null)
+            throw new Error("The parameter 'type' cannot be null.");
+        else if (type !== undefined)
+            url_ += "type=" + encodeURIComponent("" + type) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpload(_response));
+        });
+    }
+
+    protected processUpload(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    build(body: ListProcessingBuildDto | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/ListProcessing/Build";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processBuild(_response));
+        });
+    }
+
+    protected processBuild(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    delete(body: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/ListProcessing/Delete";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDelete(_response));
+        });
+    }
+
+    protected processDelete(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+}
+
+export class MaterailManageServiceProxy extends ServiceProxyBase {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        super();
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param image (optional) 
+     * @return Success
+     */
+    uploadImage(image: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/MaterailManage/UploadImage";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (image === null || image === undefined)
+            throw new Error("The parameter 'image' cannot be null.");
+        else
+            content_.append("image", image.data, image.fileName ? image.fileName : "image");
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUploadImage(_response));
+        });
+    }
+
+    protected processUploadImage(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param images (optional) 
+     * @param downloads (optional) 
+     * @return Success
+     */
+    insertMaterialImage(images: FileParameter[] | undefined, downloads: FileParameter[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/MaterailManage/InsertMaterialImage";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (images === null || images === undefined)
+            throw new Error("The parameter 'images' cannot be null.");
+        else
+            images.forEach(item_ => content_.append("images", item_.data, item_.fileName ? item_.fileName : "images") );
+        if (downloads === null || downloads === undefined)
+            throw new Error("The parameter 'downloads' cannot be null.");
+        else
+            downloads.forEach(item_ => content_.append("downloads", item_.data, item_.fileName ? item_.fileName : "downloads") );
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processInsertMaterialImage(_response));
+        });
+    }
+
+    protected processInsertMaterialImage(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param images (optional) 
+     * @return Success
+     */
+    insertSeriesImage(images: FileParameter[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/MaterailManage/InsertSeriesImage";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (images === null || images === undefined)
+            throw new Error("The parameter 'images' cannot be null.");
+        else
+            images.forEach(item_ => content_.append("images", item_.data, item_.fileName ? item_.fileName : "images") );
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processInsertSeriesImage(_response));
+        });
+    }
+
+    protected processInsertSeriesImage(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    manageExtraInfo(  cancelToken?: CancelToken | undefined): Promise<MaterialManageManageExtraInfo> {
+        let url_ = this.baseUrl + "/MaterailManage/ManageExtraInfo";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processManageExtraInfo(_response));
+        });
+    }
+
+    protected processManageExtraInfo(response: AxiosResponse): Promise<MaterialManageManageExtraInfo> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = MaterialManageManageExtraInfo.fromJS(resultData200);
+            return Promise.resolve<MaterialManageManageExtraInfo>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<MaterialManageManageExtraInfo>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    pageManage(body: MaterialManageSearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<MaterialManageFullDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/MaterailManage/PageManage";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processPageManage(_response));
+        });
+    }
+
+    protected processPageManage(response: AxiosResponse): Promise<MaterialManageFullDtoPagedResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = MaterialManageFullDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<MaterialManageFullDtoPagedResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<MaterialManageFullDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    pageHome(body: MaterialManageHomeSearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<MaterialManageHomeDto> {
+        let url_ = this.baseUrl + "/MaterailManage/PageHome";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processPageHome(_response));
+        });
+    }
+
+    protected processPageHome(response: AxiosResponse): Promise<MaterialManageHomeDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = MaterialManageHomeDto.fromJS(resultData200);
+            return Promise.resolve<MaterialManageHomeDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<MaterialManageHomeDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getDetail(id: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<MaterialManageFullDto[]> {
+        let url_ = this.baseUrl + "/MaterailManage/GetDetail?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            id && id.forEach(item => { url_ += "id=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetDetail(_response));
+        });
+    }
+
+    protected processGetDetail(response: AxiosResponse): Promise<MaterialManageFullDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(MaterialManageFullDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<MaterialManageFullDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<MaterialManageFullDto[]>(null as any);
+    }
+
+    /**
+     * @param key (optional) 
+     * @param file (optional) 
+     * @return Success
+     */
+    cameraSearch(key: string | undefined, file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/MaterailManage/CameraSearch?";
+        if (key === null)
+            throw new Error("The parameter 'key' cannot be null.");
+        else if (key !== undefined)
+            url_ += "key=" + encodeURIComponent("" + key) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCameraSearch(_response));
+        });
+    }
+
+    protected processCameraSearch(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    save(body: MaterialManageSaveDto | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/MaterailManage/Save";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processSave(_response));
+        });
+    }
+
+    protected processSave(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+}
+
+export class MaterialInventoryServiceProxy extends ServiceProxyBase {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        super();
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    upload(body: MaterialInventoryCreateDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/MaterialInventory/Upload";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpload(_response));
+        });
+    }
+
+    protected processUpload(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    parsing(body: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<MaterialInventoryDto[]> {
+        let url_ = this.baseUrl + "/MaterialInventory/Parsing";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processParsing(_response));
+        });
+    }
+
+    protected processParsing(response: AxiosResponse): Promise<MaterialInventoryDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(MaterialInventoryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<MaterialInventoryDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<MaterialInventoryDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getByErp(body: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/MaterialInventory/GetByErp";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetByErp(_response));
+        });
+    }
+
+    protected processGetByErp(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+}
+
+export class MeasuringExcelServiceProxy extends ServiceProxyBase {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        super();
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: MeasuringExcelDto | undefined , cancelToken?: CancelToken | undefined): Promise<MeasuringExcelDto> {
+        let url_ = this.baseUrl + "/MeasuringExcel/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreate(_response));
+        });
+    }
+
+    protected processCreate(response: AxiosResponse): Promise<MeasuringExcelDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = MeasuringExcelDto.fromJS(resultData200);
+            return Promise.resolve<MeasuringExcelDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<MeasuringExcelDto>(null as any);
     }
 
     /**
@@ -4138,7 +8573,7 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
      * @return Success
      */
     delete(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/MaterialInventory/Delete?";
+        let url_ = this.baseUrl + "/MeasuringExcel/Delete?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
         else if (id !== undefined)
@@ -4233,8 +8668,8 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
      * @param id (optional) 
      * @return Success
      */
-    getById(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<MaterialInventoryDto> {
-        let url_ = this.baseUrl + "/MaterialInventory/GetById?";
+    get(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<MeasuringExcelDto> {
+        let url_ = this.baseUrl + "/MeasuringExcel/Get?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
         else if (id !== undefined)
@@ -4259,11 +8694,11 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetById(_response));
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGet(_response));
         });
     }
 
-    protected processGetById(response: AxiosResponse): Promise<MaterialInventoryDto> {
+    protected processGet(response: AxiosResponse): Promise<MeasuringExcelDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -4277,8 +8712,8 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = MaterialInventoryDto.fromJS(resultData200);
-            return Promise.resolve<MaterialInventoryDto>(result200);
+            result200 = MeasuringExcelDto.fromJS(resultData200);
+            return Promise.resolve<MeasuringExcelDto>(result200);
 
         } else if (status === 403) {
             const _responseText = response.data;
@@ -4326,15 +8761,15 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<MaterialInventoryDto>(null as any);
+        return Promise.resolve<MeasuringExcelDto>(null as any);
     }
 
     /**
      * @param body (optional) 
      * @return Success
      */
-    getList(body: PagedAndSortedResultRequestDto | undefined , cancelToken?: CancelToken | undefined): Promise<MaterialInventoryDtoPagedResultDto> {
-        let url_ = this.baseUrl + "/MaterialInventory/GetList";
+    getList(body: PagedAndSortedResultRequestDto | undefined , cancelToken?: CancelToken | undefined): Promise<MeasuringExcelDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/MeasuringExcel/GetList";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -4363,7 +8798,7 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
         });
     }
 
-    protected processGetList(response: AxiosResponse): Promise<MaterialInventoryDtoPagedResultDto> {
+    protected processGetList(response: AxiosResponse): Promise<MeasuringExcelDtoPagedResultDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -4377,8 +8812,8 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = MaterialInventoryDtoPagedResultDto.fromJS(resultData200);
-            return Promise.resolve<MaterialInventoryDtoPagedResultDto>(result200);
+            result200 = MeasuringExcelDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<MeasuringExcelDtoPagedResultDto>(result200);
 
         } else if (status === 403) {
             const _responseText = response.data;
@@ -4426,7 +8861,7 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<MaterialInventoryDtoPagedResultDto>(null as any);
+        return Promise.resolve<MeasuringExcelDtoPagedResultDto>(null as any);
     }
 
     /**
@@ -4434,8 +8869,8 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
      * @param body (optional) 
      * @return Success
      */
-    update(id: string | undefined, body: MaterialInventoryUpdateDto | undefined , cancelToken?: CancelToken | undefined): Promise<MaterialInventoryDto> {
-        let url_ = this.baseUrl + "/MaterialInventory/Update?";
+    update(id: string | undefined, body: MeasuringExcelDto | undefined , cancelToken?: CancelToken | undefined): Promise<MeasuringExcelDto> {
+        let url_ = this.baseUrl + "/MeasuringExcel/Update?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
         else if (id !== undefined)
@@ -4468,7 +8903,7 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
         });
     }
 
-    protected processUpdate(response: AxiosResponse): Promise<MaterialInventoryDto> {
+    protected processUpdate(response: AxiosResponse): Promise<MeasuringExcelDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -4482,8 +8917,8 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = MaterialInventoryDto.fromJS(resultData200);
-            return Promise.resolve<MaterialInventoryDto>(result200);
+            result200 = MeasuringExcelDto.fromJS(resultData200);
+            return Promise.resolve<MeasuringExcelDto>(result200);
 
         } else if (status === 403) {
             const _responseText = response.data;
@@ -4531,25 +8966,29 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<MaterialInventoryDto>(null as any);
+        return Promise.resolve<MeasuringExcelDto>(null as any);
     }
 
     /**
-     * @param body (optional) 
+     * @param file (optional) 
      * @return Success
      */
-    upload(body: MaterialInventoryUpdateDto | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/MaterialInventory/Upload";
+    uploadFile(file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/MeasuringExcel/UploadFile";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
 
         let options_ = <AxiosRequestConfig>{
             data: content_,
             method: "POST",
             url: url_,
             headers: {
-                "Content-Type": "application/json",
+                "Accept": "text/plain"
             },
             cancelToken
         };
@@ -4563,11 +9002,1150 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpload(_response));
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUploadFile(_response));
         });
     }
 
-    protected processUpload(response: AxiosResponse): Promise<void> {
+    protected processUploadFile(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    downloadFile(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<string> {
+        let url_ = this.baseUrl + "/MeasuringExcel/DownloadFile?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDownloadFile(_response));
+        });
+    }
+
+    protected processDownloadFile(response: AxiosResponse): Promise<string> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    add(body: any | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/MeasuringExcel/Add";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processAdd(_response));
+        });
+    }
+
+    protected processAdd(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createExcel(body: MeasuringExcelCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<MeasuringExcelDto> {
+        let url_ = this.baseUrl + "/MeasuringExcel/CreateExcel";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreateExcel(_response));
+        });
+    }
+
+    protected processCreateExcel(response: AxiosResponse): Promise<MeasuringExcelDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = MeasuringExcelDto.fromJS(resultData200);
+            return Promise.resolve<MeasuringExcelDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<MeasuringExcelDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    updateExcel(id: string | undefined, body: MeasuringExcelCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<MeasuringExcelDto> {
+        let url_ = this.baseUrl + "/MeasuringExcel/UpdateExcel?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpdateExcel(_response));
+        });
+    }
+
+    protected processUpdateExcel(response: AxiosResponse): Promise<MeasuringExcelDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = MeasuringExcelDto.fromJS(resultData200);
+            return Promise.resolve<MeasuringExcelDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<MeasuringExcelDto>(null as any);
+    }
+}
+
+export class NewFamilyLibServiceProxy extends ServiceProxyBase {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        super();
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @param file (optional) 
+     * @return Success
+     */
+    uploadFamilyLibImage(id: string | undefined, file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<ImageResponseDto> {
+        let url_ = this.baseUrl + "/NewFamilyLib/UploadFamilyLibImage";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (id === null || id === undefined)
+            throw new Error("The parameter 'id' cannot be null.");
+        else
+            content_.append("Id", id.toString());
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("File", file.data, file.fileName ? file.fileName : "File");
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUploadFamilyLibImage(_response));
+        });
+    }
+
+    protected processUploadFamilyLibImage(response: AxiosResponse): Promise<ImageResponseDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ImageResponseDto.fromJS(resultData200);
+            return Promise.resolve<ImageResponseDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ImageResponseDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getListByTreeId(body: NewFamilyLibSearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyLibDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/NewFamilyLib/GetListByTreeId";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetListByTreeId(_response));
+        });
+    }
+
+    protected processGetListByTreeId(response: AxiosResponse): Promise<NewFamilyLibDtoPagedResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = NewFamilyLibDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<NewFamilyLibDtoPagedResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyLibDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getListPage(body: PagedAndSortedResultRequestDto | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyLibDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/NewFamilyLib/GetListPage";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetListPage(_response));
+        });
+    }
+
+    protected processGetListPage(response: AxiosResponse): Promise<NewFamilyLibDtoPagedResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = NewFamilyLibDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<NewFamilyLibDtoPagedResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyLibDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param guid (optional) 
+     * @return Success
+     */
+    getFamilyInfo(guid: string | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyLibDto[]> {
+        let url_ = this.baseUrl + "/NewFamilyLib/GetFamilyInfo?";
+        if (guid === null)
+            throw new Error("The parameter 'guid' cannot be null.");
+        else if (guid !== undefined)
+            url_ += "guid=" + encodeURIComponent("" + guid) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetFamilyInfo(_response));
+        });
+    }
+
+    protected processGetFamilyInfo(response: AxiosResponse): Promise<NewFamilyLibDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NewFamilyLibDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<NewFamilyLibDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyLibDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: NewFamilyLibCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyLibDto> {
+        let url_ = this.baseUrl + "/NewFamilyLib/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreate(_response));
+        });
+    }
+
+    protected processCreate(response: AxiosResponse): Promise<NewFamilyLibDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = NewFamilyLibDto.fromJS(resultData200);
+            return Promise.resolve<NewFamilyLibDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyLibDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createList(body: NewFamilyLibCreateDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyLibDto[]> {
+        let url_ = this.baseUrl + "/NewFamilyLib/CreateList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreateList(_response));
+        });
+    }
+
+    protected processCreateList(response: AxiosResponse): Promise<NewFamilyLibDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NewFamilyLibDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<NewFamilyLibDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyLibDto[]>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/NewFamilyLib/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDelete(_response));
+        });
+    }
+
+    protected processDelete(response: AxiosResponse): Promise<void> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -4631,22 +10209,21 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    parsing(input: string | undefined , cancelToken?: CancelToken | undefined): Promise<MaterialInventoryInfoDto[]> {
-        let url_ = this.baseUrl + "/MaterialInventory/Parsing?";
-        if (input === null)
-            throw new Error("The parameter 'input' cannot be null.");
-        else if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+    deleteList(body: NewFamilyLibDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/NewFamilyLib/DeleteList";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ = <AxiosRequestConfig>{
+            data: content_,
             method: "POST",
             url: url_,
             headers: {
-                "Accept": "text/plain"
+                "Content-Type": "application/json",
             },
             cancelToken
         };
@@ -4660,11 +10237,11 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processParsing(_response));
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDeleteList(_response));
         });
     }
 
-    protected processParsing(response: AxiosResponse): Promise<MaterialInventoryInfoDto[]> {
+    protected processDeleteList(response: AxiosResponse): Promise<void> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -4676,17 +10253,7 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
         }
         if (status === 200) {
             const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(MaterialInventoryInfoDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<MaterialInventoryInfoDto[]>(result200);
+            return Promise.resolve<void>(null as any);
 
         } else if (status === 403) {
             const _responseText = response.data;
@@ -4734,15 +10301,20 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<MaterialInventoryInfoDto[]>(null as any);
+        return Promise.resolve<void>(null as any);
     }
 
     /**
+     * @param id (optional) 
      * @param body (optional) 
      * @return Success
      */
-    parsingList(body: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<MaterialInventoryInfoDto[]> {
-        let url_ = this.baseUrl + "/MaterialInventory/ParsingList";
+    update(id: string | undefined, body: NewFamilyLibCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyLibDto> {
+        let url_ = this.baseUrl + "/NewFamilyLib/Update?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -4767,11 +10339,11 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processParsingList(_response));
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpdate(_response));
         });
     }
 
-    protected processParsingList(response: AxiosResponse): Promise<MaterialInventoryInfoDto[]> {
+    protected processUpdate(response: AxiosResponse): Promise<NewFamilyLibDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -4785,15 +10357,8 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(MaterialInventoryInfoDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<MaterialInventoryInfoDto[]>(result200);
+            result200 = NewFamilyLibDto.fromJS(resultData200);
+            return Promise.resolve<NewFamilyLibDto>(result200);
 
         } else if (status === 403) {
             const _responseText = response.data;
@@ -4841,7 +10406,1342 @@ export class MaterialInventoryServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<MaterialInventoryInfoDto[]>(null as any);
+        return Promise.resolve<NewFamilyLibDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyLibDto> {
+        let url_ = this.baseUrl + "/NewFamilyLib/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGet(_response));
+        });
+    }
+
+    protected processGet(response: AxiosResponse): Promise<NewFamilyLibDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = NewFamilyLibDto.fromJS(resultData200);
+            return Promise.resolve<NewFamilyLibDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyLibDto>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getList(  cancelToken?: CancelToken | undefined): Promise<NewFamilyLibDto[]> {
+        let url_ = this.baseUrl + "/NewFamilyLib/GetList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetList(_response));
+        });
+    }
+
+    protected processGetList(response: AxiosResponse): Promise<NewFamilyLibDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NewFamilyLibDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<NewFamilyLibDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyLibDto[]>(null as any);
+    }
+
+    /**
+     * @param name (optional) 
+     * @param type (optional) 
+     * @param processMode (optional) 
+     * @return Success
+     */
+    archSearch(name: string | undefined, type: string | undefined, processMode: string | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyLibDto> {
+        let url_ = this.baseUrl + "/NewFamilyLib/ArchSearch?";
+        if (name === null)
+            throw new Error("The parameter 'name' cannot be null.");
+        else if (name !== undefined)
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
+        if (type === null)
+            throw new Error("The parameter 'type' cannot be null.");
+        else if (type !== undefined)
+            url_ += "type=" + encodeURIComponent("" + type) + "&";
+        if (processMode === null)
+            throw new Error("The parameter 'processMode' cannot be null.");
+        else if (processMode !== undefined)
+            url_ += "processMode=" + encodeURIComponent("" + processMode) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processArchSearch(_response));
+        });
+    }
+
+    protected processArchSearch(response: AxiosResponse): Promise<NewFamilyLibDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = NewFamilyLibDto.fromJS(resultData200);
+            return Promise.resolve<NewFamilyLibDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyLibDto>(null as any);
+    }
+}
+
+export class NewFamilyTreeServiceProxy extends ServiceProxyBase {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        super();
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getTree(  cancelToken?: CancelToken | undefined): Promise<NewFamilyTreeDto[]> {
+        let url_ = this.baseUrl + "/NewFamilyTree/GetTree";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetTree(_response));
+        });
+    }
+
+    protected processGetTree(response: AxiosResponse): Promise<NewFamilyTreeDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NewFamilyTreeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<NewFamilyTreeDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyTreeDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getTreePage(body: PagedAndSortedResultRequestDto | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyTreeDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/NewFamilyTree/GetTreePage";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetTreePage(_response));
+        });
+    }
+
+    protected processGetTreePage(response: AxiosResponse): Promise<NewFamilyTreeDtoPagedResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = NewFamilyTreeDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<NewFamilyTreeDtoPagedResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyTreeDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: NewFamilyTreeCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyTreeDto> {
+        let url_ = this.baseUrl + "/NewFamilyTree/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreate(_response));
+        });
+    }
+
+    protected processCreate(response: AxiosResponse): Promise<NewFamilyTreeDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = NewFamilyTreeDto.fromJS(resultData200);
+            return Promise.resolve<NewFamilyTreeDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyTreeDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createList(body: NewFamilyTreeCreateDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyTreeDto[]> {
+        let url_ = this.baseUrl + "/NewFamilyTree/CreateList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreateList(_response));
+        });
+    }
+
+    protected processCreateList(response: AxiosResponse): Promise<NewFamilyTreeDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NewFamilyTreeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<NewFamilyTreeDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyTreeDto[]>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/NewFamilyTree/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDelete(_response));
+        });
+    }
+
+    protected processDelete(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    deleteList(body: NewFamilyTreeDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/NewFamilyTree/DeleteList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDeleteList(_response));
+        });
+    }
+
+    protected processDeleteList(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    update(id: string | undefined, body: NewFamilyTreeCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyTreeDto> {
+        let url_ = this.baseUrl + "/NewFamilyTree/Update?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpdate(_response));
+        });
+    }
+
+    protected processUpdate(response: AxiosResponse): Promise<NewFamilyTreeDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = NewFamilyTreeDto.fromJS(resultData200);
+            return Promise.resolve<NewFamilyTreeDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyTreeDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<NewFamilyTreeDto> {
+        let url_ = this.baseUrl + "/NewFamilyTree/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGet(_response));
+        });
+    }
+
+    protected processGet(response: AxiosResponse): Promise<NewFamilyTreeDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = NewFamilyTreeDto.fromJS(resultData200);
+            return Promise.resolve<NewFamilyTreeDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyTreeDto>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getTreeList(  cancelToken?: CancelToken | undefined): Promise<NewFamilyTreeDto[]> {
+        let url_ = this.baseUrl + "/NewFamilyTree/GetTreeList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetTreeList(_response));
+        });
+    }
+
+    protected processGetTreeList(response: AxiosResponse): Promise<NewFamilyTreeDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NewFamilyTreeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<NewFamilyTreeDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<NewFamilyTreeDto[]>(null as any);
+    }
+
+    /**
+     * @param file (optional) 
+     * @return Success
+     */
+    uploadFile(file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/NewFamilyTree/UploadFile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUploadFile(_response));
+        });
+    }
+
+    protected processUploadFile(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
     }
 }
 
@@ -7146,6 +14046,1333 @@ export class PermissionsServiceProxy extends ServiceProxyBase {
     }
 }
 
+export class ProcessingDataServiceProxy extends ServiceProxyBase {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        super();
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: ProcessingDataCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProcessingDataDto> {
+        let url_ = this.baseUrl + "/ProcessingData/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreate(_response));
+        });
+    }
+
+    protected processCreate(response: AxiosResponse): Promise<ProcessingDataDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ProcessingDataDto.fromJS(resultData200);
+            return Promise.resolve<ProcessingDataDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ProcessingDataDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/ProcessingData/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDelete(_response));
+        });
+    }
+
+    protected processDelete(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<ProcessingDataDto> {
+        let url_ = this.baseUrl + "/ProcessingData/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGet(_response));
+        });
+    }
+
+    protected processGet(response: AxiosResponse): Promise<ProcessingDataDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ProcessingDataDto.fromJS(resultData200);
+            return Promise.resolve<ProcessingDataDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ProcessingDataDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getList(body: PagedAndSortedResultRequestDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProcessingDataDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/ProcessingData/GetList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetList(_response));
+        });
+    }
+
+    protected processGetList(response: AxiosResponse): Promise<ProcessingDataDtoPagedResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ProcessingDataDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<ProcessingDataDtoPagedResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ProcessingDataDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    update(id: string | undefined, body: ProcessingDataCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProcessingDataDto> {
+        let url_ = this.baseUrl + "/ProcessingData/Update?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpdate(_response));
+        });
+    }
+
+    protected processUpdate(response: AxiosResponse): Promise<ProcessingDataDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ProcessingDataDto.fromJS(resultData200);
+            return Promise.resolve<ProcessingDataDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ProcessingDataDto>(null as any);
+    }
+}
+
+export class ProcessingListServiceProxy extends ServiceProxyBase {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        super();
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    sendEmail(body: any | undefined , cancelToken?: CancelToken | undefined): Promise<string> {
+        let url_ = this.baseUrl + "/ProcessingList/SendEmail";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processSendEmail(_response));
+        });
+    }
+
+    protected processSendEmail(response: AxiosResponse): Promise<string> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string>(null as any);
+    }
+
+    /**
+     * @param file (optional) 
+     * @return Success
+     */
+    uploadExcel(file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<string> {
+        let url_ = this.baseUrl + "/ProcessingList/UploadExcel";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUploadExcel(_response));
+        });
+    }
+
+    protected processUploadExcel(response: AxiosResponse): Promise<string> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getAllList(body: OrderNotificationSearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProcessingListDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/ProcessingList/GetAllList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetAllList(_response));
+        });
+    }
+
+    protected processGetAllList(response: AxiosResponse): Promise<ProcessingListDtoPagedResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ProcessingListDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<ProcessingListDtoPagedResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ProcessingListDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    downloadExcel(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<string> {
+        let url_ = this.baseUrl + "/ProcessingList/DownloadExcel?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDownloadExcel(_response));
+        });
+    }
+
+    protected processDownloadExcel(response: AxiosResponse): Promise<string> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<ProcessingListDto> {
+        let url_ = this.baseUrl + "/ProcessingList/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGet(_response));
+        });
+    }
+
+    protected processGet(response: AxiosResponse): Promise<ProcessingListDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ProcessingListDto.fromJS(resultData200);
+            return Promise.resolve<ProcessingListDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ProcessingListDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getList(body: PagedAndSortedResultRequestDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProcessingListDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/ProcessingList/GetList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetList(_response));
+        });
+    }
+
+    protected processGetList(response: AxiosResponse): Promise<ProcessingListDtoPagedResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ProcessingListDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<ProcessingListDtoPagedResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ProcessingListDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: ProcessingListCreateDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProcessingListDto> {
+        let url_ = this.baseUrl + "/ProcessingList/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreate(_response));
+        });
+    }
+
+    protected processCreate(response: AxiosResponse): Promise<ProcessingListDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ProcessingListDto.fromJS(resultData200);
+            return Promise.resolve<ProcessingListDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ProcessingListDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/ProcessingList/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDelete(_response));
+        });
+    }
+
+    protected processDelete(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+}
+
 export class ProductInventoryProductServiceProxy extends ServiceProxyBase {
     private instance: AxiosInstance;
     private baseUrl: string;
@@ -8858,6 +17085,113 @@ export class ProductRetrievalServiceProxy extends ServiceProxyBase {
      * @param body (optional) 
      * @return Success
      */
+    noPage(body: ProductIndexSearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProductRetrievalDto[]> {
+        let url_ = this.baseUrl + "/ProductRetrieval/NoPage";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processNoPage(_response));
+        });
+    }
+
+    protected processNoPage(response: AxiosResponse): Promise<ProductRetrievalDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ProductRetrievalDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<ProductRetrievalDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ProductRetrievalDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
     findByInput(body: ProductRetrievalSearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProductRetrievalResultDtoPagedResultDto> {
         let url_ = this.baseUrl + "/ProductRetrieval/FindByInput";
         url_ = url_.replace(/[?&]$/, "");
@@ -8954,7 +17288,221 @@ export class ProductRetrievalServiceProxy extends ServiceProxyBase {
         return Promise.resolve<ProductRetrievalResultDtoPagedResultDto>(null as any);
     }
 
-    exportToExcel(body: any | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    findAllByInput(body: ProductRetrievalSearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProductRetrievalResultDto[]> {
+        let url_ = this.baseUrl + "/ProductRetrieval/FindAllByInput";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processFindAllByInput(_response));
+        });
+    }
+
+    protected processFindAllByInput(response: AxiosResponse): Promise<ProductRetrievalResultDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ProductRetrievalResultDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<ProductRetrievalResultDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ProductRetrievalResultDto[]>(null as any);
+    }
+
+    /**
+     * @param file (optional) 
+     * @return Success
+     */
+    importFromExcel(file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/ProductRetrieval/ImportFromExcel";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processImportFromExcel(_response));
+        });
+    }
+
+    protected processImportFromExcel(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    exportToExcel(body: ProductRetrievalResultDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<string> {
         let url_ = this.baseUrl + "/ProductRetrieval/ExportToExcel";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -8966,6 +17514,7 @@ export class ProductRetrievalServiceProxy extends ServiceProxyBase {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "text/plain"
             },
             cancelToken
         };
@@ -8983,7 +17532,7 @@ export class ProductRetrievalServiceProxy extends ServiceProxyBase {
         });
     }
 
-    protected processExportToExcel(response: AxiosResponse): Promise<void> {
+    protected processExportToExcel(response: AxiosResponse): Promise<string> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -8993,7 +17542,15 @@ export class ProductRetrievalServiceProxy extends ServiceProxyBase {
                 }
             }
         }
-        if (status === 403) {
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
+
+        } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
             let resultData403  = _responseText;
@@ -9039,7 +17596,7 @@ export class ProductRetrievalServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<string>(null as any);
     }
 }
 
@@ -9055,214 +17612,21 @@ export class ProjectInfoServiceProxy extends ServiceProxyBase {
     }
 
     /**
-     * @param body (optional) 
+     * @param file (optional) 
      * @return Success
      */
-    create(body: ProjectInfoUpdateDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProjectInfoDto> {
-        let url_ = this.baseUrl + "/ProjectInfo/Create";
+    importFromExcel(file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/ProjectInfo/ImportFromExcel";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
 
         let options_ = <AxiosRequestConfig>{
             data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.instance.request(transformedOptions_);
-        }).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreate(_response));
-        });
-    }
-
-    protected processCreate(response: AxiosResponse): Promise<ProjectInfoDto> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = ProjectInfoDto.fromJS(resultData200);
-            return Promise.resolve<ProjectInfoDto>(result200);
-
-        } else if (status === 403) {
-            const _responseText = response.data;
-            let result403: any = null;
-            let resultData403  = _responseText;
-            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-
-        } else if (status === 401) {
-            const _responseText = response.data;
-            let result401: any = null;
-            let resultData401  = _responseText;
-            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
-            return throwException("Unauthorized", status, _responseText, _headers, result401);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 501) {
-            const _responseText = response.data;
-            let result501: any = null;
-            let resultData501  = _responseText;
-            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
-            return throwException("Server Error", status, _responseText, _headers, result501);
-
-        } else if (status === 500) {
-            const _responseText = response.data;
-            let result500: any = null;
-            let resultData500  = _responseText;
-            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
-            return throwException("Server Error", status, _responseText, _headers, result500);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<ProjectInfoDto>(null as any);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    delete(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/ProjectInfo/Delete?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <AxiosRequestConfig>{
-            method: "POST",
-            url: url_,
-            headers: {
-            },
-            cancelToken
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.instance.request(transformedOptions_);
-        }).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDelete(_response));
-        });
-    }
-
-    protected processDelete(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 403) {
-            const _responseText = response.data;
-            let result403: any = null;
-            let resultData403  = _responseText;
-            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-
-        } else if (status === 401) {
-            const _responseText = response.data;
-            let result401: any = null;
-            let resultData401  = _responseText;
-            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
-            return throwException("Unauthorized", status, _responseText, _headers, result401);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 501) {
-            const _responseText = response.data;
-            let result501: any = null;
-            let resultData501  = _responseText;
-            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
-            return throwException("Server Error", status, _responseText, _headers, result501);
-
-        } else if (status === 500) {
-            const _responseText = response.data;
-            let result500: any = null;
-            let resultData500  = _responseText;
-            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
-            return throwException("Server Error", status, _responseText, _headers, result500);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    getById(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<ProjectInfoDto> {
-        let url_ = this.baseUrl + "/ProjectInfo/GetById?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <AxiosRequestConfig>{
             method: "POST",
             url: url_,
             headers: {
@@ -9280,11 +17644,11 @@ export class ProjectInfoServiceProxy extends ServiceProxyBase {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetById(_response));
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processImportFromExcel(_response));
         });
     }
 
-    protected processGetById(response: AxiosResponse): Promise<ProjectInfoDto> {
+    protected processImportFromExcel(response: AxiosResponse): Promise<ApiResultDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -9298,8 +17662,8 @@ export class ProjectInfoServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = ProjectInfoDto.fromJS(resultData200);
-            return Promise.resolve<ProjectInfoDto>(result200);
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
 
         } else if (status === 403) {
             const _responseText = response.data;
@@ -9347,15 +17711,15 @@ export class ProjectInfoServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<ProjectInfoDto>(null as any);
+        return Promise.resolve<ApiResultDto>(null as any);
     }
 
     /**
      * @param body (optional) 
      * @return Success
      */
-    getList(body: PagedAndSortedResultRequestDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProjectInfoDtoPagedResultDto> {
-        let url_ = this.baseUrl + "/ProjectInfo/GetList";
+    parsing(body: ProjectInfoSearchCodeDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<ProjectInfoCodeResultDto[]> {
+        let url_ = this.baseUrl + "/ProjectInfo/Parsing";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -9366,307 +17730,6 @@ export class ProjectInfoServiceProxy extends ServiceProxyBase {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.instance.request(transformedOptions_);
-        }).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetList(_response));
-        });
-    }
-
-    protected processGetList(response: AxiosResponse): Promise<ProjectInfoDtoPagedResultDto> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = ProjectInfoDtoPagedResultDto.fromJS(resultData200);
-            return Promise.resolve<ProjectInfoDtoPagedResultDto>(result200);
-
-        } else if (status === 403) {
-            const _responseText = response.data;
-            let result403: any = null;
-            let resultData403  = _responseText;
-            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-
-        } else if (status === 401) {
-            const _responseText = response.data;
-            let result401: any = null;
-            let resultData401  = _responseText;
-            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
-            return throwException("Unauthorized", status, _responseText, _headers, result401);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 501) {
-            const _responseText = response.data;
-            let result501: any = null;
-            let resultData501  = _responseText;
-            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
-            return throwException("Server Error", status, _responseText, _headers, result501);
-
-        } else if (status === 500) {
-            const _responseText = response.data;
-            let result500: any = null;
-            let resultData500  = _responseText;
-            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
-            return throwException("Server Error", status, _responseText, _headers, result500);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<ProjectInfoDtoPagedResultDto>(null as any);
-    }
-
-    /**
-     * @param id (optional) 
-     * @param body (optional) 
-     * @return Success
-     */
-    update(id: string | undefined, body: ProjectInfoUpdateDto | undefined , cancelToken?: CancelToken | undefined): Promise<ProjectInfoDto> {
-        let url_ = this.baseUrl + "/ProjectInfo/Update?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ = <AxiosRequestConfig>{
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-            cancelToken
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.instance.request(transformedOptions_);
-        }).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpdate(_response));
-        });
-    }
-
-    protected processUpdate(response: AxiosResponse): Promise<ProjectInfoDto> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = ProjectInfoDto.fromJS(resultData200);
-            return Promise.resolve<ProjectInfoDto>(result200);
-
-        } else if (status === 403) {
-            const _responseText = response.data;
-            let result403: any = null;
-            let resultData403  = _responseText;
-            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-
-        } else if (status === 401) {
-            const _responseText = response.data;
-            let result401: any = null;
-            let resultData401  = _responseText;
-            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
-            return throwException("Unauthorized", status, _responseText, _headers, result401);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 501) {
-            const _responseText = response.data;
-            let result501: any = null;
-            let resultData501  = _responseText;
-            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
-            return throwException("Server Error", status, _responseText, _headers, result501);
-
-        } else if (status === 500) {
-            const _responseText = response.data;
-            let result500: any = null;
-            let resultData500  = _responseText;
-            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
-            return throwException("Server Error", status, _responseText, _headers, result500);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<ProjectInfoDto>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    upload(body: ProjectInfoUpdateDto | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/ProjectInfo/Upload";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ = <AxiosRequestConfig>{
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.instance.request(transformedOptions_);
-        }).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpload(_response));
-        });
-    }
-
-    protected processUpload(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 403) {
-            const _responseText = response.data;
-            let result403: any = null;
-            let resultData403  = _responseText;
-            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-
-        } else if (status === 401) {
-            const _responseText = response.data;
-            let result401: any = null;
-            let resultData401  = _responseText;
-            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
-            return throwException("Unauthorized", status, _responseText, _headers, result401);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 501) {
-            const _responseText = response.data;
-            let result501: any = null;
-            let resultData501  = _responseText;
-            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
-            return throwException("Server Error", status, _responseText, _headers, result501);
-
-        } else if (status === 500) {
-            const _responseText = response.data;
-            let result500: any = null;
-            let resultData500  = _responseText;
-            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
-            return throwException("Server Error", status, _responseText, _headers, result500);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @param input (optional) 
-     * @return Success
-     */
-    parsing(input: string | undefined , cancelToken?: CancelToken | undefined): Promise<ProjectDto[]> {
-        let url_ = this.baseUrl + "/ProjectInfo/Parsing?";
-        if (input === null)
-            throw new Error("The parameter 'input' cannot be null.");
-        else if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <AxiosRequestConfig>{
-            method: "POST",
-            url: url_,
-            headers: {
                 "Accept": "text/plain"
             },
             cancelToken
@@ -9685,7 +17748,7 @@ export class ProjectInfoServiceProxy extends ServiceProxyBase {
         });
     }
 
-    protected processParsing(response: AxiosResponse): Promise<ProjectDto[]> {
+    protected processParsing(response: AxiosResponse): Promise<ProjectInfoCodeResultDto[]> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -9702,12 +17765,12 @@ export class ProjectInfoServiceProxy extends ServiceProxyBase {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(ProjectDto.fromJS(item));
+                    result200!.push(ProjectInfoCodeResultDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
             }
-            return Promise.resolve<ProjectDto[]>(result200);
+            return Promise.resolve<ProjectInfoCodeResultDto[]>(result200);
 
         } else if (status === 403) {
             const _responseText = response.data;
@@ -9755,7 +17818,107 @@ export class ProjectInfoServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<ProjectDto[]>(null as any);
+        return Promise.resolve<ProjectInfoCodeResultDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getByErp(body: ProjectInfoSearchCodeDto[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/ProjectInfo/GetByErp";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetByErp(_response));
+        });
+    }
+
+    protected processGetByErp(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
     }
 }
 
@@ -10186,6 +18349,618 @@ export class RolesServiceProxy extends ServiceProxyBase {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDelete(_response));
+        });
+    }
+
+    protected processDelete(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+}
+
+export class SaleOderServiceProxy extends ServiceProxyBase {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        super();
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param file (optional) 
+     * @return Success
+     */
+    uploadFactoryFile(file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/SaleOder/UploadFactoryFile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUploadFactoryFile(_response));
+        });
+    }
+
+    protected processUploadFactoryFile(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createNewSplitFile(body: SaleOderFormDto | undefined , cancelToken?: CancelToken | undefined): Promise<string> {
+        let url_ = this.baseUrl + "/SaleOder/CreateNewSplitFile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreateNewSplitFile(_response));
+        });
+    }
+
+    protected processCreateNewSplitFile(response: AxiosResponse): Promise<string> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createSaleOderFile(body: any | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/SaleOder/CreateSaleOderFile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCreateSaleOderFile(_response));
+        });
+    }
+
+    protected processCreateSaleOderFile(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getSaleOrderList(body: PagedAndSortedResultRequestDto | undefined , cancelToken?: CancelToken | undefined): Promise<SaleOderDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/SaleOder/GetSaleOrderList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetSaleOrderList(_response));
+        });
+    }
+
+    protected processGetSaleOrderList(response: AxiosResponse): Promise<SaleOderDtoPagedResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = SaleOderDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<SaleOderDtoPagedResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<SaleOderDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<SaleOderDto> {
+        let url_ = this.baseUrl + "/SaleOder/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGet(_response));
+        });
+    }
+
+    protected processGet(response: AxiosResponse): Promise<SaleOderDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = SaleOderDto.fromJS(resultData200);
+            return Promise.resolve<SaleOderDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<SaleOderDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/SaleOder/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
             },
             cancelToken
         };
@@ -10701,21 +19476,21 @@ export class StandardAndPolicyThemeServiceProxy extends ServiceProxyBase {
     }
 
     /**
-     * @param body (optional) 
+     * @param showCount (optional) 
      * @return Success
      */
-    page(body: StandardAndPolicySearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<StandardAndPolicyPageDto[]> {
-        let url_ = this.baseUrl + "/StandardAndPolicyLib/Page";
+    pageHome(showCount: number | undefined , cancelToken?: CancelToken | undefined): Promise<StandardAndPolicyPageDto[]> {
+        let url_ = this.baseUrl + "/StandardAndPolicyLib/PageHome?";
+        if (showCount === null)
+            throw new Error("The parameter 'showCount' cannot be null.");
+        else if (showCount !== undefined)
+            url_ += "showCount=" + encodeURIComponent("" + showCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
-
         let options_ = <AxiosRequestConfig>{
-            data: content_,
             method: "POST",
             url: url_,
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "text/plain"
             },
             cancelToken
@@ -10730,11 +19505,11 @@ export class StandardAndPolicyThemeServiceProxy extends ServiceProxyBase {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processPage(_response));
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processPageHome(_response));
         });
     }
 
-    protected processPage(response: AxiosResponse): Promise<StandardAndPolicyPageDto[]> {
+    protected processPageHome(response: AxiosResponse): Promise<StandardAndPolicyPageDto[]> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -10806,6 +19581,724 @@ export class StandardAndPolicyThemeServiceProxy extends ServiceProxyBase {
         }
         return Promise.resolve<StandardAndPolicyPageDto[]>(null as any);
     }
+
+    /**
+     * @param id (optional) 
+     * @param showCount (optional) 
+     * @return Success
+     */
+    pageByTree(id: string | undefined, showCount: number | undefined , cancelToken?: CancelToken | undefined): Promise<StandardAndPolicyPageDto[]> {
+        let url_ = this.baseUrl + "/StandardAndPolicyLib/PageByTree?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        if (showCount === null)
+            throw new Error("The parameter 'showCount' cannot be null.");
+        else if (showCount !== undefined)
+            url_ += "showCount=" + encodeURIComponent("" + showCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processPageByTree(_response));
+        });
+    }
+
+    protected processPageByTree(response: AxiosResponse): Promise<StandardAndPolicyPageDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(StandardAndPolicyPageDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<StandardAndPolicyPageDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<StandardAndPolicyPageDto[]>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    pageBySearch(body: StandardAndPolicySearchDto | undefined , cancelToken?: CancelToken | undefined): Promise<StandardAndStandLibWithAllTreeDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/StandardAndPolicyLib/PageBySearch";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processPageBySearch(_response));
+        });
+    }
+
+    protected processPageBySearch(response: AxiosResponse): Promise<StandardAndStandLibWithAllTreeDtoPagedResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = StandardAndStandLibWithAllTreeDtoPagedResultDto.fromJS(resultData200);
+            return Promise.resolve<StandardAndStandLibWithAllTreeDtoPagedResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<StandardAndStandLibWithAllTreeDtoPagedResultDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getCardDetail(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<StandardAndPolicyCardDetailDto> {
+        let url_ = this.baseUrl + "/StandardAndPolicyLib/GetCardDetail?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processGetCardDetail(_response));
+        });
+    }
+
+    protected processGetCardDetail(response: AxiosResponse): Promise<StandardAndPolicyCardDetailDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = StandardAndPolicyCardDetailDto.fromJS(resultData200);
+            return Promise.resolve<StandardAndPolicyCardDetailDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<StandardAndPolicyCardDetailDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @param status (optional) 
+     * @return Success
+     */
+    updateCollect(id: string | undefined, status: boolean | undefined , cancelToken?: CancelToken | undefined): Promise<StandardAndPolicyCollectDto> {
+        let url_ = this.baseUrl + "/StandardAndPolicyLib/UpdateCollect?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        if (status === null)
+            throw new Error("The parameter 'status' cannot be null.");
+        else if (status !== undefined)
+            url_ += "status=" + encodeURIComponent("" + status) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpdateCollect(_response));
+        });
+    }
+
+    protected processUpdateCollect(response: AxiosResponse): Promise<StandardAndPolicyCollectDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = StandardAndPolicyCollectDto.fromJS(resultData200);
+            return Promise.resolve<StandardAndPolicyCollectDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<StandardAndPolicyCollectDto>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    updateLib(id: string | undefined, body: StandardAndPolicyCreateAndUpdateDto | undefined , cancelToken?: CancelToken | undefined): Promise<StandardAndPolicyLibDto> {
+        let url_ = this.baseUrl + "/StandardAndPolicyLib/UpdateLib?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processUpdateLib(_response));
+        });
+    }
+
+    protected processUpdateLib(response: AxiosResponse): Promise<StandardAndPolicyLibDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = StandardAndPolicyLibDto.fromJS(resultData200);
+            return Promise.resolve<StandardAndPolicyLibDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<StandardAndPolicyLibDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    delete(body: string[] | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/StandardAndPolicyLib/Delete";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processDelete(_response));
+        });
+    }
+
+    protected processDelete(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    export(  cancelToken?: CancelToken | undefined): Promise<string> {
+        let url_ = this.baseUrl + "/StandardAndPolicyLib/Export";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processExport(_response));
+        });
+    }
+
+    protected processExport(response: AxiosResponse): Promise<string> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string>(null as any);
+    }
 }
 
 export class StandardAndPolicyTreeServiceProxy extends ServiceProxyBase {
@@ -10849,6 +20342,118 @@ export class StandardAndPolicyTreeServiceProxy extends ServiceProxyBase {
     }
 
     protected processGetTree(response: AxiosResponse): Promise<StandardAndPolicyTreeDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(StandardAndPolicyTreeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<StandardAndPolicyTreeDto[]>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<StandardAndPolicyTreeDto[]>(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @param hide (optional) 
+     * @return Success
+     */
+    hideTree(id: string[] | undefined, hide: boolean | undefined , cancelToken?: CancelToken | undefined): Promise<StandardAndPolicyTreeDto[]> {
+        let url_ = this.baseUrl + "/StandardAndPolicyTree/HideTree?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            id && id.forEach(item => { url_ += "id=" + encodeURIComponent("" + item) + "&"; });
+        if (hide === null)
+            throw new Error("The parameter 'hide' cannot be null.");
+        else if (hide !== undefined)
+            url_ += "hide=" + encodeURIComponent("" + hide) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processHideTree(_response));
+        });
+    }
+
+    protected processHideTree(response: AxiosResponse): Promise<StandardAndPolicyTreeDto[]> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -11030,7 +20635,7 @@ export class StandardAndPolicyTreeServiceProxy extends ServiceProxyBase {
      * @param id (optional) 
      * @return Success
      */
-    deleteChild(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+    deleteChild(id: string | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
         let url_ = this.baseUrl + "/StandardAndPolicyTree/DeleteChild?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -11042,6 +20647,7 @@ export class StandardAndPolicyTreeServiceProxy extends ServiceProxyBase {
             method: "POST",
             url: url_,
             headers: {
+                "Accept": "text/plain"
             },
             cancelToken
         };
@@ -11059,7 +20665,7 @@ export class StandardAndPolicyTreeServiceProxy extends ServiceProxyBase {
         });
     }
 
-    protected processDeleteChild(response: AxiosResponse): Promise<void> {
+    protected processDeleteChild(response: AxiosResponse): Promise<ApiResultDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -11071,7 +20677,10 @@ export class StandardAndPolicyTreeServiceProxy extends ServiceProxyBase {
         }
         if (status === 200) {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
 
         } else if (status === 403) {
             const _responseText = response.data;
@@ -11119,7 +20728,7 @@ export class StandardAndPolicyTreeServiceProxy extends ServiceProxyBase {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<ApiResultDto>(null as any);
     }
 
     /**
@@ -11225,6 +20834,111 @@ export class StandardAndPolicyTreeServiceProxy extends ServiceProxyBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
         return Promise.resolve<StandardAndPolicyTreeDto>(null as any);
+    }
+
+    /**
+     * @param id1 (optional) 
+     * @param id2 (optional) 
+     * @return Success
+     */
+    exChange(id1: string | undefined, id2: string | undefined , cancelToken?: CancelToken | undefined): Promise<ApiResultDto> {
+        let url_ = this.baseUrl + "/StandardAndPolicyTree/ExChange?";
+        if (id1 === null)
+            throw new Error("The parameter 'id1' cannot be null.");
+        else if (id1 !== undefined)
+            url_ += "id1=" + encodeURIComponent("" + id1) + "&";
+        if (id2 === null)
+            throw new Error("The parameter 'id2' cannot be null.");
+        else if (id2 !== undefined)
+            url_ += "id2=" + encodeURIComponent("" + id2) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processExChange(_response));
+        });
+    }
+
+    protected processExChange(response: AxiosResponse): Promise<ApiResultDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ApiResultDto.fromJS(resultData200);
+            return Promise.resolve<ApiResultDto>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ApiResultDto>(null as any);
     }
 }
 
@@ -12853,6 +22567,103 @@ export class UsersServiceProxy extends ServiceProxyBase {
         }
         return Promise.resolve<void>(null as any);
     }
+
+    /**
+     * 获取当前用户
+     * @return Success
+     */
+    currentUser(  cancelToken?: CancelToken | undefined): Promise<string> {
+        let url_ = this.baseUrl + "/Users/currentUser";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.instance.request(transformedOptions_);
+        }).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.transformResult(url_, _response, (_response: AxiosResponse) => this.processCurrentUser(_response));
+        });
+    }
+
+    protected processCurrentUser(response: AxiosResponse): Promise<string> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string>(null as any);
+    }
 }
 
 export class AbpLoginResult implements IAbpLoginResult {
@@ -12893,6 +22704,46 @@ export class AbpLoginResult implements IAbpLoginResult {
 export interface IAbpLoginResult {
     result: LoginResultType;
     description: string | undefined;
+}
+
+export class AccessToken implements IAccessToken {
+    access_token!: string | undefined;
+    expires_in!: number;
+
+    constructor(data?: IAccessToken) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.access_token = _data["access_token"];
+            this.expires_in = _data["expires_in"];
+        }
+    }
+
+    static fromJS(data: any): AccessToken {
+        data = typeof data === 'object' ? data : {};
+        let result = new AccessToken();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["access_token"] = this.access_token;
+        data["expires_in"] = this.expires_in;
+        return data;
+    }
+}
+
+export interface IAccessToken {
+    access_token: string | undefined;
+    expires_in: number;
 }
 
 export class ActionApiDescriptionModel implements IActionApiDescriptionModel {
@@ -13749,6 +23600,806 @@ export class ApplicationSettingConfigurationDto implements IApplicationSettingCo
 
 export interface IApplicationSettingConfigurationDto {
     values: { [key: string]: string; } | undefined;
+}
+
+export class ArchitectureListFileDto implements IArchitectureListFileDto {
+    id!: string;
+    fileName!: string | undefined;
+    filePath!: string | undefined;
+    fileEncryptionPath!: string | undefined;
+    type!: ArchitectureListFileStatus;
+
+    constructor(data?: IArchitectureListFileDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.fileName = _data["fileName"];
+            this.filePath = _data["filePath"];
+            this.fileEncryptionPath = _data["fileEncryptionPath"];
+            this.type = _data["type"];
+        }
+    }
+
+    static fromJS(data: any): ArchitectureListFileDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArchitectureListFileDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["fileName"] = this.fileName;
+        data["filePath"] = this.filePath;
+        data["fileEncryptionPath"] = this.fileEncryptionPath;
+        data["type"] = this.type;
+        return data;
+    }
+}
+
+export interface IArchitectureListFileDto {
+    id: string;
+    fileName: string | undefined;
+    filePath: string | undefined;
+    fileEncryptionPath: string | undefined;
+    type: ArchitectureListFileStatus;
+}
+
+export enum ArchitectureListFileStatus {
+    Detail = 1,
+    Processing = 2,
+    Assembly = 4,
+    MaterialSheet = 8,
+    MaterialInfo = 16,
+    CraftsmanshipStandard = 32,
+}
+
+export class ArchitectureListMaterialCreateDto implements IArchitectureListMaterialCreateDto {
+    composition!: string | undefined;
+    name!: string | undefined;
+    code!: string | undefined;
+    length!: string | undefined;
+    width!: string | undefined;
+    height!: string | undefined;
+    materialQuality!: string | undefined;
+    basicPerformance!: string | undefined;
+    usage!: string | undefined;
+    unit!: string | undefined;
+    isProcess!: string | undefined;
+    installationCode!: string | undefined;
+    remark!: string | undefined;
+    optionalSerial!: string | undefined;
+    tag!: ArchitectureListMaterialTag;
+
+    constructor(data?: IArchitectureListMaterialCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.composition = _data["composition"];
+            this.name = _data["name"];
+            this.code = _data["code"];
+            this.length = _data["length"];
+            this.width = _data["width"];
+            this.height = _data["height"];
+            this.materialQuality = _data["materialQuality"];
+            this.basicPerformance = _data["basicPerformance"];
+            this.usage = _data["usage"];
+            this.unit = _data["unit"];
+            this.isProcess = _data["isProcess"];
+            this.installationCode = _data["installationCode"];
+            this.remark = _data["remark"];
+            this.optionalSerial = _data["optionalSerial"];
+            this.tag = _data["tag"];
+        }
+    }
+
+    static fromJS(data: any): ArchitectureListMaterialCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArchitectureListMaterialCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["composition"] = this.composition;
+        data["name"] = this.name;
+        data["code"] = this.code;
+        data["length"] = this.length;
+        data["width"] = this.width;
+        data["height"] = this.height;
+        data["materialQuality"] = this.materialQuality;
+        data["basicPerformance"] = this.basicPerformance;
+        data["usage"] = this.usage;
+        data["unit"] = this.unit;
+        data["isProcess"] = this.isProcess;
+        data["installationCode"] = this.installationCode;
+        data["remark"] = this.remark;
+        data["optionalSerial"] = this.optionalSerial;
+        data["tag"] = this.tag;
+        return data;
+    }
+}
+
+export interface IArchitectureListMaterialCreateDto {
+    composition: string | undefined;
+    name: string | undefined;
+    code: string | undefined;
+    length: string | undefined;
+    width: string | undefined;
+    height: string | undefined;
+    materialQuality: string | undefined;
+    basicPerformance: string | undefined;
+    usage: string | undefined;
+    unit: string | undefined;
+    isProcess: string | undefined;
+    installationCode: string | undefined;
+    remark: string | undefined;
+    optionalSerial: string | undefined;
+    tag: ArchitectureListMaterialTag;
+}
+
+export class ArchitectureListMaterialDto implements IArchitectureListMaterialDto {
+    composition!: string | undefined;
+    name!: string | undefined;
+    code!: string | undefined;
+    length!: string | undefined;
+    width!: string | undefined;
+    height!: string | undefined;
+    materialQuality!: string | undefined;
+    basicPerformance!: string | undefined;
+    usage!: string | undefined;
+    unit!: string | undefined;
+    isProcess!: string | undefined;
+    installationCode!: string | undefined;
+    remark!: string | undefined;
+    optionalSerial!: string | undefined;
+    tag!: ArchitectureListMaterialTag;
+    id!: string;
+    modifyStatus!: ArchitectureListModifyStatus;
+
+    constructor(data?: IArchitectureListMaterialDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.composition = _data["composition"];
+            this.name = _data["name"];
+            this.code = _data["code"];
+            this.length = _data["length"];
+            this.width = _data["width"];
+            this.height = _data["height"];
+            this.materialQuality = _data["materialQuality"];
+            this.basicPerformance = _data["basicPerformance"];
+            this.usage = _data["usage"];
+            this.unit = _data["unit"];
+            this.isProcess = _data["isProcess"];
+            this.installationCode = _data["installationCode"];
+            this.remark = _data["remark"];
+            this.optionalSerial = _data["optionalSerial"];
+            this.tag = _data["tag"];
+            this.id = _data["id"];
+            this.modifyStatus = _data["modifyStatus"];
+        }
+    }
+
+    static fromJS(data: any): ArchitectureListMaterialDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArchitectureListMaterialDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["composition"] = this.composition;
+        data["name"] = this.name;
+        data["code"] = this.code;
+        data["length"] = this.length;
+        data["width"] = this.width;
+        data["height"] = this.height;
+        data["materialQuality"] = this.materialQuality;
+        data["basicPerformance"] = this.basicPerformance;
+        data["usage"] = this.usage;
+        data["unit"] = this.unit;
+        data["isProcess"] = this.isProcess;
+        data["installationCode"] = this.installationCode;
+        data["remark"] = this.remark;
+        data["optionalSerial"] = this.optionalSerial;
+        data["tag"] = this.tag;
+        data["id"] = this.id;
+        data["modifyStatus"] = this.modifyStatus;
+        return data;
+    }
+}
+
+export interface IArchitectureListMaterialDto {
+    composition: string | undefined;
+    name: string | undefined;
+    code: string | undefined;
+    length: string | undefined;
+    width: string | undefined;
+    height: string | undefined;
+    materialQuality: string | undefined;
+    basicPerformance: string | undefined;
+    usage: string | undefined;
+    unit: string | undefined;
+    isProcess: string | undefined;
+    installationCode: string | undefined;
+    remark: string | undefined;
+    optionalSerial: string | undefined;
+    tag: ArchitectureListMaterialTag;
+    id: string;
+    modifyStatus: ArchitectureListModifyStatus;
+}
+
+export enum ArchitectureListMaterialTag {
+    Assemble = 1,
+    Install = 1000,
+}
+
+export enum ArchitectureListModifyStatus {
+    Normal = 1,
+    Modify = 1000,
+    Insert = 2000,
+    Delete = 3000,
+}
+
+export class ArchitectureListModuleCreateDto implements IArchitectureListModuleCreateDto {
+    system!: string | undefined;
+    name!: string | undefined;
+    category!: string | undefined;
+    model!: string | undefined;
+    processingMode!: string | undefined;
+    length!: string | undefined;
+    width!: string | undefined;
+    height!: string | undefined;
+    unit!: string | undefined;
+    processingCode!: string | undefined;
+    supplyMode!: string | undefined;
+    moduleSpecification!: string | undefined;
+    processNum!: string | undefined;
+    assemblyDrawingNum!: string | undefined;
+    detailNum!: string | undefined;
+    remark!: string | undefined;
+    optional!: string | undefined;
+    materials!: ArchitectureListMaterialCreateDto[] | undefined;
+
+    constructor(data?: IArchitectureListModuleCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.system = _data["system"];
+            this.name = _data["name"];
+            this.category = _data["category"];
+            this.model = _data["model"];
+            this.processingMode = _data["processingMode"];
+            this.length = _data["length"];
+            this.width = _data["width"];
+            this.height = _data["height"];
+            this.unit = _data["unit"];
+            this.processingCode = _data["processingCode"];
+            this.supplyMode = _data["supplyMode"];
+            this.moduleSpecification = _data["moduleSpecification"];
+            this.processNum = _data["processNum"];
+            this.assemblyDrawingNum = _data["assemblyDrawingNum"];
+            this.detailNum = _data["detailNum"];
+            this.remark = _data["remark"];
+            this.optional = _data["optional"];
+            if (Array.isArray(_data["materials"])) {
+                this.materials = [] as any;
+                for (let item of _data["materials"])
+                    this.materials!.push(ArchitectureListMaterialCreateDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ArchitectureListModuleCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArchitectureListModuleCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["system"] = this.system;
+        data["name"] = this.name;
+        data["category"] = this.category;
+        data["model"] = this.model;
+        data["processingMode"] = this.processingMode;
+        data["length"] = this.length;
+        data["width"] = this.width;
+        data["height"] = this.height;
+        data["unit"] = this.unit;
+        data["processingCode"] = this.processingCode;
+        data["supplyMode"] = this.supplyMode;
+        data["moduleSpecification"] = this.moduleSpecification;
+        data["processNum"] = this.processNum;
+        data["assemblyDrawingNum"] = this.assemblyDrawingNum;
+        data["detailNum"] = this.detailNum;
+        data["remark"] = this.remark;
+        data["optional"] = this.optional;
+        if (Array.isArray(this.materials)) {
+            data["materials"] = [];
+            for (let item of this.materials)
+                data["materials"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IArchitectureListModuleCreateDto {
+    system: string | undefined;
+    name: string | undefined;
+    category: string | undefined;
+    model: string | undefined;
+    processingMode: string | undefined;
+    length: string | undefined;
+    width: string | undefined;
+    height: string | undefined;
+    unit: string | undefined;
+    processingCode: string | undefined;
+    supplyMode: string | undefined;
+    moduleSpecification: string | undefined;
+    processNum: string | undefined;
+    assemblyDrawingNum: string | undefined;
+    detailNum: string | undefined;
+    remark: string | undefined;
+    optional: string | undefined;
+    materials: ArchitectureListMaterialCreateDto[] | undefined;
+}
+
+export class ArchitectureListModuleDto implements IArchitectureListModuleDto {
+    system!: string | undefined;
+    name!: string | undefined;
+    category!: string | undefined;
+    model!: string | undefined;
+    processingMode!: string | undefined;
+    length!: string | undefined;
+    width!: string | undefined;
+    height!: string | undefined;
+    unit!: string | undefined;
+    processingCode!: string | undefined;
+    supplyMode!: string | undefined;
+    moduleSpecification!: string | undefined;
+    processNum!: string | undefined;
+    assemblyDrawingNum!: string | undefined;
+    detailNum!: string | undefined;
+    remark!: string | undefined;
+    optional!: string | undefined;
+    materials!: ArchitectureListMaterialDto[] | undefined;
+    id!: string;
+    parentId!: string;
+    path!: string | undefined;
+    createUser!: string | undefined;
+    modifyUser!: string | undefined;
+    creationTime!: dayjs.Dayjs;
+    lastModificationTime!: dayjs.Dayjs | undefined;
+    status!: ArchitectureListPublishStatus;
+    files!: ArchitectureListFileDto[] | undefined;
+    modifyStatus!: ArchitectureListModifyStatus;
+
+    constructor(data?: IArchitectureListModuleDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.system = _data["system"];
+            this.name = _data["name"];
+            this.category = _data["category"];
+            this.model = _data["model"];
+            this.processingMode = _data["processingMode"];
+            this.length = _data["length"];
+            this.width = _data["width"];
+            this.height = _data["height"];
+            this.unit = _data["unit"];
+            this.processingCode = _data["processingCode"];
+            this.supplyMode = _data["supplyMode"];
+            this.moduleSpecification = _data["moduleSpecification"];
+            this.processNum = _data["processNum"];
+            this.assemblyDrawingNum = _data["assemblyDrawingNum"];
+            this.detailNum = _data["detailNum"];
+            this.remark = _data["remark"];
+            this.optional = _data["optional"];
+            if (Array.isArray(_data["materials"])) {
+                this.materials = [] as any;
+                for (let item of _data["materials"])
+                    this.materials!.push(ArchitectureListMaterialDto.fromJS(item));
+            }
+            this.id = _data["id"];
+            this.parentId = _data["parentId"];
+            this.path = _data["path"];
+            this.createUser = _data["createUser"];
+            this.modifyUser = _data["modifyUser"];
+            this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.status = _data["status"];
+            if (Array.isArray(_data["files"])) {
+                this.files = [] as any;
+                for (let item of _data["files"])
+                    this.files!.push(ArchitectureListFileDto.fromJS(item));
+            }
+            this.modifyStatus = _data["modifyStatus"];
+        }
+    }
+
+    static fromJS(data: any): ArchitectureListModuleDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArchitectureListModuleDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["system"] = this.system;
+        data["name"] = this.name;
+        data["category"] = this.category;
+        data["model"] = this.model;
+        data["processingMode"] = this.processingMode;
+        data["length"] = this.length;
+        data["width"] = this.width;
+        data["height"] = this.height;
+        data["unit"] = this.unit;
+        data["processingCode"] = this.processingCode;
+        data["supplyMode"] = this.supplyMode;
+        data["moduleSpecification"] = this.moduleSpecification;
+        data["processNum"] = this.processNum;
+        data["assemblyDrawingNum"] = this.assemblyDrawingNum;
+        data["detailNum"] = this.detailNum;
+        data["remark"] = this.remark;
+        data["optional"] = this.optional;
+        if (Array.isArray(this.materials)) {
+            data["materials"] = [];
+            for (let item of this.materials)
+                data["materials"].push(item.toJSON());
+        }
+        data["id"] = this.id;
+        data["parentId"] = this.parentId;
+        data["path"] = this.path;
+        data["createUser"] = this.createUser;
+        data["modifyUser"] = this.modifyUser;
+        data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
+        data["status"] = this.status;
+        if (Array.isArray(this.files)) {
+            data["files"] = [];
+            for (let item of this.files)
+                data["files"].push(item.toJSON());
+        }
+        data["modifyStatus"] = this.modifyStatus;
+        return data;
+    }
+}
+
+export interface IArchitectureListModuleDto {
+    system: string | undefined;
+    name: string | undefined;
+    category: string | undefined;
+    model: string | undefined;
+    processingMode: string | undefined;
+    length: string | undefined;
+    width: string | undefined;
+    height: string | undefined;
+    unit: string | undefined;
+    processingCode: string | undefined;
+    supplyMode: string | undefined;
+    moduleSpecification: string | undefined;
+    processNum: string | undefined;
+    assemblyDrawingNum: string | undefined;
+    detailNum: string | undefined;
+    remark: string | undefined;
+    optional: string | undefined;
+    materials: ArchitectureListMaterialDto[] | undefined;
+    id: string;
+    parentId: string;
+    path: string | undefined;
+    createUser: string | undefined;
+    modifyUser: string | undefined;
+    creationTime: dayjs.Dayjs;
+    lastModificationTime: dayjs.Dayjs | undefined;
+    status: ArchitectureListPublishStatus;
+    files: ArchitectureListFileDto[] | undefined;
+    modifyStatus: ArchitectureListModifyStatus;
+}
+
+export class ArchitectureListModuleDtoPagedResultDto implements IArchitectureListModuleDtoPagedResultDto {
+    items!: ArchitectureListModuleDto[] | undefined;
+    totalCount!: number;
+
+    constructor(data?: IArchitectureListModuleDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ArchitectureListModuleDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): ArchitectureListModuleDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArchitectureListModuleDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+}
+
+export interface IArchitectureListModuleDtoPagedResultDto {
+    items: ArchitectureListModuleDto[] | undefined;
+    totalCount: number;
+}
+
+export enum ArchitectureListPublishStatus {
+    InMark = 0,
+    DelayInMark = 1000,
+    OutMark = 10000,
+    DelayOutMark = 100000,
+}
+
+export class ArchitectureListTreeDto implements IArchitectureListTreeDto {
+    id!: string;
+    parentId!: string | undefined;
+    name!: string | undefined;
+    data!: string | undefined;
+    children!: ArchitectureListTreeDto[] | undefined;
+
+    constructor(data?: IArchitectureListTreeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.parentId = _data["parentId"];
+            this.name = _data["name"];
+            this.data = _data["data"];
+            if (Array.isArray(_data["children"])) {
+                this.children = [] as any;
+                for (let item of _data["children"])
+                    this.children!.push(ArchitectureListTreeDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ArchitectureListTreeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArchitectureListTreeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["parentId"] = this.parentId;
+        data["name"] = this.name;
+        data["data"] = this.data;
+        if (Array.isArray(this.children)) {
+            data["children"] = [];
+            for (let item of this.children)
+                data["children"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IArchitectureListTreeDto {
+    id: string;
+    parentId: string | undefined;
+    name: string | undefined;
+    data: string | undefined;
+    children: ArchitectureListTreeDto[] | undefined;
+}
+
+export class ArchitectureSearchDto implements IArchitectureSearchDto {
+    maxResultCount!: number;
+    skipCount!: number;
+    sorting!: string | undefined;
+    key!: string | undefined;
+    searchValue!: string | undefined;
+    searchCode!: string | undefined;
+    status!: ArchitectureListPublishStatus;
+
+    constructor(data?: IArchitectureSearchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.maxResultCount = _data["maxResultCount"];
+            this.skipCount = _data["skipCount"];
+            this.sorting = _data["sorting"];
+            this.key = _data["key"];
+            this.searchValue = _data["searchValue"];
+            this.searchCode = _data["searchCode"];
+            this.status = _data["status"];
+        }
+    }
+
+    static fromJS(data: any): ArchitectureSearchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArchitectureSearchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maxResultCount"] = this.maxResultCount;
+        data["skipCount"] = this.skipCount;
+        data["sorting"] = this.sorting;
+        data["key"] = this.key;
+        data["searchValue"] = this.searchValue;
+        data["searchCode"] = this.searchCode;
+        data["status"] = this.status;
+        return data;
+    }
+}
+
+export interface IArchitectureSearchDto {
+    maxResultCount: number;
+    skipCount: number;
+    sorting: string | undefined;
+    key: string | undefined;
+    searchValue: string | undefined;
+    searchCode: string | undefined;
+    status: ArchitectureListPublishStatus;
+}
+
+export class ArchitectureUpdateStatus implements IArchitectureUpdateStatus {
+    id!: string[] | undefined;
+    status!: ArchitectureListPublishStatus;
+
+    constructor(data?: IArchitectureUpdateStatus) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["id"])) {
+                this.id = [] as any;
+                for (let item of _data["id"])
+                    this.id!.push(item);
+            }
+            this.status = _data["status"];
+        }
+    }
+
+    static fromJS(data: any): ArchitectureUpdateStatus {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArchitectureUpdateStatus();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.id)) {
+            data["id"] = [];
+            for (let item of this.id)
+                data["id"].push(item);
+        }
+        data["status"] = this.status;
+        return data;
+    }
+}
+
+export interface IArchitectureUpdateStatus {
+    id: string[] | undefined;
+    status: ArchitectureListPublishStatus;
+}
+
+export class BucketObject implements IBucketObject {
+    name!: string | undefined;
+    urn!: string | undefined;
+
+    constructor(data?: IBucketObject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.urn = _data["urn"];
+        }
+    }
+
+    static fromJS(data: any): BucketObject {
+        data = typeof data === 'object' ? data : {};
+        let result = new BucketObject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["urn"] = this.urn;
+        return data;
+    }
+}
+
+export interface IBucketObject {
+    name: string | undefined;
+    urn: string | undefined;
 }
 
 export class ChangePasswordInput implements IChangePasswordInput {
@@ -15191,6 +25842,162 @@ export interface IExtensionPropertyUiTableDto {
     isVisible: boolean;
 }
 
+export class FamilyLibCreateDto implements IFamilyLibCreateDto {
+    /** Id */
+    id!: string;
+    /** 状态 (停用/启用) */
+    status!: string | undefined;
+    /** 分类Id */
+    categoryId!: string;
+    /** 父级Id */
+    parentId!: string | undefined;
+    /** 层级编码 */
+    code!: string | undefined;
+    /** 层级 */
+    level!: number;
+    parent!: FamilyLibDto;
+    /** 子集 */
+    children!: FamilyLibDto[] | undefined;
+    displayName!: string | undefined;
+    /** 编码 */
+    number!: string | undefined;
+    length!: number;
+    width!: number;
+    height!: number;
+    /** 单位 */
+    unit!: string | undefined;
+    /** 版本 */
+    version!: string | undefined;
+    /** 上传用户 */
+    uploadUser!: string | undefined;
+    /** 文件存储地址 */
+    filePath!: string | undefined;
+    /** 图片存储地址 */
+    imagePath!: string | undefined;
+    /** 数据描述 */
+    description!: string | undefined;
+    /** 补充数据 */
+    externalData!: string | undefined;
+    /** 层级结构 */
+    hierarchy!: string | undefined;
+
+    constructor(data?: IFamilyLibCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.status = _data["status"];
+            this.categoryId = _data["categoryId"];
+            this.parentId = _data["parentId"];
+            this.code = _data["code"];
+            this.level = _data["level"];
+            this.parent = _data["parent"] ? FamilyLibDto.fromJS(_data["parent"]) : <any>undefined;
+            if (Array.isArray(_data["children"])) {
+                this.children = [] as any;
+                for (let item of _data["children"])
+                    this.children!.push(FamilyLibDto.fromJS(item));
+            }
+            this.displayName = _data["displayName"];
+            this.number = _data["number"];
+            this.length = _data["length"];
+            this.width = _data["width"];
+            this.height = _data["height"];
+            this.unit = _data["unit"];
+            this.version = _data["version"];
+            this.uploadUser = _data["uploadUser"];
+            this.filePath = _data["filePath"];
+            this.imagePath = _data["imagePath"];
+            this.description = _data["description"];
+            this.externalData = _data["externalData"];
+            this.hierarchy = _data["hierarchy"];
+        }
+    }
+
+    static fromJS(data: any): FamilyLibCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FamilyLibCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["status"] = this.status;
+        data["categoryId"] = this.categoryId;
+        data["parentId"] = this.parentId;
+        data["code"] = this.code;
+        data["level"] = this.level;
+        data["parent"] = this.parent ? this.parent.toJSON() : <any>undefined;
+        if (Array.isArray(this.children)) {
+            data["children"] = [];
+            for (let item of this.children)
+                data["children"].push(item.toJSON());
+        }
+        data["displayName"] = this.displayName;
+        data["number"] = this.number;
+        data["length"] = this.length;
+        data["width"] = this.width;
+        data["height"] = this.height;
+        data["unit"] = this.unit;
+        data["version"] = this.version;
+        data["uploadUser"] = this.uploadUser;
+        data["filePath"] = this.filePath;
+        data["imagePath"] = this.imagePath;
+        data["description"] = this.description;
+        data["externalData"] = this.externalData;
+        data["hierarchy"] = this.hierarchy;
+        return data;
+    }
+}
+
+export interface IFamilyLibCreateDto {
+    /** Id */
+    id: string;
+    /** 状态 (停用/启用) */
+    status: string | undefined;
+    /** 分类Id */
+    categoryId: string;
+    /** 父级Id */
+    parentId: string | undefined;
+    /** 层级编码 */
+    code: string | undefined;
+    /** 层级 */
+    level: number;
+    parent: FamilyLibDto;
+    /** 子集 */
+    children: FamilyLibDto[] | undefined;
+    displayName: string | undefined;
+    /** 编码 */
+    number: string | undefined;
+    length: number;
+    width: number;
+    height: number;
+    /** 单位 */
+    unit: string | undefined;
+    /** 版本 */
+    version: string | undefined;
+    /** 上传用户 */
+    uploadUser: string | undefined;
+    /** 文件存储地址 */
+    filePath: string | undefined;
+    /** 图片存储地址 */
+    imagePath: string | undefined;
+    /** 数据描述 */
+    description: string | undefined;
+    /** 补充数据 */
+    externalData: string | undefined;
+    /** 层级结构 */
+    hierarchy: string | undefined;
+}
+
 export class FamilyLibDto implements IFamilyLibDto {
     id!: string;
     creationTime!: dayjs.Dayjs;
@@ -15407,6 +26214,78 @@ export class FamilyLibDtoPagedResultDto implements IFamilyLibDtoPagedResultDto {
 export interface IFamilyLibDtoPagedResultDto {
     items: FamilyLibDto[] | undefined;
     totalCount: number;
+}
+
+export class FamilyTreeCreateDto implements IFamilyTreeCreateDto {
+    id!: string;
+    parentId!: string | undefined;
+    code!: string | undefined;
+    level!: number;
+    parent!: FamilyTreeDto;
+    children!: FamilyTreeDto[] | undefined;
+    displayName!: string | undefined;
+    blobName!: string | undefined;
+
+    constructor(data?: IFamilyTreeCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.parentId = _data["parentId"];
+            this.code = _data["code"];
+            this.level = _data["level"];
+            this.parent = _data["parent"] ? FamilyTreeDto.fromJS(_data["parent"]) : <any>undefined;
+            if (Array.isArray(_data["children"])) {
+                this.children = [] as any;
+                for (let item of _data["children"])
+                    this.children!.push(FamilyTreeDto.fromJS(item));
+            }
+            this.displayName = _data["displayName"];
+            this.blobName = _data["blobName"];
+        }
+    }
+
+    static fromJS(data: any): FamilyTreeCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FamilyTreeCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["parentId"] = this.parentId;
+        data["code"] = this.code;
+        data["level"] = this.level;
+        data["parent"] = this.parent ? this.parent.toJSON() : <any>undefined;
+        if (Array.isArray(this.children)) {
+            data["children"] = [];
+            for (let item of this.children)
+                data["children"].push(item.toJSON());
+        }
+        data["displayName"] = this.displayName;
+        data["blobName"] = this.blobName;
+        return data;
+    }
+}
+
+export interface IFamilyTreeCreateDto {
+    id: string;
+    parentId: string | undefined;
+    code: string | undefined;
+    level: number;
+    parent: FamilyTreeDto;
+    children: FamilyTreeDto[] | undefined;
+    displayName: string | undefined;
+    blobName: string | undefined;
 }
 
 export class FamilyTreeDto implements IFamilyTreeDto {
@@ -18233,6 +29112,243 @@ export interface ILanguageInfo {
     flagIcon: string | undefined;
 }
 
+export class ListProcessingBuildDto implements IListProcessingBuildDto {
+    file!: string | undefined;
+    config!: string | undefined;
+    rule!: string | undefined;
+    nest!: string | undefined;
+    type!: string | undefined;
+    dt!: string | undefined;
+    sheets!: string[] | undefined;
+    replace!: boolean;
+
+    constructor(data?: IListProcessingBuildDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.file = _data["file"];
+            this.config = _data["config"];
+            this.rule = _data["rule"];
+            this.nest = _data["nest"];
+            this.type = _data["type"];
+            this.dt = _data["dt"];
+            if (Array.isArray(_data["sheets"])) {
+                this.sheets = [] as any;
+                for (let item of _data["sheets"])
+                    this.sheets!.push(item);
+            }
+            this.replace = _data["replace"];
+        }
+    }
+
+    static fromJS(data: any): ListProcessingBuildDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListProcessingBuildDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["file"] = this.file;
+        data["config"] = this.config;
+        data["rule"] = this.rule;
+        data["nest"] = this.nest;
+        data["type"] = this.type;
+        data["dt"] = this.dt;
+        if (Array.isArray(this.sheets)) {
+            data["sheets"] = [];
+            for (let item of this.sheets)
+                data["sheets"].push(item);
+        }
+        data["replace"] = this.replace;
+        return data;
+    }
+}
+
+export interface IListProcessingBuildDto {
+    file: string | undefined;
+    config: string | undefined;
+    rule: string | undefined;
+    nest: string | undefined;
+    type: string | undefined;
+    dt: string | undefined;
+    sheets: string[] | undefined;
+    replace: boolean;
+}
+
+export class ListProcessingDto implements IListProcessingDto {
+    id!: string;
+    creationTime!: dayjs.Dayjs;
+    creatorId!: string | undefined;
+    lastModificationTime!: dayjs.Dayjs | undefined;
+    lastModifierId!: string | undefined;
+    name!: string | undefined;
+    /** 文件存储地址 */
+    filePath!: string | undefined;
+
+    constructor(data?: IListProcessingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorId = _data["creatorId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierId = _data["lastModifierId"];
+            this.name = _data["name"];
+            this.filePath = _data["filePath"];
+        }
+    }
+
+    static fromJS(data: any): ListProcessingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListProcessingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
+        data["creatorId"] = this.creatorId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
+        data["lastModifierId"] = this.lastModifierId;
+        data["name"] = this.name;
+        data["filePath"] = this.filePath;
+        return data;
+    }
+}
+
+export interface IListProcessingDto {
+    id: string;
+    creationTime: dayjs.Dayjs;
+    creatorId: string | undefined;
+    lastModificationTime: dayjs.Dayjs | undefined;
+    lastModifierId: string | undefined;
+    name: string | undefined;
+    /** 文件存储地址 */
+    filePath: string | undefined;
+}
+
+export class ListProcessingDtoPagedResultDto implements IListProcessingDtoPagedResultDto {
+    items!: ListProcessingDto[] | undefined;
+    totalCount!: number;
+
+    constructor(data?: IListProcessingDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ListProcessingDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): ListProcessingDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListProcessingDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+}
+
+export interface IListProcessingDtoPagedResultDto {
+    items: ListProcessingDto[] | undefined;
+    totalCount: number;
+}
+
+export class ListProcessingSearchDto implements IListProcessingSearchDto {
+    maxResultCount!: number;
+    skipCount!: number;
+    sorting!: string | undefined;
+    search!: string | undefined;
+
+    constructor(data?: IListProcessingSearchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.maxResultCount = _data["maxResultCount"];
+            this.skipCount = _data["skipCount"];
+            this.sorting = _data["sorting"];
+            this.search = _data["search"];
+        }
+    }
+
+    static fromJS(data: any): ListProcessingSearchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListProcessingSearchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maxResultCount"] = this.maxResultCount;
+        data["skipCount"] = this.skipCount;
+        data["sorting"] = this.sorting;
+        data["search"] = this.search;
+        return data;
+    }
+}
+
+export interface IListProcessingSearchDto {
+    maxResultCount: number;
+    skipCount: number;
+    sorting: string | undefined;
+    search: string | undefined;
+}
+
+export enum ListProcessingSelectEnum {
+    Sheet = 0,
+    Config = 1,
+    Rule = 2,
+    Nest = 4,
+}
+
 export class LocalizableStringDto implements ILocalizableStringDto {
     name!: string | undefined;
     resource!: string | undefined;
@@ -18431,13 +29547,129 @@ export enum LoginResultType {
     RequiresTwoFactor = 5,
 }
 
+export class MaterialInventoryCreateDto implements IMaterialInventoryCreateDto {
+    /** 项目名称 */
+    projectName!: string | undefined;
+    /** 仓库 */
+    warehouse!: string | undefined;
+    /** 库位名称 */
+    warehouseLocationName!: string | undefined;
+    /** 料单编码 */
+    billMaterialsCode!: string | undefined;
+    /** 材料编码 */
+    materialCode!: string | undefined;
+    /** 材料名称 */
+    materialName!: string | undefined;
+    /** 生产批次 */
+    productionBatch!: string | undefined;
+    /** 单位 */
+    unit!: string | undefined;
+    /** 库存数量 */
+    inventoryQuantity!: number;
+    /** 库存金额 */
+    inventoryAmount!: number;
+    /** 入库时间 */
+    storageTime!: string | undefined;
+
+    constructor(data?: IMaterialInventoryCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.projectName = _data["projectName"];
+            this.warehouse = _data["warehouse"];
+            this.warehouseLocationName = _data["warehouseLocationName"];
+            this.billMaterialsCode = _data["billMaterialsCode"];
+            this.materialCode = _data["materialCode"];
+            this.materialName = _data["materialName"];
+            this.productionBatch = _data["productionBatch"];
+            this.unit = _data["unit"];
+            this.inventoryQuantity = _data["inventoryQuantity"];
+            this.inventoryAmount = _data["inventoryAmount"];
+            this.storageTime = _data["storageTime"];
+        }
+    }
+
+    static fromJS(data: any): MaterialInventoryCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MaterialInventoryCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["projectName"] = this.projectName;
+        data["warehouse"] = this.warehouse;
+        data["warehouseLocationName"] = this.warehouseLocationName;
+        data["billMaterialsCode"] = this.billMaterialsCode;
+        data["materialCode"] = this.materialCode;
+        data["materialName"] = this.materialName;
+        data["productionBatch"] = this.productionBatch;
+        data["unit"] = this.unit;
+        data["inventoryQuantity"] = this.inventoryQuantity;
+        data["inventoryAmount"] = this.inventoryAmount;
+        data["storageTime"] = this.storageTime;
+        return data;
+    }
+}
+
+export interface IMaterialInventoryCreateDto {
+    /** 项目名称 */
+    projectName: string | undefined;
+    /** 仓库 */
+    warehouse: string | undefined;
+    /** 库位名称 */
+    warehouseLocationName: string | undefined;
+    /** 料单编码 */
+    billMaterialsCode: string | undefined;
+    /** 材料编码 */
+    materialCode: string | undefined;
+    /** 材料名称 */
+    materialName: string | undefined;
+    /** 生产批次 */
+    productionBatch: string | undefined;
+    /** 单位 */
+    unit: string | undefined;
+    /** 库存数量 */
+    inventoryQuantity: number;
+    /** 库存金额 */
+    inventoryAmount: number;
+    /** 入库时间 */
+    storageTime: string | undefined;
+}
+
 export class MaterialInventoryDto implements IMaterialInventoryDto {
+    /** 项目名称 */
+    projectName!: string | undefined;
+    /** 仓库 */
+    warehouse!: string | undefined;
+    /** 库位名称 */
+    warehouseLocationName!: string | undefined;
+    /** 料单编码 */
+    billMaterialsCode!: string | undefined;
+    /** 材料编码 */
+    materialCode!: string | undefined;
+    /** 材料名称 */
+    materialName!: string | undefined;
+    /** 生产批次 */
+    productionBatch!: string | undefined;
+    /** 单位 */
+    unit!: string | undefined;
+    /** 库存数量 */
+    inventoryQuantity!: number;
+    /** 库存金额 */
+    inventoryAmount!: number;
+    /** 入库时间 */
+    storageTime!: string | undefined;
     id!: string;
     creationTime!: dayjs.Dayjs;
-    creatorId!: string | undefined;
-    lastModificationTime!: dayjs.Dayjs | undefined;
-    lastModifierId!: string | undefined;
-    data!: string | undefined;
 
     constructor(data?: IMaterialInventoryDto) {
         if (data) {
@@ -18450,12 +29682,19 @@ export class MaterialInventoryDto implements IMaterialInventoryDto {
 
     init(_data?: any) {
         if (_data) {
+            this.projectName = _data["projectName"];
+            this.warehouse = _data["warehouse"];
+            this.warehouseLocationName = _data["warehouseLocationName"];
+            this.billMaterialsCode = _data["billMaterialsCode"];
+            this.materialCode = _data["materialCode"];
+            this.materialName = _data["materialName"];
+            this.productionBatch = _data["productionBatch"];
+            this.unit = _data["unit"];
+            this.inventoryQuantity = _data["inventoryQuantity"];
+            this.inventoryAmount = _data["inventoryAmount"];
+            this.storageTime = _data["storageTime"];
             this.id = _data["id"];
             this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorId = _data["creatorId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierId = _data["lastModifierId"];
-            this.data = _data["data"];
         }
     }
 
@@ -18468,30 +29707,437 @@ export class MaterialInventoryDto implements IMaterialInventoryDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["projectName"] = this.projectName;
+        data["warehouse"] = this.warehouse;
+        data["warehouseLocationName"] = this.warehouseLocationName;
+        data["billMaterialsCode"] = this.billMaterialsCode;
+        data["materialCode"] = this.materialCode;
+        data["materialName"] = this.materialName;
+        data["productionBatch"] = this.productionBatch;
+        data["unit"] = this.unit;
+        data["inventoryQuantity"] = this.inventoryQuantity;
+        data["inventoryAmount"] = this.inventoryAmount;
+        data["storageTime"] = this.storageTime;
         data["id"] = this.id;
         data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
-        data["creatorId"] = this.creatorId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
-        data["lastModifierId"] = this.lastModifierId;
-        data["data"] = this.data;
         return data;
     }
 }
 
 export interface IMaterialInventoryDto {
+    /** 项目名称 */
+    projectName: string | undefined;
+    /** 仓库 */
+    warehouse: string | undefined;
+    /** 库位名称 */
+    warehouseLocationName: string | undefined;
+    /** 料单编码 */
+    billMaterialsCode: string | undefined;
+    /** 材料编码 */
+    materialCode: string | undefined;
+    /** 材料名称 */
+    materialName: string | undefined;
+    /** 生产批次 */
+    productionBatch: string | undefined;
+    /** 单位 */
+    unit: string | undefined;
+    /** 库存数量 */
+    inventoryQuantity: number;
+    /** 库存金额 */
+    inventoryAmount: number;
+    /** 入库时间 */
+    storageTime: string | undefined;
     id: string;
     creationTime: dayjs.Dayjs;
-    creatorId: string | undefined;
-    lastModificationTime: dayjs.Dayjs | undefined;
-    lastModifierId: string | undefined;
-    data: string | undefined;
 }
 
-export class MaterialInventoryDtoPagedResultDto implements IMaterialInventoryDtoPagedResultDto {
-    items!: MaterialInventoryDto[] | undefined;
+export class MaterialManageDto implements IMaterialManageDto {
+    id!: string;
+    /** 材料状态 */
+    status!: string | undefined;
+    /** 材料图片 */
+    materialImageUrl!: string | undefined;
+    /** 材料图片下载地址 */
+    materialImageDownLoadUrl!: string | undefined;
+    baiduSign!: string | undefined;
+    /** 材质类型 */
+    materialType!: string | undefined;
+    /** 材质纹理 */
+    materialTexture!: string | undefined;
+    /** 表面质感 */
+    materialSurface!: string | undefined;
+    /** 顺序码 */
+    sequenceCode!: string | undefined;
+    /** 封样样品存放处 */
+    storagePlace!: string | undefined;
+    /** 宽幅 */
+    width!: string | undefined;
+    /** 厚度 */
+    thickness!: string | undefined;
+    /** 重量 */
+    weight!: string | undefined;
+    /** 每卷长度 */
+    length!: string | undefined;
+    /** 供应商 */
+    supplier!: string | undefined;
+    supplierOverview!: string | undefined;
+    /** 供应商编码 */
+    supplierCode!: string | undefined;
+    /** 价格区间 */
+    price!: string | undefined;
+    /** 起订量 */
+    quantity!: string | undefined;
+    /** 供货周期 */
+    deliveryCycle!: string | undefined;
+    /** 样册系列名称 */
+    seriesName!: string | undefined;
+    /** 样册系列照片 */
+    seriesImageUrl!: string | undefined;
+    /** 样册系列编码 */
+    seriesCode!: string | undefined;
+    /** 操作用户 */
+    operatingUser!: string | undefined;
+
+    constructor(data?: IMaterialManageDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.status = _data["status"];
+            this.materialImageUrl = _data["materialImageUrl"];
+            this.materialImageDownLoadUrl = _data["materialImageDownLoadUrl"];
+            this.baiduSign = _data["baiduSign"];
+            this.materialType = _data["materialType"];
+            this.materialTexture = _data["materialTexture"];
+            this.materialSurface = _data["materialSurface"];
+            this.sequenceCode = _data["sequenceCode"];
+            this.storagePlace = _data["storagePlace"];
+            this.width = _data["width"];
+            this.thickness = _data["thickness"];
+            this.weight = _data["weight"];
+            this.length = _data["length"];
+            this.supplier = _data["supplier"];
+            this.supplierOverview = _data["supplierOverview"];
+            this.supplierCode = _data["supplierCode"];
+            this.price = _data["price"];
+            this.quantity = _data["quantity"];
+            this.deliveryCycle = _data["deliveryCycle"];
+            this.seriesName = _data["seriesName"];
+            this.seriesImageUrl = _data["seriesImageUrl"];
+            this.seriesCode = _data["seriesCode"];
+            this.operatingUser = _data["operatingUser"];
+        }
+    }
+
+    static fromJS(data: any): MaterialManageDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MaterialManageDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["status"] = this.status;
+        data["materialImageUrl"] = this.materialImageUrl;
+        data["materialImageDownLoadUrl"] = this.materialImageDownLoadUrl;
+        data["baiduSign"] = this.baiduSign;
+        data["materialType"] = this.materialType;
+        data["materialTexture"] = this.materialTexture;
+        data["materialSurface"] = this.materialSurface;
+        data["sequenceCode"] = this.sequenceCode;
+        data["storagePlace"] = this.storagePlace;
+        data["width"] = this.width;
+        data["thickness"] = this.thickness;
+        data["weight"] = this.weight;
+        data["length"] = this.length;
+        data["supplier"] = this.supplier;
+        data["supplierOverview"] = this.supplierOverview;
+        data["supplierCode"] = this.supplierCode;
+        data["price"] = this.price;
+        data["quantity"] = this.quantity;
+        data["deliveryCycle"] = this.deliveryCycle;
+        data["seriesName"] = this.seriesName;
+        data["seriesImageUrl"] = this.seriesImageUrl;
+        data["seriesCode"] = this.seriesCode;
+        data["operatingUser"] = this.operatingUser;
+        return data;
+    }
+}
+
+export interface IMaterialManageDto {
+    id: string;
+    /** 材料状态 */
+    status: string | undefined;
+    /** 材料图片 */
+    materialImageUrl: string | undefined;
+    /** 材料图片下载地址 */
+    materialImageDownLoadUrl: string | undefined;
+    baiduSign: string | undefined;
+    /** 材质类型 */
+    materialType: string | undefined;
+    /** 材质纹理 */
+    materialTexture: string | undefined;
+    /** 表面质感 */
+    materialSurface: string | undefined;
+    /** 顺序码 */
+    sequenceCode: string | undefined;
+    /** 封样样品存放处 */
+    storagePlace: string | undefined;
+    /** 宽幅 */
+    width: string | undefined;
+    /** 厚度 */
+    thickness: string | undefined;
+    /** 重量 */
+    weight: string | undefined;
+    /** 每卷长度 */
+    length: string | undefined;
+    /** 供应商 */
+    supplier: string | undefined;
+    supplierOverview: string | undefined;
+    /** 供应商编码 */
+    supplierCode: string | undefined;
+    /** 价格区间 */
+    price: string | undefined;
+    /** 起订量 */
+    quantity: string | undefined;
+    /** 供货周期 */
+    deliveryCycle: string | undefined;
+    /** 样册系列名称 */
+    seriesName: string | undefined;
+    /** 样册系列照片 */
+    seriesImageUrl: string | undefined;
+    /** 样册系列编码 */
+    seriesCode: string | undefined;
+    /** 操作用户 */
+    operatingUser: string | undefined;
+}
+
+export class MaterialManageFullDto implements IMaterialManageFullDto {
+    id!: string;
+    /** 材料状态 */
+    status!: string | undefined;
+    /** 材料图片 */
+    materialImageUrl!: string | undefined;
+    /** 材料图片下载地址 */
+    materialImageDownLoadUrl!: string | undefined;
+    baiduSign!: string | undefined;
+    /** 材质类型 */
+    materialType!: string | undefined;
+    /** 材质纹理 */
+    materialTexture!: string | undefined;
+    /** 表面质感 */
+    materialSurface!: string | undefined;
+    /** 顺序码 */
+    sequenceCode!: string | undefined;
+    /** 封样样品存放处 */
+    storagePlace!: string | undefined;
+    /** 宽幅 */
+    width!: string | undefined;
+    /** 厚度 */
+    thickness!: string | undefined;
+    /** 重量 */
+    weight!: string | undefined;
+    /** 每卷长度 */
+    length!: string | undefined;
+    /** 供应商 */
+    supplier!: string | undefined;
+    supplierOverview!: string | undefined;
+    /** 供应商编码 */
+    supplierCode!: string | undefined;
+    /** 价格区间 */
+    price!: string | undefined;
+    /** 起订量 */
+    quantity!: string | undefined;
+    /** 供货周期 */
+    deliveryCycle!: string | undefined;
+    /** 样册系列名称 */
+    seriesName!: string | undefined;
+    /** 样册系列照片 */
+    seriesImageUrl!: string | undefined;
+    /** 样册系列编码 */
+    seriesCode!: string | undefined;
+    /** 操作用户 */
+    operatingUser!: string | undefined;
+    /** 亚厦物料编码 */
+    materialCode!: string | undefined;
+    /** 生产批次 */
+    productionBatch!: string | undefined;
+    /** 入库时间 */
+    storageTime!: string | undefined;
+    /** 批次库存 */
+    batchInventory!: string | undefined;
+    /** 总库存 */
+    totalInventory!: string | undefined;
+    /** 修改时间 */
+    lastModificationTime!: dayjs.Dayjs | undefined;
+    /** 创建时间 */
+    creationTime!: dayjs.Dayjs;
+
+    constructor(data?: IMaterialManageFullDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.status = _data["status"];
+            this.materialImageUrl = _data["materialImageUrl"];
+            this.materialImageDownLoadUrl = _data["materialImageDownLoadUrl"];
+            this.baiduSign = _data["baiduSign"];
+            this.materialType = _data["materialType"];
+            this.materialTexture = _data["materialTexture"];
+            this.materialSurface = _data["materialSurface"];
+            this.sequenceCode = _data["sequenceCode"];
+            this.storagePlace = _data["storagePlace"];
+            this.width = _data["width"];
+            this.thickness = _data["thickness"];
+            this.weight = _data["weight"];
+            this.length = _data["length"];
+            this.supplier = _data["supplier"];
+            this.supplierOverview = _data["supplierOverview"];
+            this.supplierCode = _data["supplierCode"];
+            this.price = _data["price"];
+            this.quantity = _data["quantity"];
+            this.deliveryCycle = _data["deliveryCycle"];
+            this.seriesName = _data["seriesName"];
+            this.seriesImageUrl = _data["seriesImageUrl"];
+            this.seriesCode = _data["seriesCode"];
+            this.operatingUser = _data["operatingUser"];
+            this.materialCode = _data["materialCode"];
+            this.productionBatch = _data["productionBatch"];
+            this.storageTime = _data["storageTime"];
+            this.batchInventory = _data["batchInventory"];
+            this.totalInventory = _data["totalInventory"];
+            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): MaterialManageFullDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MaterialManageFullDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["status"] = this.status;
+        data["materialImageUrl"] = this.materialImageUrl;
+        data["materialImageDownLoadUrl"] = this.materialImageDownLoadUrl;
+        data["baiduSign"] = this.baiduSign;
+        data["materialType"] = this.materialType;
+        data["materialTexture"] = this.materialTexture;
+        data["materialSurface"] = this.materialSurface;
+        data["sequenceCode"] = this.sequenceCode;
+        data["storagePlace"] = this.storagePlace;
+        data["width"] = this.width;
+        data["thickness"] = this.thickness;
+        data["weight"] = this.weight;
+        data["length"] = this.length;
+        data["supplier"] = this.supplier;
+        data["supplierOverview"] = this.supplierOverview;
+        data["supplierCode"] = this.supplierCode;
+        data["price"] = this.price;
+        data["quantity"] = this.quantity;
+        data["deliveryCycle"] = this.deliveryCycle;
+        data["seriesName"] = this.seriesName;
+        data["seriesImageUrl"] = this.seriesImageUrl;
+        data["seriesCode"] = this.seriesCode;
+        data["operatingUser"] = this.operatingUser;
+        data["materialCode"] = this.materialCode;
+        data["productionBatch"] = this.productionBatch;
+        data["storageTime"] = this.storageTime;
+        data["batchInventory"] = this.batchInventory;
+        data["totalInventory"] = this.totalInventory;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IMaterialManageFullDto {
+    id: string;
+    /** 材料状态 */
+    status: string | undefined;
+    /** 材料图片 */
+    materialImageUrl: string | undefined;
+    /** 材料图片下载地址 */
+    materialImageDownLoadUrl: string | undefined;
+    baiduSign: string | undefined;
+    /** 材质类型 */
+    materialType: string | undefined;
+    /** 材质纹理 */
+    materialTexture: string | undefined;
+    /** 表面质感 */
+    materialSurface: string | undefined;
+    /** 顺序码 */
+    sequenceCode: string | undefined;
+    /** 封样样品存放处 */
+    storagePlace: string | undefined;
+    /** 宽幅 */
+    width: string | undefined;
+    /** 厚度 */
+    thickness: string | undefined;
+    /** 重量 */
+    weight: string | undefined;
+    /** 每卷长度 */
+    length: string | undefined;
+    /** 供应商 */
+    supplier: string | undefined;
+    supplierOverview: string | undefined;
+    /** 供应商编码 */
+    supplierCode: string | undefined;
+    /** 价格区间 */
+    price: string | undefined;
+    /** 起订量 */
+    quantity: string | undefined;
+    /** 供货周期 */
+    deliveryCycle: string | undefined;
+    /** 样册系列名称 */
+    seriesName: string | undefined;
+    /** 样册系列照片 */
+    seriesImageUrl: string | undefined;
+    /** 样册系列编码 */
+    seriesCode: string | undefined;
+    /** 操作用户 */
+    operatingUser: string | undefined;
+    /** 亚厦物料编码 */
+    materialCode: string | undefined;
+    /** 生产批次 */
+    productionBatch: string | undefined;
+    /** 入库时间 */
+    storageTime: string | undefined;
+    /** 批次库存 */
+    batchInventory: string | undefined;
+    /** 总库存 */
+    totalInventory: string | undefined;
+    /** 修改时间 */
+    lastModificationTime: dayjs.Dayjs | undefined;
+    /** 创建时间 */
+    creationTime: dayjs.Dayjs;
+}
+
+export class MaterialManageFullDtoPagedResultDto implements IMaterialManageFullDtoPagedResultDto {
+    items!: MaterialManageFullDto[] | undefined;
     totalCount!: number;
 
-    constructor(data?: IMaterialInventoryDtoPagedResultDto) {
+    constructor(data?: IMaterialManageFullDtoPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -18505,15 +30151,15 @@ export class MaterialInventoryDtoPagedResultDto implements IMaterialInventoryDto
             if (Array.isArray(_data["items"])) {
                 this.items = [] as any;
                 for (let item of _data["items"])
-                    this.items!.push(MaterialInventoryDto.fromJS(item));
+                    this.items!.push(MaterialManageFullDto.fromJS(item));
             }
             this.totalCount = _data["totalCount"];
         }
     }
 
-    static fromJS(data: any): MaterialInventoryDtoPagedResultDto {
+    static fromJS(data: any): MaterialManageFullDtoPagedResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new MaterialInventoryDtoPagedResultDto();
+        let result = new MaterialManageFullDtoPagedResultDto();
         result.init(data);
         return result;
     }
@@ -18530,26 +30176,19 @@ export class MaterialInventoryDtoPagedResultDto implements IMaterialInventoryDto
     }
 }
 
-export interface IMaterialInventoryDtoPagedResultDto {
-    items: MaterialInventoryDto[] | undefined;
+export interface IMaterialManageFullDtoPagedResultDto {
+    items: MaterialManageFullDto[] | undefined;
     totalCount: number;
 }
 
-export class MaterialInventoryInfoDto implements IMaterialInventoryInfoDto {
-    /** 仓库 */
-    warehouse!: string | undefined;
-    /** 库位名称 */
-    warehouseLocationName!: string | undefined;
-    /** 材料编码 */
-    materialCode!: string | undefined;
-    /** 材料名称 */
-    materialName!: string | undefined;
-    /** 库存数量 */
-    inventoryQuantity!: number;
-    /** 库存金额 */
-    inventoryAmount!: number;
+export class MaterialManageHomeDto implements IMaterialManageHomeDto {
+    items!: MaterialManageHomeItem[] | undefined;
+    totalCount!: number;
+    materialTypes!: string[] | undefined;
+    materialTextures!: string[] | undefined;
+    materialSurfaces!: string[] | undefined;
 
-    constructor(data?: IMaterialInventoryInfoDto) {
+    constructor(data?: IMaterialManageHomeDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -18560,53 +30199,83 @@ export class MaterialInventoryInfoDto implements IMaterialInventoryInfoDto {
 
     init(_data?: any) {
         if (_data) {
-            this.warehouse = _data["warehouse"];
-            this.warehouseLocationName = _data["warehouseLocationName"];
-            this.materialCode = _data["materialCode"];
-            this.materialName = _data["materialName"];
-            this.inventoryQuantity = _data["inventoryQuantity"];
-            this.inventoryAmount = _data["inventoryAmount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(MaterialManageHomeItem.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["materialTypes"])) {
+                this.materialTypes = [] as any;
+                for (let item of _data["materialTypes"])
+                    this.materialTypes!.push(item);
+            }
+            if (Array.isArray(_data["materialTextures"])) {
+                this.materialTextures = [] as any;
+                for (let item of _data["materialTextures"])
+                    this.materialTextures!.push(item);
+            }
+            if (Array.isArray(_data["materialSurfaces"])) {
+                this.materialSurfaces = [] as any;
+                for (let item of _data["materialSurfaces"])
+                    this.materialSurfaces!.push(item);
+            }
         }
     }
 
-    static fromJS(data: any): MaterialInventoryInfoDto {
+    static fromJS(data: any): MaterialManageHomeDto {
         data = typeof data === 'object' ? data : {};
-        let result = new MaterialInventoryInfoDto();
+        let result = new MaterialManageHomeDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["warehouse"] = this.warehouse;
-        data["warehouseLocationName"] = this.warehouseLocationName;
-        data["materialCode"] = this.materialCode;
-        data["materialName"] = this.materialName;
-        data["inventoryQuantity"] = this.inventoryQuantity;
-        data["inventoryAmount"] = this.inventoryAmount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.materialTypes)) {
+            data["materialTypes"] = [];
+            for (let item of this.materialTypes)
+                data["materialTypes"].push(item);
+        }
+        if (Array.isArray(this.materialTextures)) {
+            data["materialTextures"] = [];
+            for (let item of this.materialTextures)
+                data["materialTextures"].push(item);
+        }
+        if (Array.isArray(this.materialSurfaces)) {
+            data["materialSurfaces"] = [];
+            for (let item of this.materialSurfaces)
+                data["materialSurfaces"].push(item);
+        }
         return data;
     }
 }
 
-export interface IMaterialInventoryInfoDto {
-    /** 仓库 */
-    warehouse: string | undefined;
-    /** 库位名称 */
-    warehouseLocationName: string | undefined;
-    /** 材料编码 */
-    materialCode: string | undefined;
-    /** 材料名称 */
-    materialName: string | undefined;
-    /** 库存数量 */
-    inventoryQuantity: number;
-    /** 库存金额 */
-    inventoryAmount: number;
+export interface IMaterialManageHomeDto {
+    items: MaterialManageHomeItem[] | undefined;
+    totalCount: number;
+    materialTypes: string[] | undefined;
+    materialTextures: string[] | undefined;
+    materialSurfaces: string[] | undefined;
 }
 
-export class MaterialInventoryUpdateDto implements IMaterialInventoryUpdateDto {
-    data!: string | undefined;
+export class MaterialManageHomeItem implements IMaterialManageHomeItem {
+    id!: string;
+    materialImageUrl!: string | undefined;
+    sequenceCode!: string | undefined;
+    materialType!: string | undefined;
+    materialTexture!: string | undefined;
+    materialSurface!: string | undefined;
+    /** 拍照识别相似度 */
+    similarity!: string | undefined;
 
-    constructor(data?: IMaterialInventoryUpdateDto) {
+    constructor(data?: IMaterialManageHomeItem) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -18617,26 +30286,579 @@ export class MaterialInventoryUpdateDto implements IMaterialInventoryUpdateDto {
 
     init(_data?: any) {
         if (_data) {
-            this.data = _data["data"];
+            this.id = _data["id"];
+            this.materialImageUrl = _data["materialImageUrl"];
+            this.sequenceCode = _data["sequenceCode"];
+            this.materialType = _data["materialType"];
+            this.materialTexture = _data["materialTexture"];
+            this.materialSurface = _data["materialSurface"];
+            this.similarity = _data["similarity"];
         }
     }
 
-    static fromJS(data: any): MaterialInventoryUpdateDto {
+    static fromJS(data: any): MaterialManageHomeItem {
         data = typeof data === 'object' ? data : {};
-        let result = new MaterialInventoryUpdateDto();
+        let result = new MaterialManageHomeItem();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["data"] = this.data;
+        data["id"] = this.id;
+        data["materialImageUrl"] = this.materialImageUrl;
+        data["sequenceCode"] = this.sequenceCode;
+        data["materialType"] = this.materialType;
+        data["materialTexture"] = this.materialTexture;
+        data["materialSurface"] = this.materialSurface;
+        data["similarity"] = this.similarity;
         return data;
     }
 }
 
-export interface IMaterialInventoryUpdateDto {
-    data: string | undefined;
+export interface IMaterialManageHomeItem {
+    id: string;
+    materialImageUrl: string | undefined;
+    sequenceCode: string | undefined;
+    materialType: string | undefined;
+    materialTexture: string | undefined;
+    materialSurface: string | undefined;
+    /** 拍照识别相似度 */
+    similarity: string | undefined;
+}
+
+export class MaterialManageHomeSearchDto implements IMaterialManageHomeSearchDto {
+    maxResultCount!: number;
+    skipCount!: number;
+    sorting!: string | undefined;
+    materialType!: string[] | undefined;
+    materialTexture!: string[] | undefined;
+    materialSurface!: string[] | undefined;
+    search!: string | undefined;
+    cameraSearchKey!: string | undefined;
+
+    constructor(data?: IMaterialManageHomeSearchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.maxResultCount = _data["maxResultCount"];
+            this.skipCount = _data["skipCount"];
+            this.sorting = _data["sorting"];
+            if (Array.isArray(_data["materialType"])) {
+                this.materialType = [] as any;
+                for (let item of _data["materialType"])
+                    this.materialType!.push(item);
+            }
+            if (Array.isArray(_data["materialTexture"])) {
+                this.materialTexture = [] as any;
+                for (let item of _data["materialTexture"])
+                    this.materialTexture!.push(item);
+            }
+            if (Array.isArray(_data["materialSurface"])) {
+                this.materialSurface = [] as any;
+                for (let item of _data["materialSurface"])
+                    this.materialSurface!.push(item);
+            }
+            this.search = _data["search"];
+            this.cameraSearchKey = _data["cameraSearchKey"];
+        }
+    }
+
+    static fromJS(data: any): MaterialManageHomeSearchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MaterialManageHomeSearchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maxResultCount"] = this.maxResultCount;
+        data["skipCount"] = this.skipCount;
+        data["sorting"] = this.sorting;
+        if (Array.isArray(this.materialType)) {
+            data["materialType"] = [];
+            for (let item of this.materialType)
+                data["materialType"].push(item);
+        }
+        if (Array.isArray(this.materialTexture)) {
+            data["materialTexture"] = [];
+            for (let item of this.materialTexture)
+                data["materialTexture"].push(item);
+        }
+        if (Array.isArray(this.materialSurface)) {
+            data["materialSurface"] = [];
+            for (let item of this.materialSurface)
+                data["materialSurface"].push(item);
+        }
+        data["search"] = this.search;
+        data["cameraSearchKey"] = this.cameraSearchKey;
+        return data;
+    }
+}
+
+export interface IMaterialManageHomeSearchDto {
+    maxResultCount: number;
+    skipCount: number;
+    sorting: string | undefined;
+    materialType: string[] | undefined;
+    materialTexture: string[] | undefined;
+    materialSurface: string[] | undefined;
+    search: string | undefined;
+    cameraSearchKey: string | undefined;
+}
+
+export class MaterialManageManageExtraInfo implements IMaterialManageManageExtraInfo {
+    supplier!: string[] | undefined;
+    supplierCode!: string[] | undefined;
+    seriesName!: string[] | undefined;
+
+    constructor(data?: IMaterialManageManageExtraInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["supplier"])) {
+                this.supplier = [] as any;
+                for (let item of _data["supplier"])
+                    this.supplier!.push(item);
+            }
+            if (Array.isArray(_data["supplierCode"])) {
+                this.supplierCode = [] as any;
+                for (let item of _data["supplierCode"])
+                    this.supplierCode!.push(item);
+            }
+            if (Array.isArray(_data["seriesName"])) {
+                this.seriesName = [] as any;
+                for (let item of _data["seriesName"])
+                    this.seriesName!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): MaterialManageManageExtraInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new MaterialManageManageExtraInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.supplier)) {
+            data["supplier"] = [];
+            for (let item of this.supplier)
+                data["supplier"].push(item);
+        }
+        if (Array.isArray(this.supplierCode)) {
+            data["supplierCode"] = [];
+            for (let item of this.supplierCode)
+                data["supplierCode"].push(item);
+        }
+        if (Array.isArray(this.seriesName)) {
+            data["seriesName"] = [];
+            for (let item of this.seriesName)
+                data["seriesName"].push(item);
+        }
+        return data;
+    }
+}
+
+export interface IMaterialManageManageExtraInfo {
+    supplier: string[] | undefined;
+    supplierCode: string[] | undefined;
+    seriesName: string[] | undefined;
+}
+
+export class MaterialManageSaveDto implements IMaterialManageSaveDto {
+    insert!: MaterialManageDto[] | undefined;
+    delete!: MaterialManageDto[] | undefined;
+    modify!: MaterialManageDto[] | undefined;
+
+    constructor(data?: IMaterialManageSaveDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["insert"])) {
+                this.insert = [] as any;
+                for (let item of _data["insert"])
+                    this.insert!.push(MaterialManageDto.fromJS(item));
+            }
+            if (Array.isArray(_data["delete"])) {
+                this.delete = [] as any;
+                for (let item of _data["delete"])
+                    this.delete!.push(MaterialManageDto.fromJS(item));
+            }
+            if (Array.isArray(_data["modify"])) {
+                this.modify = [] as any;
+                for (let item of _data["modify"])
+                    this.modify!.push(MaterialManageDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): MaterialManageSaveDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MaterialManageSaveDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.insert)) {
+            data["insert"] = [];
+            for (let item of this.insert)
+                data["insert"].push(item.toJSON());
+        }
+        if (Array.isArray(this.delete)) {
+            data["delete"] = [];
+            for (let item of this.delete)
+                data["delete"].push(item.toJSON());
+        }
+        if (Array.isArray(this.modify)) {
+            data["modify"] = [];
+            for (let item of this.modify)
+                data["modify"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IMaterialManageSaveDto {
+    insert: MaterialManageDto[] | undefined;
+    delete: MaterialManageDto[] | undefined;
+    modify: MaterialManageDto[] | undefined;
+}
+
+export class MaterialManageSearchDto implements IMaterialManageSearchDto {
+    maxResultCount!: number;
+    skipCount!: number;
+    sorting!: string | undefined;
+    /** 搜索内容 （顺序码、物料编码、供应商编码） */
+    search!: string | undefined;
+    status!: string[] | undefined;
+    materialType!: string[] | undefined;
+    supplier!: string[] | undefined;
+    supplierCode!: string[] | undefined;
+    seriesName!: string[] | undefined;
+
+    constructor(data?: IMaterialManageSearchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.maxResultCount = _data["maxResultCount"];
+            this.skipCount = _data["skipCount"];
+            this.sorting = _data["sorting"];
+            this.search = _data["search"];
+            if (Array.isArray(_data["status"])) {
+                this.status = [] as any;
+                for (let item of _data["status"])
+                    this.status!.push(item);
+            }
+            if (Array.isArray(_data["materialType"])) {
+                this.materialType = [] as any;
+                for (let item of _data["materialType"])
+                    this.materialType!.push(item);
+            }
+            if (Array.isArray(_data["supplier"])) {
+                this.supplier = [] as any;
+                for (let item of _data["supplier"])
+                    this.supplier!.push(item);
+            }
+            if (Array.isArray(_data["supplierCode"])) {
+                this.supplierCode = [] as any;
+                for (let item of _data["supplierCode"])
+                    this.supplierCode!.push(item);
+            }
+            if (Array.isArray(_data["seriesName"])) {
+                this.seriesName = [] as any;
+                for (let item of _data["seriesName"])
+                    this.seriesName!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): MaterialManageSearchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MaterialManageSearchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maxResultCount"] = this.maxResultCount;
+        data["skipCount"] = this.skipCount;
+        data["sorting"] = this.sorting;
+        data["search"] = this.search;
+        if (Array.isArray(this.status)) {
+            data["status"] = [];
+            for (let item of this.status)
+                data["status"].push(item);
+        }
+        if (Array.isArray(this.materialType)) {
+            data["materialType"] = [];
+            for (let item of this.materialType)
+                data["materialType"].push(item);
+        }
+        if (Array.isArray(this.supplier)) {
+            data["supplier"] = [];
+            for (let item of this.supplier)
+                data["supplier"].push(item);
+        }
+        if (Array.isArray(this.supplierCode)) {
+            data["supplierCode"] = [];
+            for (let item of this.supplierCode)
+                data["supplierCode"].push(item);
+        }
+        if (Array.isArray(this.seriesName)) {
+            data["seriesName"] = [];
+            for (let item of this.seriesName)
+                data["seriesName"].push(item);
+        }
+        return data;
+    }
+}
+
+export interface IMaterialManageSearchDto {
+    maxResultCount: number;
+    skipCount: number;
+    sorting: string | undefined;
+    /** 搜索内容 （顺序码、物料编码、供应商编码） */
+    search: string | undefined;
+    status: string[] | undefined;
+    materialType: string[] | undefined;
+    supplier: string[] | undefined;
+    supplierCode: string[] | undefined;
+    seriesName: string[] | undefined;
+}
+
+export class MeasuringExcelCreateDto implements IMeasuringExcelCreateDto {
+    /** Id */
+    id!: string | undefined;
+    /** 文件名称 */
+    fileName!: string | undefined;
+    /** 文件地址 */
+    fileAddress!: string | undefined;
+    /** 创建者 */
+    creator!: string | undefined;
+    /** 设计允许偏差值 */
+    designDiffer!: string | undefined;
+    /** 产品安装最小空腔值 */
+    minCavityValue!: string | undefined;
+
+    constructor(data?: IMeasuringExcelCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.fileName = _data["fileName"];
+            this.fileAddress = _data["fileAddress"];
+            this.creator = _data["creator"];
+            this.designDiffer = _data["designDiffer"];
+            this.minCavityValue = _data["minCavityValue"];
+        }
+    }
+
+    static fromJS(data: any): MeasuringExcelCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MeasuringExcelCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["fileName"] = this.fileName;
+        data["fileAddress"] = this.fileAddress;
+        data["creator"] = this.creator;
+        data["designDiffer"] = this.designDiffer;
+        data["minCavityValue"] = this.minCavityValue;
+        return data;
+    }
+}
+
+export interface IMeasuringExcelCreateDto {
+    /** Id */
+    id: string | undefined;
+    /** 文件名称 */
+    fileName: string | undefined;
+    /** 文件地址 */
+    fileAddress: string | undefined;
+    /** 创建者 */
+    creator: string | undefined;
+    /** 设计允许偏差值 */
+    designDiffer: string | undefined;
+    /** 产品安装最小空腔值 */
+    minCavityValue: string | undefined;
+}
+
+export class MeasuringExcelDto implements IMeasuringExcelDto {
+    /** Id */
+    id!: string | undefined;
+    creationTime!: dayjs.Dayjs;
+    creatorId!: string | undefined;
+    lastModificationTime!: dayjs.Dayjs | undefined;
+    lastModifierId!: string | undefined;
+    /** 文件名称 */
+    fileName!: string | undefined;
+    /** 文件地址 */
+    fileAddress!: string | undefined;
+    /** 创建者 */
+    creator!: string | undefined;
+    /** 设计允许偏差值 */
+    designDiffer!: string | undefined;
+    /** 产品安装最小空腔值 */
+    minCavityValue!: string | undefined;
+
+    constructor(data?: IMeasuringExcelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorId = _data["creatorId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierId = _data["lastModifierId"];
+            this.fileName = _data["fileName"];
+            this.fileAddress = _data["fileAddress"];
+            this.creator = _data["creator"];
+            this.designDiffer = _data["designDiffer"];
+            this.minCavityValue = _data["minCavityValue"];
+        }
+    }
+
+    static fromJS(data: any): MeasuringExcelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MeasuringExcelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
+        data["creatorId"] = this.creatorId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
+        data["lastModifierId"] = this.lastModifierId;
+        data["fileName"] = this.fileName;
+        data["fileAddress"] = this.fileAddress;
+        data["creator"] = this.creator;
+        data["designDiffer"] = this.designDiffer;
+        data["minCavityValue"] = this.minCavityValue;
+        return data;
+    }
+}
+
+export interface IMeasuringExcelDto {
+    /** Id */
+    id: string | undefined;
+    creationTime: dayjs.Dayjs;
+    creatorId: string | undefined;
+    lastModificationTime: dayjs.Dayjs | undefined;
+    lastModifierId: string | undefined;
+    /** 文件名称 */
+    fileName: string | undefined;
+    /** 文件地址 */
+    fileAddress: string | undefined;
+    /** 创建者 */
+    creator: string | undefined;
+    /** 设计允许偏差值 */
+    designDiffer: string | undefined;
+    /** 产品安装最小空腔值 */
+    minCavityValue: string | undefined;
+}
+
+export class MeasuringExcelDtoPagedResultDto implements IMeasuringExcelDtoPagedResultDto {
+    items!: MeasuringExcelDto[] | undefined;
+    totalCount!: number;
+
+    constructor(data?: IMeasuringExcelDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(MeasuringExcelDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): MeasuringExcelDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MeasuringExcelDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+}
+
+export interface IMeasuringExcelDtoPagedResultDto {
+    items: MeasuringExcelDto[] | undefined;
+    totalCount: number;
 }
 
 /** 消息等级 */
@@ -18904,6 +31126,574 @@ export interface INameValue {
     value: string | undefined;
 }
 
+export class NewFamilyLibCreateDto implements INewFamilyLibCreateDto {
+    id!: string;
+    status!: string | undefined;
+    categoryId!: string;
+    parentId!: string | undefined;
+    code!: string | undefined;
+    level!: number;
+    displayName!: string | undefined;
+    number!: string | undefined;
+    length!: number;
+    width!: number;
+    height!: number;
+    unit!: string | undefined;
+    version!: string | undefined;
+    uploadUser!: string | undefined;
+    filePath!: string | undefined;
+    imagePath!: string | undefined;
+    description!: string | undefined;
+    externalData!: string | undefined;
+    hierarchy!: string | undefined;
+    type!: string | undefined;
+    processMode!: string | undefined;
+    notes!: string | undefined;
+    usage!: string | undefined;
+
+    constructor(data?: INewFamilyLibCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.status = _data["status"];
+            this.categoryId = _data["categoryId"];
+            this.parentId = _data["parentId"];
+            this.code = _data["code"];
+            this.level = _data["level"];
+            this.displayName = _data["displayName"];
+            this.number = _data["number"];
+            this.length = _data["length"];
+            this.width = _data["width"];
+            this.height = _data["height"];
+            this.unit = _data["unit"];
+            this.version = _data["version"];
+            this.uploadUser = _data["uploadUser"];
+            this.filePath = _data["filePath"];
+            this.imagePath = _data["imagePath"];
+            this.description = _data["description"];
+            this.externalData = _data["externalData"];
+            this.hierarchy = _data["hierarchy"];
+            this.type = _data["type"];
+            this.processMode = _data["processMode"];
+            this.notes = _data["notes"];
+            this.usage = _data["usage"];
+        }
+    }
+
+    static fromJS(data: any): NewFamilyLibCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new NewFamilyLibCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["status"] = this.status;
+        data["categoryId"] = this.categoryId;
+        data["parentId"] = this.parentId;
+        data["code"] = this.code;
+        data["level"] = this.level;
+        data["displayName"] = this.displayName;
+        data["number"] = this.number;
+        data["length"] = this.length;
+        data["width"] = this.width;
+        data["height"] = this.height;
+        data["unit"] = this.unit;
+        data["version"] = this.version;
+        data["uploadUser"] = this.uploadUser;
+        data["filePath"] = this.filePath;
+        data["imagePath"] = this.imagePath;
+        data["description"] = this.description;
+        data["externalData"] = this.externalData;
+        data["hierarchy"] = this.hierarchy;
+        data["type"] = this.type;
+        data["processMode"] = this.processMode;
+        data["notes"] = this.notes;
+        data["usage"] = this.usage;
+        return data;
+    }
+}
+
+export interface INewFamilyLibCreateDto {
+    id: string;
+    status: string | undefined;
+    categoryId: string;
+    parentId: string | undefined;
+    code: string | undefined;
+    level: number;
+    displayName: string | undefined;
+    number: string | undefined;
+    length: number;
+    width: number;
+    height: number;
+    unit: string | undefined;
+    version: string | undefined;
+    uploadUser: string | undefined;
+    filePath: string | undefined;
+    imagePath: string | undefined;
+    description: string | undefined;
+    externalData: string | undefined;
+    hierarchy: string | undefined;
+    type: string | undefined;
+    processMode: string | undefined;
+    notes: string | undefined;
+    usage: string | undefined;
+}
+
+export class NewFamilyLibDto implements INewFamilyLibDto {
+    id!: string;
+    creationTime!: dayjs.Dayjs;
+    creatorId!: string | undefined;
+    lastModificationTime!: dayjs.Dayjs | undefined;
+    lastModifierId!: string | undefined;
+    status!: string | undefined;
+    categoryId!: string;
+    parentId!: string | undefined;
+    code!: string | undefined;
+    level!: number;
+    parent!: NewFamilyLibDto;
+    children!: NewFamilyLibDto[] | undefined;
+    displayName!: string | undefined;
+    number!: string | undefined;
+    length!: number;
+    width!: number;
+    height!: number;
+    unit!: string | undefined;
+    version!: string | undefined;
+    uploadUser!: string | undefined;
+    filePath!: string | undefined;
+    imagePath!: string | undefined;
+    description!: string | undefined;
+    externalData!: string | undefined;
+    hierarchy!: string | undefined;
+    type!: string | undefined;
+    processMode!: string | undefined;
+    notes!: string | undefined;
+    usage!: string | undefined;
+
+    constructor(data?: INewFamilyLibDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorId = _data["creatorId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierId = _data["lastModifierId"];
+            this.status = _data["status"];
+            this.categoryId = _data["categoryId"];
+            this.parentId = _data["parentId"];
+            this.code = _data["code"];
+            this.level = _data["level"];
+            this.parent = _data["parent"] ? NewFamilyLibDto.fromJS(_data["parent"]) : <any>undefined;
+            if (Array.isArray(_data["children"])) {
+                this.children = [] as any;
+                for (let item of _data["children"])
+                    this.children!.push(NewFamilyLibDto.fromJS(item));
+            }
+            this.displayName = _data["displayName"];
+            this.number = _data["number"];
+            this.length = _data["length"];
+            this.width = _data["width"];
+            this.height = _data["height"];
+            this.unit = _data["unit"];
+            this.version = _data["version"];
+            this.uploadUser = _data["uploadUser"];
+            this.filePath = _data["filePath"];
+            this.imagePath = _data["imagePath"];
+            this.description = _data["description"];
+            this.externalData = _data["externalData"];
+            this.hierarchy = _data["hierarchy"];
+            this.type = _data["type"];
+            this.processMode = _data["processMode"];
+            this.notes = _data["notes"];
+            this.usage = _data["usage"];
+        }
+    }
+
+    static fromJS(data: any): NewFamilyLibDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new NewFamilyLibDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
+        data["creatorId"] = this.creatorId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
+        data["lastModifierId"] = this.lastModifierId;
+        data["status"] = this.status;
+        data["categoryId"] = this.categoryId;
+        data["parentId"] = this.parentId;
+        data["code"] = this.code;
+        data["level"] = this.level;
+        data["parent"] = this.parent ? this.parent.toJSON() : <any>undefined;
+        if (Array.isArray(this.children)) {
+            data["children"] = [];
+            for (let item of this.children)
+                data["children"].push(item.toJSON());
+        }
+        data["displayName"] = this.displayName;
+        data["number"] = this.number;
+        data["length"] = this.length;
+        data["width"] = this.width;
+        data["height"] = this.height;
+        data["unit"] = this.unit;
+        data["version"] = this.version;
+        data["uploadUser"] = this.uploadUser;
+        data["filePath"] = this.filePath;
+        data["imagePath"] = this.imagePath;
+        data["description"] = this.description;
+        data["externalData"] = this.externalData;
+        data["hierarchy"] = this.hierarchy;
+        data["type"] = this.type;
+        data["processMode"] = this.processMode;
+        data["notes"] = this.notes;
+        data["usage"] = this.usage;
+        return data;
+    }
+}
+
+export interface INewFamilyLibDto {
+    id: string;
+    creationTime: dayjs.Dayjs;
+    creatorId: string | undefined;
+    lastModificationTime: dayjs.Dayjs | undefined;
+    lastModifierId: string | undefined;
+    status: string | undefined;
+    categoryId: string;
+    parentId: string | undefined;
+    code: string | undefined;
+    level: number;
+    parent: NewFamilyLibDto;
+    children: NewFamilyLibDto[] | undefined;
+    displayName: string | undefined;
+    number: string | undefined;
+    length: number;
+    width: number;
+    height: number;
+    unit: string | undefined;
+    version: string | undefined;
+    uploadUser: string | undefined;
+    filePath: string | undefined;
+    imagePath: string | undefined;
+    description: string | undefined;
+    externalData: string | undefined;
+    hierarchy: string | undefined;
+    type: string | undefined;
+    processMode: string | undefined;
+    notes: string | undefined;
+    usage: string | undefined;
+}
+
+export class NewFamilyLibDtoPagedResultDto implements INewFamilyLibDtoPagedResultDto {
+    items!: NewFamilyLibDto[] | undefined;
+    totalCount!: number;
+
+    constructor(data?: INewFamilyLibDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(NewFamilyLibDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): NewFamilyLibDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new NewFamilyLibDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+}
+
+export interface INewFamilyLibDtoPagedResultDto {
+    items: NewFamilyLibDto[] | undefined;
+    totalCount: number;
+}
+
+export class NewFamilyLibSearchDto implements INewFamilyLibSearchDto {
+    maxResultCount!: number;
+    skipCount!: number;
+    sorting!: string | undefined;
+    key!: string | undefined;
+    searchValue!: string | undefined;
+    searchCode!: string | undefined;
+
+    constructor(data?: INewFamilyLibSearchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.maxResultCount = _data["maxResultCount"];
+            this.skipCount = _data["skipCount"];
+            this.sorting = _data["sorting"];
+            this.key = _data["key"];
+            this.searchValue = _data["searchValue"];
+            this.searchCode = _data["searchCode"];
+        }
+    }
+
+    static fromJS(data: any): NewFamilyLibSearchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new NewFamilyLibSearchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maxResultCount"] = this.maxResultCount;
+        data["skipCount"] = this.skipCount;
+        data["sorting"] = this.sorting;
+        data["key"] = this.key;
+        data["searchValue"] = this.searchValue;
+        data["searchCode"] = this.searchCode;
+        return data;
+    }
+}
+
+export interface INewFamilyLibSearchDto {
+    maxResultCount: number;
+    skipCount: number;
+    sorting: string | undefined;
+    key: string | undefined;
+    searchValue: string | undefined;
+    searchCode: string | undefined;
+}
+
+export class NewFamilyTreeCreateDto implements INewFamilyTreeCreateDto {
+    id!: string;
+    parentId!: string | undefined;
+    code!: string | undefined;
+    level!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: INewFamilyTreeCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.parentId = _data["parentId"];
+            this.code = _data["code"];
+            this.level = _data["level"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): NewFamilyTreeCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new NewFamilyTreeCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["parentId"] = this.parentId;
+        data["code"] = this.code;
+        data["level"] = this.level;
+        data["displayName"] = this.displayName;
+        return data;
+    }
+}
+
+export interface INewFamilyTreeCreateDto {
+    id: string;
+    parentId: string | undefined;
+    code: string | undefined;
+    level: number;
+    displayName: string | undefined;
+}
+
+export class NewFamilyTreeDto implements INewFamilyTreeDto {
+    id!: string;
+    creationTime!: dayjs.Dayjs;
+    creatorId!: string | undefined;
+    lastModificationTime!: dayjs.Dayjs | undefined;
+    lastModifierId!: string | undefined;
+    parentId!: string | undefined;
+    code!: string | undefined;
+    level!: number;
+    parent!: NewFamilyTreeDto;
+    children!: NewFamilyTreeDto[] | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: INewFamilyTreeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorId = _data["creatorId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierId = _data["lastModifierId"];
+            this.parentId = _data["parentId"];
+            this.code = _data["code"];
+            this.level = _data["level"];
+            this.parent = _data["parent"] ? NewFamilyTreeDto.fromJS(_data["parent"]) : <any>undefined;
+            if (Array.isArray(_data["children"])) {
+                this.children = [] as any;
+                for (let item of _data["children"])
+                    this.children!.push(NewFamilyTreeDto.fromJS(item));
+            }
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): NewFamilyTreeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new NewFamilyTreeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
+        data["creatorId"] = this.creatorId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
+        data["lastModifierId"] = this.lastModifierId;
+        data["parentId"] = this.parentId;
+        data["code"] = this.code;
+        data["level"] = this.level;
+        data["parent"] = this.parent ? this.parent.toJSON() : <any>undefined;
+        if (Array.isArray(this.children)) {
+            data["children"] = [];
+            for (let item of this.children)
+                data["children"].push(item.toJSON());
+        }
+        data["displayName"] = this.displayName;
+        return data;
+    }
+}
+
+export interface INewFamilyTreeDto {
+    id: string;
+    creationTime: dayjs.Dayjs;
+    creatorId: string | undefined;
+    lastModificationTime: dayjs.Dayjs | undefined;
+    lastModifierId: string | undefined;
+    parentId: string | undefined;
+    code: string | undefined;
+    level: number;
+    parent: NewFamilyTreeDto;
+    children: NewFamilyTreeDto[] | undefined;
+    displayName: string | undefined;
+}
+
+export class NewFamilyTreeDtoPagedResultDto implements INewFamilyTreeDtoPagedResultDto {
+    items!: NewFamilyTreeDto[] | undefined;
+    totalCount!: number;
+
+    constructor(data?: INewFamilyTreeDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(NewFamilyTreeDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): NewFamilyTreeDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new NewFamilyTreeDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+}
+
+export interface INewFamilyTreeDtoPagedResultDto {
+    items: NewFamilyTreeDto[] | undefined;
+    totalCount: number;
+}
+
 export class ObjectExtensionsDto implements IObjectExtensionsDto {
     modules!: { [key: string]: ModuleExtensionDto; } | undefined;
     enums!: { [key: string]: ExtensionEnumDto; } | undefined;
@@ -18975,6 +31765,7 @@ export class OrderNotificationSearchDto implements IOrderNotificationSearchDto {
     key!: string | undefined;
     searchValue!: string | undefined;
     searchCode!: string | undefined;
+    status!: ProductInventoryPublishStatus;
 
     constructor(data?: IOrderNotificationSearchDto) {
         if (data) {
@@ -18993,6 +31784,7 @@ export class OrderNotificationSearchDto implements IOrderNotificationSearchDto {
             this.key = _data["key"];
             this.searchValue = _data["searchValue"];
             this.searchCode = _data["searchCode"];
+            this.status = _data["status"];
         }
     }
 
@@ -19011,6 +31803,7 @@ export class OrderNotificationSearchDto implements IOrderNotificationSearchDto {
         data["key"] = this.key;
         data["searchValue"] = this.searchValue;
         data["searchCode"] = this.searchCode;
+        data["status"] = this.status;
         return data;
     }
 }
@@ -19022,6 +31815,7 @@ export interface IOrderNotificationSearchDto {
     key: string | undefined;
     searchValue: string | undefined;
     searchCode: string | undefined;
+    status: ProductInventoryPublishStatus;
 }
 
 /** 创建语言 */
@@ -20850,6 +33644,580 @@ export interface IPermissionTreeDto {
     children: PermissionTreeDto[] | undefined;
 }
 
+export class ProcessingDataCreateDto implements IProcessingDataCreateDto {
+    /** 文件id */
+    fileId!: string | undefined;
+    /** 产品id */
+    productId!: string | undefined;
+    /** 产品名称 */
+    productName!: string | undefined;
+    /** 产品编码 */
+    productCode!: string | undefined;
+    /** 产品长 */
+    productLength!: string | undefined;
+    /** 产品宽 */
+    productWidth!: string | undefined;
+    /** 产品高 */
+    productHeight!: string | undefined;
+    /** 模块名称 */
+    moduleName!: string | undefined;
+    /** 模块编码 */
+    moduleCode!: string | undefined;
+    /** 模块长 */
+    moduleLength!: string | undefined;
+    /** 模块宽 */
+    moduleWidth!: string | undefined;
+    /** 模块高 */
+    moduleHeight!: string | undefined;
+    /** 物料名称 */
+    materialName!: string | undefined;
+    /** 物料编码 */
+    materialCode!: string | undefined;
+    /** 物料长 */
+    materialLength!: string | undefined;
+    /** 物料宽 */
+    materialWidth!: string | undefined;
+    /** 物料高 */
+    materialHeight!: string | undefined;
+    /** 物料单位 */
+    materialUnit!: string | undefined;
+    /** 额外的数据 */
+    data!: string | undefined;
+
+    constructor(data?: IProcessingDataCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.fileId = _data["fileId"];
+            this.productId = _data["productId"];
+            this.productName = _data["productName"];
+            this.productCode = _data["productCode"];
+            this.productLength = _data["productLength"];
+            this.productWidth = _data["productWidth"];
+            this.productHeight = _data["productHeight"];
+            this.moduleName = _data["moduleName"];
+            this.moduleCode = _data["moduleCode"];
+            this.moduleLength = _data["moduleLength"];
+            this.moduleWidth = _data["moduleWidth"];
+            this.moduleHeight = _data["moduleHeight"];
+            this.materialName = _data["materialName"];
+            this.materialCode = _data["materialCode"];
+            this.materialLength = _data["materialLength"];
+            this.materialWidth = _data["materialWidth"];
+            this.materialHeight = _data["materialHeight"];
+            this.materialUnit = _data["materialUnit"];
+            this.data = _data["data"];
+        }
+    }
+
+    static fromJS(data: any): ProcessingDataCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessingDataCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fileId"] = this.fileId;
+        data["productId"] = this.productId;
+        data["productName"] = this.productName;
+        data["productCode"] = this.productCode;
+        data["productLength"] = this.productLength;
+        data["productWidth"] = this.productWidth;
+        data["productHeight"] = this.productHeight;
+        data["moduleName"] = this.moduleName;
+        data["moduleCode"] = this.moduleCode;
+        data["moduleLength"] = this.moduleLength;
+        data["moduleWidth"] = this.moduleWidth;
+        data["moduleHeight"] = this.moduleHeight;
+        data["materialName"] = this.materialName;
+        data["materialCode"] = this.materialCode;
+        data["materialLength"] = this.materialLength;
+        data["materialWidth"] = this.materialWidth;
+        data["materialHeight"] = this.materialHeight;
+        data["materialUnit"] = this.materialUnit;
+        data["data"] = this.data;
+        return data;
+    }
+}
+
+export interface IProcessingDataCreateDto {
+    /** 文件id */
+    fileId: string | undefined;
+    /** 产品id */
+    productId: string | undefined;
+    /** 产品名称 */
+    productName: string | undefined;
+    /** 产品编码 */
+    productCode: string | undefined;
+    /** 产品长 */
+    productLength: string | undefined;
+    /** 产品宽 */
+    productWidth: string | undefined;
+    /** 产品高 */
+    productHeight: string | undefined;
+    /** 模块名称 */
+    moduleName: string | undefined;
+    /** 模块编码 */
+    moduleCode: string | undefined;
+    /** 模块长 */
+    moduleLength: string | undefined;
+    /** 模块宽 */
+    moduleWidth: string | undefined;
+    /** 模块高 */
+    moduleHeight: string | undefined;
+    /** 物料名称 */
+    materialName: string | undefined;
+    /** 物料编码 */
+    materialCode: string | undefined;
+    /** 物料长 */
+    materialLength: string | undefined;
+    /** 物料宽 */
+    materialWidth: string | undefined;
+    /** 物料高 */
+    materialHeight: string | undefined;
+    /** 物料单位 */
+    materialUnit: string | undefined;
+    /** 额外的数据 */
+    data: string | undefined;
+}
+
+export class ProcessingDataDto implements IProcessingDataDto {
+    /** id */
+    id!: string;
+    creationTime!: dayjs.Dayjs;
+    creatorId!: string | undefined;
+    lastModificationTime!: dayjs.Dayjs | undefined;
+    lastModifierId!: string | undefined;
+    /** 文件id */
+    fileId!: string | undefined;
+    /** 产品id */
+    productId!: string | undefined;
+    /** 产品名称 */
+    productName!: string | undefined;
+    /** 产品编码 */
+    productCode!: string | undefined;
+    /** 产品长 */
+    productLength!: string | undefined;
+    /** 产品宽 */
+    productWidth!: string | undefined;
+    /** 产品高 */
+    productHeight!: string | undefined;
+    /** 模块名称 */
+    moduleName!: string | undefined;
+    /** 模块编码 */
+    moduleCode!: string | undefined;
+    /** 模块长 */
+    moduleLength!: string | undefined;
+    /** 模块宽 */
+    moduleWidth!: string | undefined;
+    /** 模块高 */
+    moduleHeight!: string | undefined;
+    /** 物料名称 */
+    materialName!: string | undefined;
+    /** 物料编码 */
+    materialCode!: string | undefined;
+    /** 物料长 */
+    materialLength!: string | undefined;
+    /** 物料宽 */
+    materialWidth!: string | undefined;
+    /** 物料高 */
+    materialHeight!: string | undefined;
+    /** 物料单位 */
+    materialUnit!: string | undefined;
+    /** 额外的数据 */
+    data!: string | undefined;
+
+    constructor(data?: IProcessingDataDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorId = _data["creatorId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierId = _data["lastModifierId"];
+            this.fileId = _data["fileId"];
+            this.productId = _data["productId"];
+            this.productName = _data["productName"];
+            this.productCode = _data["productCode"];
+            this.productLength = _data["productLength"];
+            this.productWidth = _data["productWidth"];
+            this.productHeight = _data["productHeight"];
+            this.moduleName = _data["moduleName"];
+            this.moduleCode = _data["moduleCode"];
+            this.moduleLength = _data["moduleLength"];
+            this.moduleWidth = _data["moduleWidth"];
+            this.moduleHeight = _data["moduleHeight"];
+            this.materialName = _data["materialName"];
+            this.materialCode = _data["materialCode"];
+            this.materialLength = _data["materialLength"];
+            this.materialWidth = _data["materialWidth"];
+            this.materialHeight = _data["materialHeight"];
+            this.materialUnit = _data["materialUnit"];
+            this.data = _data["data"];
+        }
+    }
+
+    static fromJS(data: any): ProcessingDataDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessingDataDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
+        data["creatorId"] = this.creatorId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
+        data["lastModifierId"] = this.lastModifierId;
+        data["fileId"] = this.fileId;
+        data["productId"] = this.productId;
+        data["productName"] = this.productName;
+        data["productCode"] = this.productCode;
+        data["productLength"] = this.productLength;
+        data["productWidth"] = this.productWidth;
+        data["productHeight"] = this.productHeight;
+        data["moduleName"] = this.moduleName;
+        data["moduleCode"] = this.moduleCode;
+        data["moduleLength"] = this.moduleLength;
+        data["moduleWidth"] = this.moduleWidth;
+        data["moduleHeight"] = this.moduleHeight;
+        data["materialName"] = this.materialName;
+        data["materialCode"] = this.materialCode;
+        data["materialLength"] = this.materialLength;
+        data["materialWidth"] = this.materialWidth;
+        data["materialHeight"] = this.materialHeight;
+        data["materialUnit"] = this.materialUnit;
+        data["data"] = this.data;
+        return data;
+    }
+}
+
+export interface IProcessingDataDto {
+    /** id */
+    id: string;
+    creationTime: dayjs.Dayjs;
+    creatorId: string | undefined;
+    lastModificationTime: dayjs.Dayjs | undefined;
+    lastModifierId: string | undefined;
+    /** 文件id */
+    fileId: string | undefined;
+    /** 产品id */
+    productId: string | undefined;
+    /** 产品名称 */
+    productName: string | undefined;
+    /** 产品编码 */
+    productCode: string | undefined;
+    /** 产品长 */
+    productLength: string | undefined;
+    /** 产品宽 */
+    productWidth: string | undefined;
+    /** 产品高 */
+    productHeight: string | undefined;
+    /** 模块名称 */
+    moduleName: string | undefined;
+    /** 模块编码 */
+    moduleCode: string | undefined;
+    /** 模块长 */
+    moduleLength: string | undefined;
+    /** 模块宽 */
+    moduleWidth: string | undefined;
+    /** 模块高 */
+    moduleHeight: string | undefined;
+    /** 物料名称 */
+    materialName: string | undefined;
+    /** 物料编码 */
+    materialCode: string | undefined;
+    /** 物料长 */
+    materialLength: string | undefined;
+    /** 物料宽 */
+    materialWidth: string | undefined;
+    /** 物料高 */
+    materialHeight: string | undefined;
+    /** 物料单位 */
+    materialUnit: string | undefined;
+    /** 额外的数据 */
+    data: string | undefined;
+}
+
+export class ProcessingDataDtoPagedResultDto implements IProcessingDataDtoPagedResultDto {
+    items!: ProcessingDataDto[] | undefined;
+    totalCount!: number;
+
+    constructor(data?: IProcessingDataDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ProcessingDataDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): ProcessingDataDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessingDataDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+}
+
+export interface IProcessingDataDtoPagedResultDto {
+    items: ProcessingDataDto[] | undefined;
+    totalCount: number;
+}
+
+export class ProcessingListCreateDto implements IProcessingListCreateDto {
+    /** Id */
+    id!: string | undefined;
+    /** 项目名称 */
+    projectName!: string | undefined;
+    /** 项目编码 */
+    projectCode!: string | undefined;
+    /** 文件名称 */
+    fileName!: string | undefined;
+    /** 文件编码 */
+    fileCode!: string | undefined;
+    /** 文件地址 */
+    fileAddress!: string | undefined;
+    /** 创建者 */
+    creator!: string | undefined;
+
+    constructor(data?: IProcessingListCreateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.projectName = _data["projectName"];
+            this.projectCode = _data["projectCode"];
+            this.fileName = _data["fileName"];
+            this.fileCode = _data["fileCode"];
+            this.fileAddress = _data["fileAddress"];
+            this.creator = _data["creator"];
+        }
+    }
+
+    static fromJS(data: any): ProcessingListCreateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessingListCreateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["projectName"] = this.projectName;
+        data["projectCode"] = this.projectCode;
+        data["fileName"] = this.fileName;
+        data["fileCode"] = this.fileCode;
+        data["fileAddress"] = this.fileAddress;
+        data["creator"] = this.creator;
+        return data;
+    }
+}
+
+export interface IProcessingListCreateDto {
+    /** Id */
+    id: string | undefined;
+    /** 项目名称 */
+    projectName: string | undefined;
+    /** 项目编码 */
+    projectCode: string | undefined;
+    /** 文件名称 */
+    fileName: string | undefined;
+    /** 文件编码 */
+    fileCode: string | undefined;
+    /** 文件地址 */
+    fileAddress: string | undefined;
+    /** 创建者 */
+    creator: string | undefined;
+}
+
+export class ProcessingListDto implements IProcessingListDto {
+    /** Id */
+    id!: string | undefined;
+    creationTime!: dayjs.Dayjs;
+    creatorId!: string | undefined;
+    lastModificationTime!: dayjs.Dayjs | undefined;
+    lastModifierId!: string | undefined;
+    /** 项目名称 */
+    projectName!: string | undefined;
+    /** 项目编码 */
+    projectCode!: string | undefined;
+    /** 文件名称 */
+    fileName!: string | undefined;
+    /** 文件编码 */
+    fileCode!: string | undefined;
+    /** 文件地址 */
+    fileAddress!: string | undefined;
+    /** 创建者 */
+    creator!: string | undefined;
+
+    constructor(data?: IProcessingListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorId = _data["creatorId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierId = _data["lastModifierId"];
+            this.projectName = _data["projectName"];
+            this.projectCode = _data["projectCode"];
+            this.fileName = _data["fileName"];
+            this.fileCode = _data["fileCode"];
+            this.fileAddress = _data["fileAddress"];
+            this.creator = _data["creator"];
+        }
+    }
+
+    static fromJS(data: any): ProcessingListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessingListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
+        data["creatorId"] = this.creatorId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
+        data["lastModifierId"] = this.lastModifierId;
+        data["projectName"] = this.projectName;
+        data["projectCode"] = this.projectCode;
+        data["fileName"] = this.fileName;
+        data["fileCode"] = this.fileCode;
+        data["fileAddress"] = this.fileAddress;
+        data["creator"] = this.creator;
+        return data;
+    }
+}
+
+export interface IProcessingListDto {
+    /** Id */
+    id: string | undefined;
+    creationTime: dayjs.Dayjs;
+    creatorId: string | undefined;
+    lastModificationTime: dayjs.Dayjs | undefined;
+    lastModifierId: string | undefined;
+    /** 项目名称 */
+    projectName: string | undefined;
+    /** 项目编码 */
+    projectCode: string | undefined;
+    /** 文件名称 */
+    fileName: string | undefined;
+    /** 文件编码 */
+    fileCode: string | undefined;
+    /** 文件地址 */
+    fileAddress: string | undefined;
+    /** 创建者 */
+    creator: string | undefined;
+}
+
+export class ProcessingListDtoPagedResultDto implements IProcessingListDtoPagedResultDto {
+    items!: ProcessingListDto[] | undefined;
+    totalCount!: number;
+
+    constructor(data?: IProcessingListDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ProcessingListDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): ProcessingListDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessingListDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+}
+
+export interface IProcessingListDtoPagedResultDto {
+    items: ProcessingListDto[] | undefined;
+    totalCount: number;
+}
+
 export class ProductIndexSearchDto implements IProductIndexSearchDto {
     maxResultCount!: number;
     skipCount!: number;
@@ -20859,6 +34227,7 @@ export class ProductIndexSearchDto implements IProductIndexSearchDto {
     searchCode!: string | undefined;
     system!: string | undefined;
     series!: string | undefined;
+    level!: string | undefined;
 
     constructor(data?: IProductIndexSearchDto) {
         if (data) {
@@ -20879,6 +34248,7 @@ export class ProductIndexSearchDto implements IProductIndexSearchDto {
             this.searchCode = _data["searchCode"];
             this.system = _data["system"];
             this.series = _data["series"];
+            this.level = _data["level"];
         }
     }
 
@@ -20899,6 +34269,7 @@ export class ProductIndexSearchDto implements IProductIndexSearchDto {
         data["searchCode"] = this.searchCode;
         data["system"] = this.system;
         data["series"] = this.series;
+        data["level"] = this.level;
         return data;
     }
 }
@@ -20912,6 +34283,7 @@ export interface IProductIndexSearchDto {
     searchCode: string | undefined;
     system: string | undefined;
     series: string | undefined;
+    level: string | undefined;
 }
 
 export class ProductInventoryEditDto implements IProductInventoryEditDto {
@@ -20950,6 +34322,7 @@ export class ProductInventoryEditDto implements IProductInventoryEditDto {
     createUser!: string | undefined;
     modifyUser!: string | undefined;
     materialUsageFormula!: string | undefined;
+    unitBase!: string | undefined;
 
     constructor(data?: IProductInventoryEditDto) {
         if (data) {
@@ -20997,6 +34370,7 @@ export class ProductInventoryEditDto implements IProductInventoryEditDto {
             this.createUser = _data["createUser"];
             this.modifyUser = _data["modifyUser"];
             this.materialUsageFormula = _data["materialUsageFormula"];
+            this.unitBase = _data["unitBase"];
         }
     }
 
@@ -21044,6 +34418,7 @@ export class ProductInventoryEditDto implements IProductInventoryEditDto {
         data["createUser"] = this.createUser;
         data["modifyUser"] = this.modifyUser;
         data["materialUsageFormula"] = this.materialUsageFormula;
+        data["unitBase"] = this.unitBase;
         return data;
     }
 }
@@ -21084,6 +34459,7 @@ export interface IProductInventoryEditDto {
     createUser: string | undefined;
     modifyUser: string | undefined;
     materialUsageFormula: string | undefined;
+    unitBase: string | undefined;
 }
 
 export class ProductInventoryFullDto implements IProductInventoryFullDto {
@@ -22120,6 +35496,9 @@ export interface IProductRetrievalDtoPagedResultDto {
 }
 
 export class ProductRetrievalResultDto implements IProductRetrievalResultDto {
+    id!: string | undefined;
+    materialCount!: string | undefined;
+    materialMoney!: string | undefined;
     tag!: ProductInventroyTag;
     productName!: string | undefined;
     productCode!: string | undefined;
@@ -22139,6 +35518,9 @@ export class ProductRetrievalResultDto implements IProductRetrievalResultDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
+            this.materialCount = _data["materialCount"];
+            this.materialMoney = _data["materialMoney"];
             this.tag = _data["tag"];
             this.productName = _data["productName"];
             this.productCode = _data["productCode"];
@@ -22158,6 +35540,9 @@ export class ProductRetrievalResultDto implements IProductRetrievalResultDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["materialCount"] = this.materialCount;
+        data["materialMoney"] = this.materialMoney;
         data["tag"] = this.tag;
         data["productName"] = this.productName;
         data["productCode"] = this.productCode;
@@ -22170,6 +35555,9 @@ export class ProductRetrievalResultDto implements IProductRetrievalResultDto {
 }
 
 export interface IProductRetrievalResultDto {
+    id: string | undefined;
+    materialCount: string | undefined;
+    materialMoney: string | undefined;
     tag: ProductInventroyTag;
     productName: string | undefined;
     productCode: string | undefined;
@@ -22231,7 +35619,7 @@ export class ProductRetrievalSearchDto implements IProductRetrievalSearchDto {
     maxResultCount!: number;
     skipCount!: number;
     sorting!: string | undefined;
-    searchInfo!: { [key: string]: ProductInventroyTag; } | undefined;
+    searchInfo!: SearchInfoDto[] | undefined;
 
     constructor(data?: IProductRetrievalSearchDto) {
         if (data) {
@@ -22247,12 +35635,10 @@ export class ProductRetrievalSearchDto implements IProductRetrievalSearchDto {
             this.maxResultCount = _data["maxResultCount"];
             this.skipCount = _data["skipCount"];
             this.sorting = _data["sorting"];
-            if (_data["searchInfo"]) {
-                this.searchInfo = {} as any;
-                for (let key in _data["searchInfo"]) {
-                    if (_data["searchInfo"].hasOwnProperty(key))
-                        (<any>this.searchInfo)![key] = _data["searchInfo"][key];
-                }
+            if (Array.isArray(_data["searchInfo"])) {
+                this.searchInfo = [] as any;
+                for (let item of _data["searchInfo"])
+                    this.searchInfo!.push(SearchInfoDto.fromJS(item));
             }
         }
     }
@@ -22269,12 +35655,10 @@ export class ProductRetrievalSearchDto implements IProductRetrievalSearchDto {
         data["maxResultCount"] = this.maxResultCount;
         data["skipCount"] = this.skipCount;
         data["sorting"] = this.sorting;
-        if (this.searchInfo) {
-            data["searchInfo"] = {};
-            for (let key in this.searchInfo) {
-                if (this.searchInfo.hasOwnProperty(key))
-                    (<any>data["searchInfo"])[key] = (<any>this.searchInfo)[key];
-            }
+        if (Array.isArray(this.searchInfo)) {
+            data["searchInfo"] = [];
+            for (let item of this.searchInfo)
+                data["searchInfo"].push(item.toJSON());
         }
         return data;
     }
@@ -22284,10 +35668,58 @@ export interface IProductRetrievalSearchDto {
     maxResultCount: number;
     skipCount: number;
     sorting: string | undefined;
-    searchInfo: { [key: string]: ProductInventroyTag; } | undefined;
+    searchInfo: SearchInfoDto[] | undefined;
 }
 
-export class ProjectDto implements IProjectDto {
+export class ProjectInfoCodeResultDto implements IProjectInfoCodeResultDto {
+    code!: string | undefined;
+    projects!: ProjectInfoDto[] | undefined;
+
+    constructor(data?: IProjectInfoCodeResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.code = _data["code"];
+            if (Array.isArray(_data["projects"])) {
+                this.projects = [] as any;
+                for (let item of _data["projects"])
+                    this.projects!.push(ProjectInfoDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ProjectInfoCodeResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProjectInfoCodeResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        if (Array.isArray(this.projects)) {
+            data["projects"] = [];
+            for (let item of this.projects)
+                data["projects"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IProjectInfoCodeResultDto {
+    code: string | undefined;
+    projects: ProjectInfoDto[] | undefined;
+}
+
+export class ProjectInfoDto implements IProjectInfoDto {
     /** 项目名称 */
     projectName!: string | undefined;
     /** 项目编码 */
@@ -22298,8 +35730,10 @@ export class ProjectDto implements IProjectDto {
     moduleCode!: string | undefined;
     /** 物料编码 */
     materialCode!: string | undefined;
+    id!: string;
+    creationTime!: dayjs.Dayjs;
 
-    constructor(data?: IProjectDto) {
+    constructor(data?: IProjectInfoDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -22315,65 +35749,8 @@ export class ProjectDto implements IProjectDto {
             this.productCode = _data["productCode"];
             this.moduleCode = _data["moduleCode"];
             this.materialCode = _data["materialCode"];
-        }
-    }
-
-    static fromJS(data: any): ProjectDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ProjectDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["projectName"] = this.projectName;
-        data["projectCode"] = this.projectCode;
-        data["productCode"] = this.productCode;
-        data["moduleCode"] = this.moduleCode;
-        data["materialCode"] = this.materialCode;
-        return data;
-    }
-}
-
-export interface IProjectDto {
-    /** 项目名称 */
-    projectName: string | undefined;
-    /** 项目编码 */
-    projectCode: string | undefined;
-    /** 产品编码 */
-    productCode: string | undefined;
-    /** 模块编码 */
-    moduleCode: string | undefined;
-    /** 物料编码 */
-    materialCode: string | undefined;
-}
-
-export class ProjectInfoDto implements IProjectInfoDto {
-    id!: string;
-    creationTime!: dayjs.Dayjs;
-    creatorId!: string | undefined;
-    lastModificationTime!: dayjs.Dayjs | undefined;
-    lastModifierId!: string | undefined;
-    data!: string | undefined;
-
-    constructor(data?: IProjectInfoDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
             this.id = _data["id"];
             this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorId = _data["creatorId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierId = _data["lastModifierId"];
-            this.data = _data["data"];
         }
     }
 
@@ -22386,30 +35763,44 @@ export class ProjectInfoDto implements IProjectInfoDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["projectName"] = this.projectName;
+        data["projectCode"] = this.projectCode;
+        data["productCode"] = this.productCode;
+        data["moduleCode"] = this.moduleCode;
+        data["materialCode"] = this.materialCode;
         data["id"] = this.id;
         data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
-        data["creatorId"] = this.creatorId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
-        data["lastModifierId"] = this.lastModifierId;
-        data["data"] = this.data;
         return data;
     }
 }
 
 export interface IProjectInfoDto {
+    /** 项目名称 */
+    projectName: string | undefined;
+    /** 项目编码 */
+    projectCode: string | undefined;
+    /** 产品编码 */
+    productCode: string | undefined;
+    /** 模块编码 */
+    moduleCode: string | undefined;
+    /** 物料编码 */
+    materialCode: string | undefined;
     id: string;
     creationTime: dayjs.Dayjs;
-    creatorId: string | undefined;
-    lastModificationTime: dayjs.Dayjs | undefined;
-    lastModifierId: string | undefined;
-    data: string | undefined;
 }
 
-export class ProjectInfoDtoPagedResultDto implements IProjectInfoDtoPagedResultDto {
-    items!: ProjectInfoDto[] | undefined;
-    totalCount!: number;
+export enum ProjectInfoInputType {
+    Producut = 0,
+    Module = 1,
+    Material = 2,
+    Undefined = 4,
+}
 
-    constructor(data?: IProjectInfoDtoPagedResultDto) {
+export class ProjectInfoSearchCodeDto implements IProjectInfoSearchCodeDto {
+    code!: string | undefined;
+    type!: ProjectInfoInputType;
+
+    constructor(data?: IProjectInfoSearchCodeDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -22420,73 +35811,29 @@ export class ProjectInfoDtoPagedResultDto implements IProjectInfoDtoPagedResultD
 
     init(_data?: any) {
         if (_data) {
-            if (Array.isArray(_data["items"])) {
-                this.items = [] as any;
-                for (let item of _data["items"])
-                    this.items!.push(ProjectInfoDto.fromJS(item));
-            }
-            this.totalCount = _data["totalCount"];
+            this.code = _data["code"];
+            this.type = _data["type"];
         }
     }
 
-    static fromJS(data: any): ProjectInfoDtoPagedResultDto {
+    static fromJS(data: any): ProjectInfoSearchCodeDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ProjectInfoDtoPagedResultDto();
+        let result = new ProjectInfoSearchCodeDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        data["totalCount"] = this.totalCount;
+        data["code"] = this.code;
+        data["type"] = this.type;
         return data;
     }
 }
 
-export interface IProjectInfoDtoPagedResultDto {
-    items: ProjectInfoDto[] | undefined;
-    totalCount: number;
-}
-
-export class ProjectInfoUpdateDto implements IProjectInfoUpdateDto {
-    data!: string | undefined;
-
-    constructor(data?: IProjectInfoUpdateDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.data = _data["data"];
-        }
-    }
-
-    static fromJS(data: any): ProjectInfoUpdateDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ProjectInfoUpdateDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["data"] = this.data;
-        return data;
-    }
-}
-
-export interface IProjectInfoUpdateDto {
-    data: string | undefined;
+export interface IProjectInfoSearchCodeDto {
+    code: string | undefined;
+    type: ProjectInfoInputType;
 }
 
 export class PropertyApiDescriptionModel implements IPropertyApiDescriptionModel {
@@ -22837,6 +36184,246 @@ export interface IReturnValueApiDescriptionModel {
     typeSimple: string | undefined;
 }
 
+export class SaleOderDto implements ISaleOderDto {
+    id!: string;
+    creationTime!: dayjs.Dayjs;
+    creatorId!: string | undefined;
+    lastModificationTime!: dayjs.Dayjs | undefined;
+    lastModifierId!: string | undefined;
+    name!: string | undefined;
+    /** 文件存储地址 */
+    filePath!: string | undefined;
+    /** 上传用户 */
+    uploadUser!: string | undefined;
+
+    constructor(data?: ISaleOderDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorId = _data["creatorId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? dayjs(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierId = _data["lastModifierId"];
+            this.name = _data["name"];
+            this.filePath = _data["filePath"];
+            this.uploadUser = _data["uploadUser"];
+        }
+    }
+
+    static fromJS(data: any): SaleOderDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SaleOderDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
+        data["creatorId"] = this.creatorId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toLocaleString() : <any>undefined;
+        data["lastModifierId"] = this.lastModifierId;
+        data["name"] = this.name;
+        data["filePath"] = this.filePath;
+        data["uploadUser"] = this.uploadUser;
+        return data;
+    }
+}
+
+export interface ISaleOderDto {
+    id: string;
+    creationTime: dayjs.Dayjs;
+    creatorId: string | undefined;
+    lastModificationTime: dayjs.Dayjs | undefined;
+    lastModifierId: string | undefined;
+    name: string | undefined;
+    /** 文件存储地址 */
+    filePath: string | undefined;
+    /** 上传用户 */
+    uploadUser: string | undefined;
+}
+
+export class SaleOderDtoPagedResultDto implements ISaleOderDtoPagedResultDto {
+    items!: SaleOderDto[] | undefined;
+    totalCount!: number;
+
+    constructor(data?: ISaleOderDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(SaleOderDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): SaleOderDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SaleOderDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+}
+
+export interface ISaleOderDtoPagedResultDto {
+    items: SaleOderDto[] | undefined;
+    totalCount: number;
+}
+
+export class SaleOderFormDto implements ISaleOderFormDto {
+    /** 单位转化文件 */
+    convertFilePath!: string | undefined;
+    /** 拆单表 */
+    splitFilePath!: string | undefined;
+    /** 含产成品编码深化清单 */
+    productCodeFilePath!: string | undefined;
+    /** 重命名文件 */
+    fileRename!: string | undefined;
+    /** 备注 */
+    notes!: string | undefined;
+    /** 要求到货日期 */
+    requireDate!: string | undefined;
+    /** 订单行类型 */
+    orderType!: string | undefined;
+    /** 送达客户编码 */
+    customerCode!: string | undefined;
+
+    constructor(data?: ISaleOderFormDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.convertFilePath = _data["convertFilePath"];
+            this.splitFilePath = _data["splitFilePath"];
+            this.productCodeFilePath = _data["productCodeFilePath"];
+            this.fileRename = _data["fileRename"];
+            this.notes = _data["notes"];
+            this.requireDate = _data["requireDate"];
+            this.orderType = _data["orderType"];
+            this.customerCode = _data["customerCode"];
+        }
+    }
+
+    static fromJS(data: any): SaleOderFormDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SaleOderFormDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["convertFilePath"] = this.convertFilePath;
+        data["splitFilePath"] = this.splitFilePath;
+        data["productCodeFilePath"] = this.productCodeFilePath;
+        data["fileRename"] = this.fileRename;
+        data["notes"] = this.notes;
+        data["requireDate"] = this.requireDate;
+        data["orderType"] = this.orderType;
+        data["customerCode"] = this.customerCode;
+        return data;
+    }
+}
+
+export interface ISaleOderFormDto {
+    /** 单位转化文件 */
+    convertFilePath: string | undefined;
+    /** 拆单表 */
+    splitFilePath: string | undefined;
+    /** 含产成品编码深化清单 */
+    productCodeFilePath: string | undefined;
+    /** 重命名文件 */
+    fileRename: string | undefined;
+    /** 备注 */
+    notes: string | undefined;
+    /** 要求到货日期 */
+    requireDate: string | undefined;
+    /** 订单行类型 */
+    orderType: string | undefined;
+    /** 送达客户编码 */
+    customerCode: string | undefined;
+}
+
+export class SearchInfoDto implements ISearchInfoDto {
+    index!: number;
+    code!: string | undefined;
+    tag!: ProductInventroyTag;
+
+    constructor(data?: ISearchInfoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.index = _data["index"];
+            this.code = _data["code"];
+            this.tag = _data["tag"];
+        }
+    }
+
+    static fromJS(data: any): SearchInfoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchInfoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["index"] = this.index;
+        data["code"] = this.code;
+        data["tag"] = this.tag;
+        return data;
+    }
+}
+
+export interface ISearchInfoDto {
+    index: number;
+    code: string | undefined;
+    tag: ProductInventroyTag;
+}
+
 export class SendBroadCastMessageInput implements ISendBroadCastMessageInput {
     /** 消息标题 */
     title!: string | undefined;
@@ -23137,6 +36724,158 @@ export interface ISettingOutput {
     settingItemOutput: SettingItemOutput[] | undefined;
 }
 
+export class StandardAndPolicyCardDetailDto implements IStandardAndPolicyCardDetailDto {
+    lib!: StandardAndPolicyLibDto;
+    themes!: string[] | undefined;
+    collect!: boolean;
+
+    constructor(data?: IStandardAndPolicyCardDetailDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.lib = _data["lib"] ? StandardAndPolicyLibDto.fromJS(_data["lib"]) : <any>undefined;
+            if (Array.isArray(_data["themes"])) {
+                this.themes = [] as any;
+                for (let item of _data["themes"])
+                    this.themes!.push(item);
+            }
+            this.collect = _data["collect"];
+        }
+    }
+
+    static fromJS(data: any): StandardAndPolicyCardDetailDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new StandardAndPolicyCardDetailDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lib"] = this.lib ? this.lib.toJSON() : <any>undefined;
+        if (Array.isArray(this.themes)) {
+            data["themes"] = [];
+            for (let item of this.themes)
+                data["themes"].push(item);
+        }
+        data["collect"] = this.collect;
+        return data;
+    }
+}
+
+export interface IStandardAndPolicyCardDetailDto {
+    lib: StandardAndPolicyLibDto;
+    themes: string[] | undefined;
+    collect: boolean;
+}
+
+export class StandardAndPolicyCardDto implements IStandardAndPolicyCardDto {
+    id!: string;
+    number!: string | undefined;
+    name!: string | undefined;
+    creationTime!: dayjs.Dayjs;
+
+    constructor(data?: IStandardAndPolicyCardDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.creationTime = _data["creationTime"] ? dayjs(_data["creationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): StandardAndPolicyCardDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new StandardAndPolicyCardDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["creationTime"] = this.creationTime ? this.creationTime.toLocaleString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IStandardAndPolicyCardDto {
+    id: string;
+    number: string | undefined;
+    name: string | undefined;
+    creationTime: dayjs.Dayjs;
+}
+
+export enum StandardAndPolicyCategory {
+    GB = 1,
+    JG = 2,
+    DB = 4,
+    TB = 8,
+    QB = 16,
+}
+
+export class StandardAndPolicyCollectDto implements IStandardAndPolicyCollectDto {
+    userId!: string;
+    libId!: string;
+    collect!: boolean;
+
+    constructor(data?: IStandardAndPolicyCollectDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userId = _data["userId"];
+            this.libId = _data["libId"];
+            this.collect = _data["collect"];
+        }
+    }
+
+    static fromJS(data: any): StandardAndPolicyCollectDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new StandardAndPolicyCollectDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
+        data["libId"] = this.libId;
+        data["collect"] = this.collect;
+        return data;
+    }
+}
+
+export interface IStandardAndPolicyCollectDto {
+    userId: string;
+    libId: string;
+    collect: boolean;
+}
+
 export class StandardAndPolicyCreateAndUpdateDto implements IStandardAndPolicyCreateAndUpdateDto {
     data!: StandardAndPolicyLibDto;
     themes!: string[] | undefined;
@@ -23186,6 +36925,7 @@ export interface IStandardAndPolicyCreateAndUpdateDto {
 }
 
 export class StandardAndPolicyLibDto implements IStandardAndPolicyLibDto {
+    id!: string;
     /** 编号 */
     number!: string | undefined;
     /** 名称 */
@@ -23204,6 +36944,14 @@ export class StandardAndPolicyLibDto implements IStandardAndPolicyLibDto {
     pdfPath!: string | undefined;
     /** 原文链接 */
     linkPath!: string | undefined;
+    /** 标准/政策 */
+    type!: string | undefined;
+    status!: StandardAndPolicyStatus;
+    /** 发文字号 */
+    dispatchFont!: string | undefined;
+    /** 失效日期 */
+    loseDate!: dayjs.Dayjs;
+    standardCategory!: StandardAndPolicyCategory;
 
     constructor(data?: IStandardAndPolicyLibDto) {
         if (data) {
@@ -23216,6 +36964,7 @@ export class StandardAndPolicyLibDto implements IStandardAndPolicyLibDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.number = _data["number"];
             this.name = _data["name"];
             this.industry = _data["industry"];
@@ -23225,6 +36974,11 @@ export class StandardAndPolicyLibDto implements IStandardAndPolicyLibDto {
             this.imagePath = _data["imagePath"];
             this.pdfPath = _data["pdfPath"];
             this.linkPath = _data["linkPath"];
+            this.type = _data["type"];
+            this.status = _data["status"];
+            this.dispatchFont = _data["dispatchFont"];
+            this.loseDate = _data["loseDate"] ? dayjs(_data["loseDate"].toString()) : <any>undefined;
+            this.standardCategory = _data["standardCategory"];
         }
     }
 
@@ -23237,6 +36991,7 @@ export class StandardAndPolicyLibDto implements IStandardAndPolicyLibDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["number"] = this.number;
         data["name"] = this.name;
         data["industry"] = this.industry;
@@ -23246,11 +37001,17 @@ export class StandardAndPolicyLibDto implements IStandardAndPolicyLibDto {
         data["imagePath"] = this.imagePath;
         data["pdfPath"] = this.pdfPath;
         data["linkPath"] = this.linkPath;
+        data["type"] = this.type;
+        data["status"] = this.status;
+        data["dispatchFont"] = this.dispatchFont;
+        data["loseDate"] = this.loseDate ? this.loseDate.toLocaleString() : <any>undefined;
+        data["standardCategory"] = this.standardCategory;
         return data;
     }
 }
 
 export interface IStandardAndPolicyLibDto {
+    id: string;
     /** 编号 */
     number: string | undefined;
     /** 名称 */
@@ -23269,12 +37030,21 @@ export interface IStandardAndPolicyLibDto {
     pdfPath: string | undefined;
     /** 原文链接 */
     linkPath: string | undefined;
+    /** 标准/政策 */
+    type: string | undefined;
+    status: StandardAndPolicyStatus;
+    /** 发文字号 */
+    dispatchFont: string | undefined;
+    /** 失效日期 */
+    loseDate: dayjs.Dayjs;
+    standardCategory: StandardAndPolicyCategory;
 }
 
 export class StandardAndPolicyPageDto implements IStandardAndPolicyPageDto {
+    parentName!: string | undefined;
     id!: string | undefined;
     theme!: string | undefined;
-    data!: StandardAndStandLibWithAllTreeDto[] | undefined;
+    data!: StandardAndPolicyCardDto[] | undefined;
 
     constructor(data?: IStandardAndPolicyPageDto) {
         if (data) {
@@ -23287,12 +37057,13 @@ export class StandardAndPolicyPageDto implements IStandardAndPolicyPageDto {
 
     init(_data?: any) {
         if (_data) {
+            this.parentName = _data["parentName"];
             this.id = _data["id"];
             this.theme = _data["theme"];
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
-                    this.data!.push(StandardAndStandLibWithAllTreeDto.fromJS(item));
+                    this.data!.push(StandardAndPolicyCardDto.fromJS(item));
             }
         }
     }
@@ -23306,6 +37077,7 @@ export class StandardAndPolicyPageDto implements IStandardAndPolicyPageDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["parentName"] = this.parentName;
         data["id"] = this.id;
         data["theme"] = this.theme;
         if (Array.isArray(this.data)) {
@@ -23318,9 +37090,10 @@ export class StandardAndPolicyPageDto implements IStandardAndPolicyPageDto {
 }
 
 export interface IStandardAndPolicyPageDto {
+    parentName: string | undefined;
     id: string | undefined;
     theme: string | undefined;
-    data: StandardAndStandLibWithAllTreeDto[] | undefined;
+    data: StandardAndPolicyCardDto[] | undefined;
 }
 
 export class StandardAndPolicySearchDto implements IStandardAndPolicySearchDto {
@@ -23329,17 +37102,18 @@ export class StandardAndPolicySearchDto implements IStandardAndPolicySearchDto {
     sorting!: string | undefined;
     /** Id */
     id!: string | undefined;
-    /** 名称 */
-    name!: string | undefined;
-    /** 编号 */
-    number!: string | undefined;
-    /** 单位 */
-    unit!: string | undefined;
+    /** 标准/政策 */
+    type!: string | undefined;
+    /** 类别 [全部、国家标准、.....] */
+    category!: number;
+    /** 搜索内容  [标题、编号、单位] */
+    search!: string | undefined;
+    /** 省份 */
+    province!: string | undefined;
+    /** 当前收藏 */
+    isCollect!: boolean;
     /** 主题 */
     themes!: string[] | undefined;
-    /** 首页 */
-    home!: boolean;
-    homeMaxCount!: number;
 
     constructor(data?: IStandardAndPolicySearchDto) {
         if (data) {
@@ -23356,16 +37130,16 @@ export class StandardAndPolicySearchDto implements IStandardAndPolicySearchDto {
             this.skipCount = _data["skipCount"];
             this.sorting = _data["sorting"];
             this.id = _data["id"];
-            this.name = _data["name"];
-            this.number = _data["number"];
-            this.unit = _data["unit"];
+            this.type = _data["type"];
+            this.category = _data["category"];
+            this.search = _data["search"];
+            this.province = _data["province"];
+            this.isCollect = _data["isCollect"];
             if (Array.isArray(_data["themes"])) {
                 this.themes = [] as any;
                 for (let item of _data["themes"])
                     this.themes!.push(item);
             }
-            this.home = _data["home"];
-            this.homeMaxCount = _data["homeMaxCount"];
         }
     }
 
@@ -23382,16 +37156,16 @@ export class StandardAndPolicySearchDto implements IStandardAndPolicySearchDto {
         data["skipCount"] = this.skipCount;
         data["sorting"] = this.sorting;
         data["id"] = this.id;
-        data["name"] = this.name;
-        data["number"] = this.number;
-        data["unit"] = this.unit;
+        data["type"] = this.type;
+        data["category"] = this.category;
+        data["search"] = this.search;
+        data["province"] = this.province;
+        data["isCollect"] = this.isCollect;
         if (Array.isArray(this.themes)) {
             data["themes"] = [];
             for (let item of this.themes)
                 data["themes"].push(item);
         }
-        data["home"] = this.home;
-        data["homeMaxCount"] = this.homeMaxCount;
         return data;
     }
 }
@@ -23402,17 +37176,24 @@ export interface IStandardAndPolicySearchDto {
     sorting: string | undefined;
     /** Id */
     id: string | undefined;
-    /** 名称 */
-    name: string | undefined;
-    /** 编号 */
-    number: string | undefined;
-    /** 单位 */
-    unit: string | undefined;
+    /** 标准/政策 */
+    type: string | undefined;
+    /** 类别 [全部、国家标准、.....] */
+    category: number;
+    /** 搜索内容  [标题、编号、单位] */
+    search: string | undefined;
+    /** 省份 */
+    province: string | undefined;
+    /** 当前收藏 */
+    isCollect: boolean;
     /** 主题 */
     themes: string[] | undefined;
-    /** 首页 */
-    home: boolean;
-    homeMaxCount: number;
+}
+
+export enum StandardAndPolicyStatus {
+    Immediately = 1,
+    Active = 2,
+    Abolish = 4,
 }
 
 export class StandardAndPolicyThemeDto implements IStandardAndPolicyThemeDto {
@@ -23486,7 +37267,9 @@ export interface IStandardAndPolicyThemeDto {
 export class StandardAndPolicyTreeDto implements IStandardAndPolicyTreeDto {
     id!: string;
     parentId!: string | undefined;
+    code!: number;
     name!: string | undefined;
+    hide!: boolean;
     children!: StandardAndPolicyTreeDto[] | undefined;
 
     constructor(data?: IStandardAndPolicyTreeDto) {
@@ -23502,7 +37285,9 @@ export class StandardAndPolicyTreeDto implements IStandardAndPolicyTreeDto {
         if (_data) {
             this.id = _data["id"];
             this.parentId = _data["parentId"];
+            this.code = _data["code"];
             this.name = _data["name"];
+            this.hide = _data["hide"];
             if (Array.isArray(_data["children"])) {
                 this.children = [] as any;
                 for (let item of _data["children"])
@@ -23522,7 +37307,9 @@ export class StandardAndPolicyTreeDto implements IStandardAndPolicyTreeDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["parentId"] = this.parentId;
+        data["code"] = this.code;
         data["name"] = this.name;
+        data["hide"] = this.hide;
         if (Array.isArray(this.children)) {
             data["children"] = [];
             for (let item of this.children)
@@ -23535,7 +37322,9 @@ export class StandardAndPolicyTreeDto implements IStandardAndPolicyTreeDto {
 export interface IStandardAndPolicyTreeDto {
     id: string;
     parentId: string | undefined;
+    code: number;
     name: string | undefined;
+    hide: boolean;
     children: StandardAndPolicyTreeDto[] | undefined;
 }
 
@@ -23585,6 +37374,54 @@ export class StandardAndStandLibWithAllTreeDto implements IStandardAndStandLibWi
 export interface IStandardAndStandLibWithAllTreeDto {
     lib: StandardAndPolicyLibDto;
     themes: string[] | undefined;
+}
+
+export class StandardAndStandLibWithAllTreeDtoPagedResultDto implements IStandardAndStandLibWithAllTreeDtoPagedResultDto {
+    items!: StandardAndStandLibWithAllTreeDto[] | undefined;
+    totalCount!: number;
+
+    constructor(data?: IStandardAndStandLibWithAllTreeDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(StandardAndStandLibWithAllTreeDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): StandardAndStandLibWithAllTreeDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new StandardAndStandLibWithAllTreeDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+}
+
+export interface IStandardAndStandLibWithAllTreeDtoPagedResultDto {
+    items: StandardAndStandLibWithAllTreeDto[] | undefined;
+    totalCount: number;
 }
 
 export class StringStringFromSelector implements IStringStringFromSelector {
@@ -23869,6 +37706,58 @@ export class TimingDto implements ITimingDto {
 
 export interface ITimingDto {
     timeZone: TimeZone;
+}
+
+export class TranslationStatus implements ITranslationStatus {
+    status!: string | undefined;
+    progress!: string | undefined;
+    messages!: string[] | undefined;
+
+    constructor(data?: ITranslationStatus) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.status = _data["status"];
+            this.progress = _data["progress"];
+            if (Array.isArray(_data["messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["messages"])
+                    this.messages!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): TranslationStatus {
+        data = typeof data === 'object' ? data : {};
+        let result = new TranslationStatus();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["status"] = this.status;
+        data["progress"] = this.progress;
+        if (Array.isArray(this.messages)) {
+            data["messages"] = [];
+            for (let item of this.messages)
+                data["messages"].push(item);
+        }
+        return data;
+    }
+}
+
+export interface ITranslationStatus {
+    status: string | undefined;
+    progress: string | undefined;
+    messages: string[] | undefined;
 }
 
 export class TreeOutput implements ITreeOutput {

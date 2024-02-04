@@ -1,26 +1,27 @@
-import type { LockInfo, UserInfo } from '/#/store';
-import type { ProjectConfig } from '/#/config';
 import type { RouteLocationNormalized } from 'vue-router';
+import type { ProjectConfig } from '/#/config';
+import type { LockInfo, UserInfo } from '/#/store';
 
-import { createLocalStorage, createSessionStorage } from '/@/utils/cache';
+import { omit, pick } from 'lodash-es';
+import { toRaw } from 'vue';
 import { Memory } from './memory';
 import {
-  TOKEN_KEY,
-  USER_INFO_KEY,
-  ROLES_KEY,
-  LOCK_INFO_KEY,
-  PROJ_CFG_KEY,
-  APP_LOCAL_CACHE_KEY,
-  APP_SESSION_CACHE_KEY,
-  MULTIPLE_TABS_KEY,
-  AUTH_KEY,
   ABP_LOCALE_KEY,
   ABP_TETANT_KEY,
+  APP_LOCAL_CACHE_KEY,
+  APP_SESSION_CACHE_KEY,
+  AUTH_KEY,
+  LOCK_INFO_KEY,
+  MATERIALMANAGE_KEY,
+  MULTIPLE_TABS_KEY,
+  PROJ_CFG_KEY,
+  ROLES_KEY,
+  TOKEN_KEY,
+  USER_INFO_KEY,
 } from '/@/enums/cacheEnum';
 import { ApplicationAuthConfigurationDto } from '/@/services/ServiceProxies';
 import { DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting';
-import { toRaw } from 'vue';
-import { pick, omit } from 'lodash-es';
+import { createLocalStorage, createSessionStorage } from '/@/utils/cache';
 
 interface BasicStore {
   [TOKEN_KEY]: string | number | null | undefined;
@@ -32,6 +33,7 @@ interface BasicStore {
   [AUTH_KEY]: ApplicationAuthConfigurationDto;
   [ABP_LOCALE_KEY]: string;
   [ABP_TETANT_KEY]: string;
+  [MATERIALMANAGE_KEY]: string;
 }
 
 type LocalStore = BasicStore;
@@ -57,12 +59,23 @@ function initPersistentMemory() {
 
 export class Persistent {
   static getLocal<T>(key: LocalKeys) {
+    //从内存中拿 避免每次从localStoge中拿
     return localMemory.get(key)?.value as Nullable<T>;
   }
 
   static setLocal(key: LocalKeys, value: LocalStore[LocalKeys], immediate = false): void {
+    //放在内存中
     localMemory.set(key, toRaw(value));
     immediate && ls.set(APP_LOCAL_CACHE_KEY, localMemory.getCache);
+  }
+
+  static getMaterialManage(key: LocalKeys) {
+    return ls.get(key);
+  }
+
+  static setMaterialManage(key: LocalKeys, value: LocalStore[LocalKeys]): void {
+    //保存30天
+    ls.set(key, value, 60 * 60 * 24 * 30);
   }
 
   static removeLocal(key: LocalKeys, immediate = false): void {

@@ -38,7 +38,7 @@
     copyProducts,
     upDateProductStatus,
     uploadProductImage,
-  } from './Index';
+  } from '/@/views/productlist/index';
   export default defineComponent({
     name: 'ProductListManagement',
     components: {

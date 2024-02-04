@@ -1,6 +1,6 @@
-import type { AppRouteModule } from '/@/router/types';
-import { LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
+import { LAYOUT } from '/@/router/constant';
+import type { AppRouteModule } from '/@/router/types';
 
 const productManagement: AppRouteModule = {
   path: '/productManagement',
@@ -11,7 +11,6 @@ const productManagement: AppRouteModule = {
     orderNo: 60,
     icon: 'fluent-mdl2:product',
     title: t('routes.productManagement.name'),
-    policy: 'YaSha.DataManager.ProductList',
   },
   children: [
     {
@@ -31,15 +30,35 @@ const productManagement: AppRouteModule = {
       meta: {
         hideMenu: true,
         title: t('routes.productlist.productDetail'),
-        // ignoreKeepAlive: true,
         showMenu: false,
         currentActiveMenu: '/productManagement/gyhProductList',
       },
     },
     {
+      path: 'gyhArchitectureList',
+      name: 'ArchitectureList',
+      component: () => import('/@/views/architectureList/index.vue'),
+      meta: {
+        icon: 'ant-design:file-excel-outlined',
+        title: '产品模块清单',
+        // policy: 'YaSha.DataManager.NewProductList',
+        policy: 'YaSha.DataManager.ArchitectureList',
+      },
+    },
+    {
+      path: 'architectureFileManage',
+      name: 'architectureFileManage',
+      component: () => import('/@/views/architectureList/File.vue'),
+      meta: {
+        hideMenu: true,
+        title: '相关图纸文件',
+        showMenu: false,
+        currentActiveMenu: '/productManagement/gyhArchitectureList',
+      },
+    },
+    {
       path: 'gyhProductRetrieval',
       name: 'ProductRetrievalManagement',
-
       component: () => import('/@/views/productRetrieval/Index.vue'),
       meta: {
         icon: 'uil:file-search-alt',
@@ -47,26 +66,26 @@ const productManagement: AppRouteModule = {
         policy: 'YaSha.DataManager.ProductRetrieval',
       },
     },
-    {
-      path: 'basicTest',
-      name: 'basicTest',
-      component: () => import('/@/views/tempTest/basicTitle.vue'),
-      meta: {
-        icon: 'teenyicons:ab-testing-outline',
-        title: t('基础测试项'),
-        //policy: 'YaSha.DataManager.Test',
-      },
-    },
-    {
-      path: 'projectList',
-      name: 'projectList',
-      component: () => import('/@/views/tempTest/ProjectList.vue'),
-      meta: {
-        icon: 'mdi:ab-testing',
-        title: t('项目测试'),
-        //policy: 'YaSha.DataManager.Test',
-      },
-    },
+    // {
+    //   path: 'gyhStandardPolicyLib',
+    //   name: 'standardPolicyLib',
+    //   component: () => import('/@/views/standardPolicy/index.vue'),
+    //   meta: {
+    //     icon: 'carbon:policy',
+    //     title: t('routes.standardPolicy.standardPolicyName'),
+    //     policy: 'YaSha.DataManager.StandardPolicy',
+    //   },
+    // },
+    // {
+    //   path: 'standardDetail',
+    //   name: 'standardDetail',
+    //   meta: {
+    //     hideMenu: true,
+    //     title: t('routes.familylibs.detail'),
+    //     showMenu: false,
+    //   },
+    //   component: () => import('/@/views/standardPolicy/standardDes.vue'),
+    // },
   ],
 };
 

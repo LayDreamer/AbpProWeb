@@ -2,6 +2,7 @@
   <BasicModal
     :footer="null"
     :title="t('layout.header.lockScreen')"
+    :canFullscreen="false"
     v-bind="$attrs"
     :class="prefixCls"
     @register="register"

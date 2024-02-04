@@ -35,19 +35,21 @@
   </Form>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref, toRaw, unref, computed } from 'vue';
-  import { Form, Input, Button } from 'ant-design-vue';
+  import { Button, Form, Input } from 'ant-design-vue';
+  import { computed, reactive, ref, toRaw, unref } from 'vue';
   import LoginFormTitle from './LoginFormTitle.vue';
+  import { LoginStateEnum, useFormRules, useFormValid, useLoginState } from './useLogin';
+  import { useDesign } from '/@/hooks/web/useDesign';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useUserStore } from '/@/store/modules/user';
-  import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
-  import { useDesign } from '/@/hooks/web/useDesign';
   import { getErpToken } from '/@/views/productlist/index';
+
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
   const { t } = useI18n();
-  const { notification, createErrorModal } = useMessage();
+  const { notification, createErrorModal, createMessage: msg } = useMessage();
+  const { error, success } = msg;
   const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
   const { getLoginState, handleBackLogin } = useLoginState();
@@ -81,6 +83,7 @@
           });
           await getErpToken();
         } else {
+          // error(userInfo.errorMsg);
           createErrorModal({
             title: t('sys.api.errorTip'),
             content: userInfo.errorMsg,

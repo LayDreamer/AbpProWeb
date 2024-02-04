@@ -12,7 +12,7 @@
     @ok="Confirm"
     @close="Cancel"
   >
-    <div class="flex h-147">
+    <div ref="wrapEle" class="flex h-152">
       <BasicTable
         @register="registerTable"
         @selection-change="rowClick"
@@ -21,6 +21,16 @@
         class="w-5/9"
         style="border-radius: 1%; border-width: 1px; margin-right: 10px"
       >
+        <template #tableTitle>
+          <div>{{ t('routes.productManagement.selectList') }}</div>
+          <input
+            type="checkbox"
+            @click="checkAllClick"
+            v-model="checkedAll"
+            style="width: 15px; height: 15px; margin: 5px"
+          />
+          {{ t('routes.productManagement.checkAll') }}
+        </template>
         <template #toolbar>
           <div>
             <SystemSelect ref="selectState" />
@@ -30,6 +40,7 @@
       <BasicTable
         @register="registerResTable"
         @resizeColumn="handleResizeColumn"
+        @row-click="rightRowClick"
         :searchInfo="searchInfo"
         class="w-4/9"
         style="border-radius: 1%; border-width: 1px"
@@ -48,7 +59,7 @@
   import { defineComponent, reactive, ref, computed, onMounted } from 'vue';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { BasicForm, useForm } from '/@/components/Form/index';
+  import { BasicForm } from '/@/components/Form/index';
   import {
     BasicColumn,
     BasicTable,
@@ -59,8 +70,8 @@
   import { IProductIndexSearchDto } from '/@/services/ServiceProxies';
   import { useMessage } from '/@/hooks/web/useMessage';
   import SystemSelect from './systemSelect.vue';
-  import { getProductIndex } from './Index';
-  import { cloneDeep } from 'lodash-es';
+  import { getProductIndex, getAllProducts } from './Index';
+  import { useLoading } from '/@/components/Loading';
   export default defineComponent({
     components: { BasicDrawer, BasicTable, BasicForm, SystemSelect },
     setup() {
@@ -108,73 +119,82 @@
       function onChange() {
         // console.log('onChange', arguments);
       }
-
-      const searchInfo = reactive<Recordable>({});
-      const [
-        registerTable,
-        {
-          getSelectRows,
-          reload,
-          clearSelectedRowKeys,
-          deleteSelectRowByKey,
-          getPaginationRef,
-          getForm,
-        },
-      ] = useTable({
-        title: t('routes.productManagement.selectList'),
-        isCanResizeParent: true,
-        api: getProductIndex,
-        beforeFetch: (data) => {
-          var state = selectState.value.get().state;
-          var selectSystem = state.selectSystem;
-          var selectSeries = state.selectSeries;
-          const searchDto: IProductIndexSearchDto = {
-            maxResultCount: data.pageSize,
-            skipCount: data.pageIndex,
-            sorting: data.sorting,
-            key: '',
-            searchValue: data.searchValue,
-            searchCode: data.searchCode,
-            system: selectSystem,
-            series: selectSeries,
-          };
-          return searchDto;
-        },
-        afterFetch: (data) => {
-          if (Array.isArray(data)) {
-            for (let item of data) {
-              item.children = null;
-            }
-          }
-        },
-        rowKey: 'id',
-        columns,
-        formConfig: {
-          labelWidth: 40,
-          schemas: searchFormSchema,
-          autoSubmitOnEnter: true,
-          resetFunc: customResetFunc, // 单独定义重置方法 须情况插槽表单内容
-        },
-        useSearchForm: true,
-        showTableSetting: false,
-        showIndexColumn: true,
-        striped: false,
-        loading: true,
-        canResize: true,
-        rowSelection: {
-          type: 'checkbox',
-        },
-        onChange,
-        onColumnsChange: (data: ColumnChangeParam[]) => {
-          // console.log('ColumnsChanged', data);
-        },
-
-        handleSearchInfoFn(info) {
-          return info;
+      const wrapEle = ref<ElRef>(null);
+      const [openWrapLoading, closeWrapLoading] = useLoading({
+        target: wrapEle,
+        props: {
+          tip: '加载中...',
+          absolute: true,
         },
       });
 
-      const [registerResTable] = useTable({
+      const searchValue = ref();
+      const searchCode = ref();
+      const sorting = ref();
+      const checkedAll = ref(false);
+
+      const searchInfo = reactive<Recordable>({});
+      const [registerTable, { clearSelectedRowKeys, deleteSelectRowByKey, setSelectedRowKeys }] =
+        useTable({
+          isCanResizeParent: true,
+          api: getProductIndex,
+          beforeFetch: (data) => {
+            var state = selectState.value.get().state;
+            var selectSystem = state.selectSystem;
+            var selectSeries = state.selectSeries;
+            var selectLevel = state.selectLevel;
+            const searchDto: IProductIndexSearchDto = {
+              maxResultCount: data.pageSize,
+              skipCount: data.pageIndex,
+              sorting: data.sorting,
+              key: '',
+              searchValue: data.searchValue,
+              searchCode: data.searchCode,
+              system: selectSystem,
+              series: selectSeries,
+              level: selectLevel,
+            };
+            sorting.value = data.sorting;
+            searchValue.value = data.searchValue;
+            searchCode.value = data.searchCode;
+            return searchDto;
+          },
+          afterFetch: (data) => {
+            if (Array.isArray(data)) {
+              for (let item of data) {
+                item.children = null;
+              }
+            }
+          },
+          rowKey: 'id',
+          columns,
+          formConfig: {
+            labelWidth: 40,
+            schemas: searchFormSchema,
+            autoSubmitOnEnter: true,
+            resetFunc: customResetFunc, // 单独定义重置方法 须情况插槽表单内容
+          },
+          useSearchForm: true,
+          showTableSetting: false,
+          showIndexColumn: true,
+          striped: false,
+          loading: true,
+          canResize: true,
+          rowSelection: {
+            type: 'checkbox',
+            preserveSelectedRowKeys: true,
+          },
+          onChange,
+          onColumnsChange: (data: ColumnChangeParam[]) => {
+            // console.log('ColumnsChanged', data);
+          },
+
+          handleSearchInfoFn(info) {
+            return info;
+          },
+        });
+
+      const [registerResTable, { deleteTableDataRecord }] = useTable({
         title: t('routes.productManagement.selectedData'),
         rowKey: 'id',
         canResize: true,
@@ -206,6 +226,8 @@
         var state = selectState.value.get().state;
         state.selectSystem = undefined;
         state.selectSeries = undefined;
+        state.selectLevel = undefined;
+        checkedAll.value = false;
         clearSelectedRowKeys();
       }
 
@@ -214,7 +236,49 @@
       }
       function rowClick({ keys, rows }) {
         // selectedRows.value = cloneDeep(rows)
-        selectedRows.value = rows;
+        if (checkedAll.value) {
+          var result = selectedRows.value.filter((x) => keys.indexOf(x.id) != -1);
+          selectedRows.value = result;
+        } else {
+          selectedRows.value = rows;
+        }
+      }
+
+      async function checkAllClick(ev) {
+        openWrapLoading();
+        var result = [] as any[];
+        if (ev.target.checked) {
+          var state = selectState.value.get().state;
+          var selectSystem = state.selectSystem;
+          var selectSeries = state.selectSeries;
+          var selectLevel = state.selectLevel;
+          const searchDto: IProductIndexSearchDto = {
+            key: '',
+            sorting: sorting.value == undefined ? '' : sorting.value,
+            searchValue: searchValue.value == undefined ? '' : searchValue.value,
+            searchCode: searchCode.value == undefined ? '' : searchCode.value,
+            system: selectSystem,
+            series: selectSeries,
+            level: selectLevel,
+          };
+          result = await getAllProducts(searchDto);
+        }
+        setTimeout(function () {
+          var checkKeys = [] as any[];
+
+          for (let i = 0; i < result.length; i++) {
+            checkKeys.push(result[i].id);
+          }
+          setSelectedRowKeys(checkKeys);
+          selectedRows.value = result;
+
+          closeWrapLoading();
+        }, 1);
+      }
+
+      function rightRowClick(record, index, event) {
+        deleteSelectRowByKey(record.id);
+        deleteTableDataRecord(record.id);
       }
 
       function Confirm() {
@@ -224,11 +288,13 @@
       function Cancel() {
         clearSelectedRowKeys();
         selectedRows.value = [];
+        checkedAll.value = false;
       }
 
       return {
         searchInfo,
         rowClick,
+        rightRowClick,
         register,
         handleResizeColumn,
         t,
@@ -239,10 +305,13 @@
         onChange,
         Confirm,
         Cancel,
+        checkAllClick,
+        checkedAll,
         // get,
         get: () => {
           return { selectedRows };
         },
+        wrapEle,
       };
     },
   });

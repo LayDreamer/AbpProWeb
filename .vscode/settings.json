@@ -4,5 +4,6 @@
     "src/locales/lang",
     "public/resource/tinymce/langs",
     "src/views/admin/language"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -15,7 +15,7 @@ function sort(tree) {
       const titleB = b.displayName ?? '';
       return titleA.localeCompare(titleB, 'zh-CN');
     });
-    for (let item of tree.children) {
+    for (const item of tree.children) {
       sort(item);
     }
   } else {
@@ -26,8 +26,8 @@ function sort(tree) {
 export async function getProductTreesAsync() {
   let result: any = [];
   await _familyTreeServiceProxy.get().then((out) => {
-    if (Array.isArray(out.items)) {
-      for (const item of out.items) {
+    if (Array.isArray(out)) {
+      for (const item of out) {
         if (item.parentId == null) {
           sort(item);
           result!.push(item);

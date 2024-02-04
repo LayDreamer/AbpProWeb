@@ -23,7 +23,8 @@ export interface MultipleTabState {
 
 function handleGotoPage(router: Router) {
   const go = useGo(router);
-  go(unref(router.currentRoute).path, true);
+  let path = unref(router.currentRoute).fullPath;
+  go(path, true);
 }
 
 const getToTarget = (tabItem: RouteLocationNormalized) => {
@@ -254,7 +255,7 @@ export const useMultipleTabStore = defineStore({
 
     // Close the tab on the right and jump
     async closeLeftTabs(route: RouteLocationNormalized, router: Router) {
-      const index = this.tabList.findIndex((item) => item.path === route.path);
+      const index = this.tabList.findIndex((item) => item.fullPath === route.fullPath);
 
       if (index > 0) {
         const leftTabs = this.tabList.slice(0, index);
@@ -307,7 +308,7 @@ export const useMultipleTabStore = defineStore({
 
       for (const path of closePathList) {
         if (path !== route.fullPath) {
-          const closeItem = this.tabList.find((item) => item.path === path);
+          const closeItem = this.tabList.find((item) => item.fullPath === path);
           if (!closeItem) {
             continue;
           }

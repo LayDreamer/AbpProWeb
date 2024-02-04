@@ -269,17 +269,17 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, onMounted, ref, nextTick, watch, computed } from 'vue';
   import { Card, Tooltip } from 'ant-design-vue';
+  import { computed, defineComponent, onMounted, ref, watch } from 'vue';
+  import { getErpDataByNameCode, setErpDataToEdit } from '../index';
+  import NameSelect from './ErpNameSelect.vue';
+  import { useModal } from '/@/components/Modal';
+  import { useMessage } from '/@/hooks/web/useMessage';
   import {
     ProductInventoryFullDto,
     ProductInventoryModifyStatus,
   } from '/@/services/ServiceProxies';
-  import { useMessage } from '/@/hooks/web/useMessage';
-  import { setErpDataToEdit, getErpDataByNameCode } from '../Index';
   import { isEmpty, isNullOrUnDef } from '/@/utils/is';
-  import { useModal } from '/@/components/Modal';
-  import NameSelect from './ErpNameSelect.vue';
   interface limitRow {
     id: number;
     min: string;
@@ -517,7 +517,11 @@
           if (response.value.data.code && response.value.data.code !== '') {
             try {
               const requestBody = {
-                noList: [response.value.data.code],
+                data: [
+                  {
+                    no: response.value.data.code,
+                  },
+                ],
               };
               const erp = await getErpDataByNameCode(JSON.stringify(requestBody));
               if (erp.length == 0) {

@@ -2,27 +2,21 @@
   <BasicModal
     v-bind="$attrs"
     @register="register"
-    title="详情信息"
+    title="项目信息"
     :height="350"
-    :footer="false"
+    :footer="null"
     :showOkBtn="false"
     :showCancelBtn="false"
     :maskClosable="false"
+    :canFullscreen="false"
   >
     <div ref="wrapEl">
       <a-list size="small" item-layout="horizontal" :data-source="showData">
         <template #renderItem="{ item }">
           <a-list-item>
             <a-list-item-meta>
-              <!-- <template #avatar>
-                <a-avatar
-                  :size="30"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                />
-              </template> -->
-              <!-- :description="item.description" -->
               <template #title>
-                <label style="font-size: large; font-weight: bold">{{ item.title }}</label>
+                <label style="font-size: 16px; font-weight: bold">{{ item.title }}</label>
               </template>
               <template #description>
                 <a-list size="small" bordered :data-source="item.description">
@@ -39,10 +33,15 @@
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, reactive } from 'vue';
-  import { BasicModal, useModalInner } from '/@/components/Modal';
+  import { defineComponent, ref } from 'vue';
   import { parsingInventory, parsingProjectInfo } from './Index';
   import { useLoading } from '/@/components/Loading';
+  import { BasicModal, useModalInner } from '/@/components/Modal';
+  import {
+    ProductInventroyTag,
+    ProjectInfoInputType,
+    ProjectInfoSearchCodeDto,
+  } from '/@/services/ServiceProxies';
   interface DataItem {
     title: string;
     description: string[];
@@ -62,97 +61,93 @@
         },
       });
 
-      //var productDes = "项目:xxxxxxxxxxxxxxxxxxxx项目一深化下单','xxxxxxxxxxxxxxxxxxxx项目一一营销";
-      // var materialDes = '原材料合格仓一库存数量: xxx ,库存金额: xxx.x';
-
       const [register, { closeModal }] = useModalInner(async (e) => {
         var data = e.data;
+
         getDataInfo(data);
       });
 
       async function getDataInfo(data) {
         showData.value = [];
         desData.value = [];
-
-        getInventoryInfo(data);
-        getProjectInfo(data);
-      }
-
-      async function getInventoryInfo(data) {
         openWrapLoading();
-        var resultInfo = await parsingInventory(data.materialCode);
-        var materialDes = [];
-        // if (resultInfo.length == 0) return;
-        for (let item of resultInfo) {
-          var des = '';
-          des += item.warehouse;
-          des += item.warehouseLocationName;
-          des += '——库存数量：' + item.inventoryQuantity;
-          des += '，库存金额：' + item.inventoryAmount;
-          materialDes.push(des);
-          desData.value.push({
-            title: '',
-            description: materialDes,
-          });
-        }
 
-        //物料详情
-        // materialDes = getMaterialInventory(data);
-        if (data.materialName != null) {
-          showData.value.push({
-            title: data.materialName,
-            description: materialDes,
-          });
-        }
-        closeWrapLoading();
-      }
+        // await parsingInventory([data.materialCode]).then(async (response) => {
+        //   var materialDes: any[] = [];
+        //   var count = 0;
+        //   var money = 0;
+        //   for (let item of response.data) {
+        //     count += item.inventoryQuantity;
+        //     money += item.inventoryAmount;
+        //   }
+        //   var des = '库存数量：' + count + '，库存金额：' + money;
+        //   materialDes.push(des);
+        //   desData.value.push({
+        //     title: '',
+        //     description: materialDes,
+        //   });
 
-      async function getProjectInfo(data) {
-        openWrapLoading();
-        var productDes = [];
-        // var input = '';
-        // var inputName ='';
-        let vv = {
-          input: '',
-          inputName: '',
-        };
+        //   //物料详情
+        //   if (data.materialName != null) {
+        //     // let date = '';
+        //     // if (response.data.length > 0) {
+        //     //   date = response[0].creationTime.format('YYYY-MM-DD');
+        //     // }
+
+        //     showData.value.push({
+        //       title: '【 物料库存】' + data.materialName,
+        //       description: materialDes,
+        //     });
+        //   }
+
+        //   closeWrapLoading();
+        // });
+
+        let name = '';
+        var productDes: any[] = [];
+        let body: ProjectInfoSearchCodeDto = new ProjectInfoSearchCodeDto();
         switch (data.tag) {
-          case 1:
-            vv.input = data.productCode;
-            vv.inputName = data.productName;
+          case ProductInventroyTag.Product:
+            body.code = data.productCode;
+            body.type = ProjectInfoInputType.Producut;
+            name = data.productName;
             break;
-          case 2:
-            vv.input = data.moduleCode;
-            vv.inputName = data.moduleName;
+          case ProductInventroyTag.Modules:
+            body.code = data.moduleCode;
+            body.type = ProjectInfoInputType.Module;
+            name = data.moduleName;
             break;
-          case 4:
-            vv.input = data.materialCode;
-            vv.inputName = data.materialName;
+          case ProductInventroyTag.Material:
+            body.code = data.materialCode;
+            body.type = ProjectInfoInputType.Material;
+            name = data.materialName;
             break;
           default:
-          //input = data.materialCode;
         }
-        vv.input = vv.input + '|' + data.tag;
-
-        var projectInfo = await parsingProjectInfo(vv.input);
-        for (let item of projectInfo) {
-          var des = '';
-          des += '项目：' + item.projectName;
-          des += '—编码：' + item.projectCode;
-          productDes.push(des);
-          desData.value.push({
-            title: '',
-            description: productDes,
-          });
-        }
-
-        //产品详情;
-        if (data.tag != null) {
+        await parsingProjectInfo([body]).then((response1) => {
+          for (let item of response1.data) {
+            if (item.projects)
+              for (let project of item.projects) {
+                var des = '';
+                des += '项目：' + project.projectName;
+                des += ' —— 编码：' + project.projectCode;
+                productDes.push(des);
+                desData.value.push({
+                  title: '',
+                  description: productDes,
+                });
+              }
+          }
+          // let date = '';
+          // if (response1.length > 0 && response1[0].projects && response1[0].projects.length > 0) {
+          //   date = response1[0].projects[0].creationTime.format('YYYY-MM-DD');
+          // }
           showData.value.push({
-            title: vv.inputName,
+            title: '【' + name + '】' + body.code,
             description: productDes,
           });
-        }
+        });
+
         closeWrapLoading();
       }
 

@@ -11,4 +11,6 @@ export default {
   searchMaterialName: '名称',
   searchMaterialCode: '编码',
   notYetDevelopedInfo: '功能暂未开发',
+
+  policyCollection: '收藏的政策',
 };
